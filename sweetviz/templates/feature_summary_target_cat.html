@@ -1,0 +1,12 @@
+<div class="container-feature-summary-target" id="summary-target"
+        style="top: 0px">
+    <div class="selector selector__body" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__bottom" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__top" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <span class="bg-tab-summary-target" style="z-index: {{ -1000 + (2*feature_dict.order_index) }}"></span>
+    <span class="bg-tab-summary-rollover" id="rollover-f{{ feature_dict.order_index }}" style="z-index: {{ -999 + (2*feature_dict.order_index) }}"></span>
+    <span class="text-title-tab color-normal {{ "color-target-summary" if feature_dict.is_target }}">{{ feature_dict.name }}</span>
+        <div class="pos-tab-image ic-cat-light"></div>
+    {% include 'feature_summary_base_stats.html' %}
+    <span class="minigraph-target pos-minigraph-cat"></span>
+</div>

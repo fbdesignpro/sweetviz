@@ -1,0 +1,37 @@
+<div class="container-feature-summary" id="summary-f{{ feature_dict.order_index }}"
+        style="top: {{ layout.summary_spacing * (feature_dict.order_index + 0) }}px">
+    <div class="selector selector__body" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__bottom" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__top" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <span class="bg-tab-summary" style="z-index: {{ -1000 + (2*feature_dict.order_index) }}"></span>
+    <span class="bg-tab-summary-rollover" id="rollover-f{{ feature_dict.order_index }}" style="z-index: {{ -999 + (2*feature_dict.order_index) }}"></span>
+    <div class="summary-number">{{ feature_dict.order_index + 1 }}</div>
+    <div class="pos-tab-image ic-text"></div>
+    <span class="text-title-tab color-normal">{{ feature_dict.name }}</span>
+    {% include 'feature_summary_base_stats.html' %}
+
+    <div class="pos-summary-text">
+        {% for rowdata in feature_dict.detail.summary_count %}
+        <div class="breakdown-row text-value {{ loop.cycle('', 'row-colored') }}" style="width: {{ cols.full_text_width }}px;">
+            <div class="pair__col color-source">
+                <div class="pair-pos__num dim">{{ rowdata.count.number|fmt_int_limit }}</div>
+                <div class="pair-pos__perc">{{ rowdata.count.perc|fmt_percent }}</div>
+            </div>
+            {% if rowdata.count_compare is not none: %}
+                <div class="pair__col color-compare" style="position: absolute; left: {{ cols.compare }}px">
+                    <div class="pair-pos__num dim">{{ rowdata.count_compare.number|fmt_int_limit }}</div>
+                    <div class="pair-pos__perc">{{ rowdata.count_compare.perc|fmt_percent }}</div>
+                </div>
+            {% else %}
+                <div class="pair__col color-compare" style="position: absolute; left: {{ cols.compare }}px">
+                    <div class="pair-pos__num dim">-</div>
+                    <div class="pair-pos__perc">-</div>
+                </div>
+            {% endif %}
+            <div class="summary-text color-normal" style="left: {{ cols.text }}px; width: {{ cols.text_width }}px;">
+                {{ rowdata.name }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

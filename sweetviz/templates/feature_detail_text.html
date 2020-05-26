@@ -1,0 +1,37 @@
+<div class="isHidden container-feature-detail" id="detail-f{{ feature_dict.order_index }}">
+<div class="container-feature-detail__offset">
+    <span class="bg-tab-detail-wide" style="left: 12px"></span>
+    <div class="pos-detail-tab-icon-text__offset">
+        <div class="pos-tab-image ic-cat"></div>
+        <span class="text-title-tab">{{ feature_dict.name }}</span>
+    </div>
+
+    {% include 'include_missing.html' %}
+
+    <div class="pos-detail-text">
+        {% for rowdata in feature_dict.detail.detail_count %}
+        <div class="breakdown-row text-value {{ loop.cycle('', 'row-colored') }}" style="width: {{ cols.full_text_width }}px;">
+            <div class="pair__col color-source">
+                <div class="pair-pos__num dim">{{ rowdata.count.number|fmt_int_limit }}</div>
+                <div class="pair-pos__perc">{{ rowdata.count.perc|fmt_percent }}</div>
+            </div>
+            {% if rowdata.count_compare is not none: %}
+                <div class="pair__col color-compare" style="position: absolute; left: {{ cols.compare }}px">
+                    <div class="pair-pos__num dim">{{ rowdata.count_compare.number|fmt_int_limit }}</div>
+                    <div class="pair-pos__perc">{{ rowdata.count_compare.perc|fmt_percent }}</div>
+                </div>
+            {% else %}
+                <div class="pair__col color-compare" style="position: absolute; left: {{ cols.compare }}px">
+                    <div class="pair-pos__num dim">-</div>
+                    <div class="pair-pos__perc">-</div>
+                </div>
+            {% endif %}
+            <div class="summary-text color-normal" style="left: {{ cols.text }}px; width: {{ cols.text_width }}px;">
+                {{ rowdata.name }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+

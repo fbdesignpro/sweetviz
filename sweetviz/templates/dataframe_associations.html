@@ -1,0 +1,15 @@
+<div class="isHidden container-feature-detail" id="df-assoc-{{ which }}">
+<div class="container-feature-detail__offset">
+    <span class="bg-tab-detail-wide"></span>
+    <span class="text-title-tab pos-text-title-tab__no-icon">Associations</span>
+    <div class="text-med  pos-detail-assoc-desc-text" style="font-size: 11px;">
+        <span class="color-{{ which }}">Showing ONLY dataset "{{ dataframe.source_name if which == 'source' else dataframe.compare_name }}"</span>
+<br>&bull; SQUARES are categorical associations (uncertainty coefficient & correlation ratio) from 0 to 1. The uncertainty coefficient is <b>assymmetrical</b>,
+        (approximating how much the elements on the left PROVIDE INFORMATION on elements in the row).
+        <br>&bull; CIRCLES are numerical correlations (Pearson's) from -1 to 1.
+        <br>&bull; The trivial DIAGONAL is intentionally left blank for clarity.
+    </div>
+    <span class="association-graph-{{ which }} pos-detail-assoc-graph"></span>
+</div>
+</div>
+

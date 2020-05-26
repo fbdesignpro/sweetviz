@@ -1,0 +1,138 @@
+<div class="isHidden {{ 'container-feature-detail' if dataframe.page_layout == "widescreen" else 'container-feature-detail-vertical'}}"
+ {% if dataframe.page_layout == "vertical" %}
+    style="top: {{ layout.summary_vertical_detail_pos + layout.summary_spacing * (feature_dict.order_index ) }}px"
+ {% endif %}
+id="detail-f{{ feature_dict.order_index }}" >
+<div class="container-feature-detail__offset">
+    {% if dataframe.page_layout == "widescreen" %}
+        <span class="bg-tab-detail-med"></span>
+        <div class="pos-detail-tab-icon-text__offset">
+            <div class="pos-tab-image ic-numeric"></div>
+            <span class="text-title-tab">{{ feature_dict.name }}</span>
+        </div>
+    {% endif %}
+
+    {% include 'include_missing.html' %}
+
+    <!-- BUTTONS -->
+    <div class="pos-detail-num-buttons">
+        {% for detail_graph in feature_dict.detail_graphs %}
+            <button class="button-bin" data-target="detail_graph-f{{ feature_dict.order_index }}"
+                data-new_class="detail_graph-f{{ feature_dict.order_index }}-{{ detail_graph.index_for_css }}">{{ detail_graph.button_name }} </button>
+        {% endfor %}
+    </div>
+
+    <!-- GRAPH -->
+    <span class="detail_graph-f{{ feature_dict.order_index }}-{{ feature_dict.detail_graphs[0].index_for_css }}
+        pos-detail-num-graph" id="detail_graph-f{{ feature_dict.order_index }}"></span>
+
+    <!-- ASSOCIATIONS -->
+{% if numerical is not none %}
+    <div class="pos-detail-cat-assoc-1" id="cat-assoc-CN-f{{ feature_dict.order_index }}">
+        <span class="bg-extra-column"></span>
+        <div class="container-detail-assoc">
+            <div class="text-large-bold">NUMERICAL ASSOCIATIONS</div>
+            <div class="text-small-bold color-light" style="line-height: 10px">
+                (PEARSON, -1 to 1)
+            </div>
+<!--             <div class="text-med-bold">{{ feature_dict.name }}</div>
+            <div class="text-large-bold">CORRELATION RATIO WITH...</div>
+-->
+            <hr>
+            {% for item in numerical %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
+                    <div class="pos-assoc-row__source text-label
+                        {{ "color-red" if item[1] < 0.0 else "color-source" }}">{{ "%.2f"|format(item[1]) }}</div>
+                </div>
+            {% endfor %}
+            <br>
+            <div class="text-large-bold">CATEGORICAL ASSOCIATIONS</div>
+            <div class="text-small-bold color-light" style="line-height: 10px">
+                (CORRELATION RATIO, 0 to 1)
+            </div>
+            <hr>
+            {% for item in categorical %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
+                    <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+    <!-- FREQUENT -->
+    <div class="pos-detail-num-most">
+        <span class="bg-extra-column"></span>
+        <div class="container-detail-assoc">
+            <div class="text-large-bold">MOST FREQUENT VALUES</div>
+            <hr>
+            {% for item in feature_dict.detail.frequent_values[:layout.num_detail_max_listed_values] %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
+                    <div class="pos-detail-num-source-pair color-source text-value">
+                        <div class="pos-detail-num-pair-pos__num dim">{{ item[1].number|fmt_int_limit }}</div>
+                        <div class="pos-detail-num-pair-pos__perc">{{ item[1].perc|fmt_percent1d }}</div>
+                    </div>
+                    {% if item[2] is not none %}
+                        <div class="pos-detail-num-compare-pair {{ "dim" if item[2].number == 0 }}
+                                color-compare text-value">
+                            <div class="pos-detail-num-pair-pos__num dim">{{ item[2].number|fmt_int_limit }}</div>
+                            <div class="pos-detail-num-pair-pos__perc">{{ item[2].perc|fmt_percent1d }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- MINIMUM -->
+    <div class="pos-detail-num-min">
+        <span class="bg-extra-column"></span>
+        <div class="container-detail-assoc">
+            <div class="text-large-bold"> SMALLEST VALUES</div>
+            <hr>
+            {% for item in feature_dict.detail.min_values[:layout.num_detail_max_listed_values] %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
+                    <div class="pos-detail-num-source-pair color-source text-value">
+                        <div class="pos-detail-num-pair-pos__num dim">{{ item[1].number|fmt_int_limit }}</div>
+                        <div class="pos-detail-num-pair-pos__perc">{{ item[1].perc|fmt_percent1d }}</div>
+                    </div>
+                    {% if item[2] is not none %}
+                        <div class="pos-detail-num-compare-pair {{ "dim" if item[2].number == 0 }}
+                                color-compare text-value">
+                            <div class="pos-detail-num-pair-pos__num dim">{{ item[2].number|fmt_int_limit }}</div>
+                            <div class="pos-detail-num-pair-pos__perc">{{ item[2].perc|fmt_percent1d }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- MAXIMUM -->
+    <div class="pos-detail-num-max">
+        <span class="bg-extra-column"></span>
+        <div class="container-detail-assoc">
+            <div class="text-large-bold">LARGEST VALUES</div>
+            <hr>
+            {% for item in feature_dict.detail.max_values[:layout.num_detail_max_listed_values] %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
+                    <div class="pos-detail-num-source-pair color-source text-value">
+                        <div class="pos-detail-num-pair-pos__num dim">{{ item[1].number|fmt_int_limit }}</div>
+                        <div class="pos-detail-num-pair-pos__perc">{{ item[1].perc|fmt_percent1d }}</div>
+                    </div>
+                    {% if item[2] is not none %}
+                        <div class="pos-detail-num-compare-pair {{ "dim" if item[2].number == 0 }}
+                                color-compare text-value">
+                            <div class="pos-detail-num-pair-pos__num dim">{{ item[2].number|fmt_int_limit }}</div>
+                            <div class="pos-detail-num-pair-pos__perc">{{ item[2].perc|fmt_percent1d }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+</div>

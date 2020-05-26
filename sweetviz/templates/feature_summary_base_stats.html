@@ -1,0 +1,72 @@
+    <div class="pos-base-stats">
+        <div class="base-stats-row">
+            <div class="text-label color-normal pos-base-stats__label  {{ "color-target-summary" if feature_dict.is_target }}">VALUES:</div>
+            <div class="text-value color-source pos-base-stats__source">
+                {{ feature_dict.base_stats.num_values.number|fmt_int_commas }}
+            </div>
+            <div class="text-value color-source pos-base-stats__source-perc">
+                {{ feature_dict.base_stats.num_values.perc|fmt_percent_parentheses }}
+            </div>
+            {% if compare_dict is not none: %}
+                <div class="text-value color-compare pos-base-stats__compare">
+                    {{ compare_dict.base_stats.num_values.number|fmt_int_commas }}
+                </div>
+                <div class="text-value color-compare pos-base-stats__compare-perc">
+                    {{ compare_dict.base_stats.num_values.perc|fmt_percent_parentheses }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="base-stats-row">
+            <div class="text-label color-normal pos-base-stats__label {{ "color-target-summary" if feature_dict.is_target }}">MISSING:</div>
+            <div class="text-value color-source pos-base-stats__source">
+                {% if feature_dict.base_stats.num_missing.number > 0: %}
+                    {{ feature_dict.base_stats.num_missing.number|fmt_int_commas }}
+                {% else %}
+                    ---
+                {% endif %}
+            </div>
+            <div class="text-value color-source pos-base-stats__source-perc">
+                {% if feature_dict.base_stats.num_missing.number > 0: %}
+                    {{ feature_dict.base_stats.num_missing.perc|fmt_percent_parentheses }}
+                {% else %}
+
+                {% endif %}
+            </div>
+            {% if compare_dict is not none: %}
+                <div class="text-value color-compare pos-base-stats__compare">
+                    {% if compare_dict.base_stats.num_missing.number > 0: %}
+                        {{ compare_dict.base_stats.num_missing.number|fmt_int_commas }}
+                    {% else %}
+                        ---
+                    {% endif %}
+                </div>
+                <div class="text-value color-compare pos-base-stats__compare-perc">
+                    {% if compare_dict.base_stats.num_missing.number > 0: %}
+                        {{ compare_dict.base_stats.num_missing.perc|fmt_percent_parentheses }}
+                    {% else %}
+
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="base-stats-row">
+        </div>
+        <div class="base-stats-row">
+            <div class="text-label color-normal pos-base-stats__label {{ "color-target-summary" if feature_dict.is_target }}">DISTINCT:</div>
+            <div class="text-distinct color-source pos-base-stats__source">
+                {{ feature_dict.base_stats.num_distinct.number|fmt_int_commas }}
+            </div>
+            <div class="text-value color-source pos-base-stats__source-perc">
+                {{ feature_dict.base_stats.num_distinct.perc|fmt_percent_parentheses }}
+            </div>
+            {% if compare_dict is not none: %}
+                <div class="text-distinct color-compare pos-base-stats__compare">
+                    {{ compare_dict.base_stats.num_distinct.number|fmt_int_commas }}
+                </div>
+                <div class="text-value color-compare pos-base-stats__compare-perc">
+                    {{ compare_dict.base_stats.num_distinct.perc|fmt_percent_parentheses }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+

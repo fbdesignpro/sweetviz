@@ -1,0 +1,133 @@
+# FIGURE & "AXES" (main work area)
+##############################################################################
+figure.dpi          : 100
+
+figure.facecolor    : white
+axes.facecolor      : white   ## axes background color
+axes.edgecolor      : 58544f   ## axes edge color
+axes.linewidth      : 0.8     ## edge linewidth
+
+font.family: Roboto
+#font.sans-serif: Roboto-Medium, Arial,Verdana,Helvetica,DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif, Lucida Grande,  Geneva, Lucid, Arial,  Avant Garde, sans-serif
+
+
+# BAR CONTENT
+##############################################################################
+patch.linewidth        : 1        ## edge width in points.
+patch.facecolor        : C0
+patch.edgecolor        : 58544f   ## if forced, or patch is not filled
+patch.force_edgecolor  : False   ## True to always use edgecolor
+patch.antialiased      : True    ## render patches in antialiased (no jaggies)
+
+axes.prop_cycle        : cycler('color', ['0088ed', 'ff7721', '2ca02c', 'd62728', '9467bd', '8c564b', 'e377c2', '7f7f7f', 'bcbd22', '17becf'])
+                      ## color cycle for plot lines  as list of string
+                      ## colorspecs: single letter, long name, or web-style hex
+					  ## Note the use of string escapes here ('1f77b4', instead of 1f77b4)
+                      ## as opposed to the rest of this file.
+
+# GRID
+##############################################################################
+axes.grid           : False   ## display grid or not
+axes.grid.axis      : both    ## which axis the grid should apply to
+axes.grid.which     : major   ## gridlines at major, minor or both ticks
+grid.color       :   58544f    ## grid color
+grid.linestyle   :   -         ## solid
+grid.linewidth   :   0.8       ## in points
+grid.alpha       :   1.0       ## transparency, between 0.0 and 1.0
+
+# TITLE / AXIS NAMES
+##############################################################################
+# Title
+axes.titlesize      : large   ## fontsize of the axes title
+axes.titleweight    : normal  ## font weight of title
+axes.titlepad       : 6.0     ## pad between axes and title in points
+
+# Labels
+axes.labelsize      : medium  ## fontsize of the x any y labels
+axes.labelpad       : 4.0     ## space between label and axis
+axes.labelweight    : normal  ## weight of the x and y labels
+axes.labelcolor     : 58544f
+
+# Layering, formatting
+axes.axisbelow      : line    ## draw axis gridlines and ticks below
+                              ## patches (True); above patches but below
+                              ## lines ('line'); or above all (False)
+axes.formatter.limits : -7, 7 ## use scientific notation if log10
+                              ## of the axis range is smaller than the
+                              ## first or larger than the second
+
+# TICKS
+##############################################################################
+# X-AXIS
+################
+xtick.top            : False  ## draw ticks on the top side
+xtick.bottom         : True   ## draw ticks on the bottom side
+xtick.labeltop       : False  ## draw label on the top
+xtick.labelbottom    : True   ## draw label on the bottom
+
+xtick.major.top      : True   ## draw x axis top major ticks
+xtick.major.bottom   : True   ## draw x axis bottom major ticks
+xtick.major.size     : 3.5    ## major tick size in points
+xtick.major.width    : 0.8    ## major tick width in points
+xtick.major.pad      : 3.5    ## distance to major tick label in points
+
+xtick.minor.visible  : False  ## visibility of minor ticks on x-axis
+xtick.minor.top      : True   ## draw x axis top minor ticks
+xtick.minor.bottom   : True   ## draw x axis bottom minor ticks
+xtick.minor.size     : 2      ## minor tick size in points
+xtick.minor.width    : 0.6    ## minor tick width in points
+xtick.minor.pad      : 3.4    ## distance to the minor tick label in points
+
+# Tick labels
+xtick.color          : 58544f  ## color of the tick labels
+xtick.labelsize      : 8.0 ## fontsize of the tick labels
+xtick.direction      : out    ## direction: in, out, or inout
+xtick.alignment      : center ## alignment of xticks
+
+# Y-AXIS
+################
+ytick.left           : True   ## draw ticks on the left side
+ytick.right          : False  ## draw ticks on the right side
+ytick.labelleft      : True   ## draw tick labels on the left side
+ytick.labelright     : False  ## draw tick labels on the right side
+
+ytick.major.size     : 3.5    ## major tick size in points
+ytick.major.width    : 0.8    ## major tick width in points
+ytick.major.pad      : 3.5    ## distance to major tick label in points
+ytick.major.left     : True   ## draw y axis left major ticks
+ytick.major.right    : True   ## draw y axis right major ticks
+
+ytick.minor.visible  : False  ## visibility of minor ticks on y-axis
+ytick.minor.size     : 2      ## minor tick size in points
+ytick.minor.width    : 0.6    ## minor tick width in points
+ytick.minor.left     : True   ## draw y axis left minor ticks
+ytick.minor.right    : True   ## draw y axis right minor ticks
+ytick.minor.pad      : 3.4    ## distance to the minor tick label in points
+
+# Tick labels
+ytick.color          : 58544f  ## color of the tick labels
+ytick.labelsize      : 8.0 ## fontsize of the tick labels
+ytick.direction      : out    ## direction: in, out, or inout
+ytick.alignment      : center_baseline ## alignment of yticks
+
+# LINES
+##############################################################################
+lines.linewidth   : 1.5     ## line width in points
+lines.linestyle   : -       ## solid line
+lines.color       : C0      ## has no affect on plot(); see axes.prop_cycle
+lines.marker      : None    ## the default marker
+lines.markerfacecolor  : auto    ## the default markerfacecolor
+lines.markeredgecolor  : auto    ## the default markeredgecolor
+lines.markeredgewidth  : 1.0     ## the line width around the marker symbol
+lines.markersize  : 3            ## markersize, in points
+lines.dash_joinstyle : round        ## miter|round|bevel
+lines.dash_capstyle : butt          ## butt|round|projecting
+lines.solid_joinstyle : round       ## miter|round|bevel
+lines.solid_capstyle : projecting   ## butt|round|projecting
+lines.antialiased : True         ## render lines in antialiased (no jaggies)
+
+# The three standard dash patterns.  These are scaled by the linewidth.
+lines.dashed_pattern : 3.7, 1.6
+lines.dashdot_pattern : 6.4, 1.6, 1, 1.6
+lines.dotted_pattern : 1, 1.65
+lines.scale_dashes : True

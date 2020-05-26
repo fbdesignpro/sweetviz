@@ -1,0 +1,39 @@
+<div class="container-feature-summary" id="summary-f{{ feature_dict.order_index }}"
+     style="top: {{ layout.summary_spacing * (feature_dict.order_index ) }}px">
+    <div class="selector selector__body" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__bottom" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__top" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <span class="bg-tab-summary" style="z-index: {{ -1000 + (2*feature_dict.order_index) }}"></span>
+    <span class="bg-tab-summary-rollover" id="rollover-f{{ feature_dict.order_index }}" style="z-index: {{ -999 + (2*feature_dict.order_index) }}"></span>
+    <div class="summary-number">{{ feature_dict.order_index + 1}}</div>
+    <div class="pos-tab-image ic-numeric"></div>
+    <span class="text-title-tab color-normal">{{ feature_dict.name }}</span>
+
+    {% include 'feature_summary_base_stats.html' %}
+
+    <div class="pos-summary-numeric-group1">
+    {% for item in group_1 %}
+        <div class="row-numeric-summary {{ "row-separator-top" if item.name == "MIN" }} {{ "row-separator-bottom" if item.name == "MAX" }} ">
+            <div class="text-label" style="position:absolute">{{ item.name }}</div>
+            <div class="pos-summary-numeric-source text-value color-source">{{ item.value|fmt_smart_range(feature_dict.stats.range) }}</div>
+            {% if compare_dict is not none: %}
+                <div class="pos-summary-numeric-compare text-value color-compare">{{ item.compare_value|fmt_smart_range(feature_dict.stats.range) }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+    <div class="pos-summary-numeric-group2">
+    {% for item in group_2 %}
+        <div class="row-numeric-summary">
+            {% if item.name != "" %}
+                <div class="text-label" style="position:absolute">{{ item.name }}</div>
+                <div class="pos-summary-numeric-source text-value color-source">{{ item.value|fmt_smart }}</div>
+                {% if compare_dict is not none: %}
+                    <div class="pos-summary-numeric-compare text-value color-compare">{{ item.compare_value|fmt_smart }}</div>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+    <span class="minigraph-f{{ feature_dict.order_index }} pos-minigraph-numeric"></span>
+</div>

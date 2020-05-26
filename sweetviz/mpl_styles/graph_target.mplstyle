@@ -1,0 +1,7 @@
+
+axes.edgecolor      : b3a794   ## axes edge color
+patch.edgecolor     : b3a794   ## if forced, or patch is not filled
+grid.color          : b3a794    ## grid color
+axes.labelcolor     : b3a794
+xtick.color         : b3a794  ## color of the tick labels
+ytick.color         : b3a794  ## color of the tick labels

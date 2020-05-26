@@ -1,0 +1,122 @@
+<div class="container-feature-summary-target"
+     id="summary-target"
+        style="top: 0px">
+    <div class="selector selector__body" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__bottom" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <div class="selector selector__top" data-detail-div="detail-f{{ feature_dict.order_index }}" data-rollover-span="rollover-f{{ feature_dict.order_index }}"></div>
+    <span class="bg-tab-summary-target" style="z-index: {{ -1000 + (2*feature_dict.order_index) }}"></span>
+    <span class="bg-tab-summary-rollover" id="rollover-f{{ feature_dict.order_index }}" style="z-index: {{ -999 + (2*feature_dict.order_index) }}"></span>
+    <span class="text-title-tab color-normal {{ "color-target-summary" if feature_dict.is_target }}">{{ feature_dict.name }}</span>
+    <div class="pos-tab-image ic-numeric-light"></div>
+    <span class="minigraph-target pos-minigraph-numeric"></span>
+
+    {% include 'feature_summary_base_stats.html' %}
+
+    <div class="pos-summary-numeric-group1">
+    {% for item in group_1 %}
+        <div class="row-numeric-summary {{ "row-separator-top" if item.name == "MIN" }} {{ "row-separator-bottom" if item.name == "MAX" }} ">
+            <div class="text-label {{ "color-target-summary" if feature_dict.is_target }}" style="position:absolute">{{ item.name }}</div>
+            <div class="pos-summary-numeric-source text-value color-source">{{ item.value|fmt_smart_range(feature_dict.stats.range) }}</div>
+            {% if compare_dict is not none: %}
+                <div class="pos-summary-numeric-compare text-value color-compare">{{ item.compare_value|fmt_smart_range(feature_dict.stats.range) }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+    <div class="pos-summary-numeric-group2">
+    {% for item in group_2 %}
+        <div class="row-numeric-summary">
+            {% if item.name != "" %}
+                <div class="text-label {{ "color-target-summary" if feature_dict.is_target }}" style="position:absolute">{{ item.name }}</div>
+                <div class="pos-summary-numeric-source text-value color-source">{{ item.value|fmt_smart }}</div>
+                {% if compare_dict is not none: %}
+                    <div class="pos-summary-numeric-compare text-value color-compare">{{ item.compare_value|fmt_smart }}</div>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+
+<!--
+    <div class="text-label color-normal pos-detail-num__top pos-detail-num-col1__labels">
+        MAX<br>
+        95%<br>
+        Q3<br>
+        {% if feature_dict.stats.mean > feature_dict.stats.perc50: %}
+            MEAN<br>
+            MEDIAN<br>
+        {% else: %}
+            MEDIAN<br>
+            MEAN<br>
+        {% endif %}
+        Q1<br>
+        5%<br>
+        MIN<br>
+    </div>
+    <div class="text-value color-source pos-detail-num__top pos-detail-num-col1__source">
+        {{ feature_dict.stats.max|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ feature_dict.stats.perc95|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ feature_dict.stats.perc75|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {% if feature_dict.stats.mean > feature_dict.stats.perc50: %}
+            {{ feature_dict.stats.mean|fmt_smart_range(feature_dict.stats.range) }}<br>
+            {{ feature_dict.stats.perc50|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {% else: %}
+            {{ feature_dict.stats.perc50|fmt_smart_range(feature_dict.stats.range) }}<br>
+            {{ feature_dict.stats.mean|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {% endif %}
+        {{ feature_dict.stats.perc25|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ feature_dict.stats.perc5|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ feature_dict.stats.min|fmt_smart_range(feature_dict.stats.range) }}<br>
+    </div>
+    {% if compare_dict is not none: %}
+        <div class="text-value color-compare pos-detail-num__top pos-detail-num-col1__compare">
+        {{ compare_dict.stats.max|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ compare_dict.stats.perc95|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ compare_dict.stats.perc75|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {% if compare_dict.stats.mean > compare_dict.stats.perc50: %}
+            {{ compare_dict.stats.mean|fmt_smart_range(feature_dict.stats.range) }}<br>
+            {{ compare_dict.stats.perc50|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {% else: %}
+            {{ compare_dict.stats.perc50|fmt_smart_range(feature_dict.stats.range) }}<br>
+            {{ compare_dict.stats.mean|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {% endif %}
+        {{ compare_dict.stats.perc25|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ compare_dict.stats.perc5|fmt_smart_range(feature_dict.stats.range) }}<br>
+        {{ compare_dict.stats.min|fmt_smart_range(feature_dict.stats.range) }}<br>
+        </div>
+    {% endif %}
+    <div class="text-label color-normal pos-detail-num__top pos-detail-num-col2__labels">
+        RANGE<br>
+        IQR<br>
+        STD<br>
+        VAR<br>
+        <br>
+        KURTOSIS<br>
+        SKEWNESS<br>
+        SUM<br>
+    </div>
+    <div class="text-value color-source pos-detail-num__top pos-detail-num-col2__source">
+        {{ feature_dict.stats.range|fmt_smart }}<br>
+        {{ feature_dict.stats.iqr|fmt_smart }}<br>
+        {{ feature_dict.stats.std|fmt_smart }}<br>
+        {{ feature_dict.stats.variance|fmt_smart }}<br>
+        <br>
+        {{ feature_dict.stats.kurtosis|fmt_smart }}<br>
+        {{ feature_dict.stats.skewness|fmt_smart }}<br>
+        {{ feature_dict.stats.sum|fmt_smart }}<br>
+    </div>
+    {% if compare_dict is not none: %}
+        <div class="text-value color-compare pos-detail-num__top pos-detail-num-col2__compare">
+        {{ compare_dict.stats.range|fmt_smart }}<br>
+        {{ compare_dict.stats.iqr|fmt_smart }}<br>
+        {{ compare_dict.stats.std|fmt_smart }}<br>
+        {{ compare_dict.stats.variance|fmt_smart }}<br>
+        <br>
+        {{ compare_dict.stats.kurtosis|fmt_smart }}<br>
+        {{ compare_dict.stats.skewness|fmt_smart }}<br>
+        {{ compare_dict.stats.sum|fmt_smart }}<br>
+        </div>
+    {% endif %}
+-->
+    <span class="minigraph-f{{ feature_dict.order_index }} pos-minigraph-numeric"></span>
+</div>

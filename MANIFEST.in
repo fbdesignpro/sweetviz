@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+recursive-include sweetviz/fonts *.*
+recursive-include sweetviz/mpl_styles *.*
+recursive-include sweetviz/templates *.*
+include sweetviz/sweetviz_defaults.ini

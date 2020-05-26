@@ -1,0 +1,148 @@
+<div class="isHidden container-feature-detail" id="detail-f{{ feature_dict.order_index }}">
+<div class="container-feature-detail__offset">
+    <span class="bg-tab-detail-med"></span>
+    <div class="pos-detail-tab-icon-text__offset">
+        <div class="pos-tab-image ic-cat"></div>
+        <span class="text-title-tab">{{ feature_dict.name }}</span>
+    </div>
+
+    <span class="detail_graph-f{{ feature_dict.order_index }}-{{ feature_dict.detail_graphs[0].index_for_css }}
+                pos-detail-cat-graph" id="detail_graph-f{{ feature_dict.order_index }}"
+    style="top: {{ detail_layout.graph_y }}px;"></span>
+
+    {% include 'include_missing.html' %}
+
+    <div class="pos-detail-cat-breakdown" id="detail_breakdown-f{{ feature_dict.order_index }}"
+        style="top: {{ detail_layout.breakdown_y }}px; height: {{ detail_layout.breakdown_height }}px;">
+        <!-- HEADER ROW -->
+        <div class="{{ detail_layout.breakdown_header_class }} text-value" style="width:553px">
+            <div class="text-med-bold" style="position: absolute; left:10px">TOP CATEGORIES</div>
+            <div class="{{ detail_layout.breakdown_hr_class }}"><hr></div>
+            <div class="pair__header color-source" style="left: {{ cols.source }}px"></div>
+            <!-- Targets -->
+            {% if dataframe._target is not none: %}
+                <div class="pair__header color-source-target"
+                     style="position: absolute; left: {{ cols.source_target }}px; line-height: 11px;
+                             {{ "text-align: right;" if True or dataframe._target.type == FeatureType.TYPE_BOOL }}">
+                    {% if dataframe._target.type == FeatureType.TYPE_BOOL: %}
+                        {{ dataframe._target.name }}
+                    {% else %}
+                         {{ dataframe._target.name }}<br>(avg)
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if feature_dict.compare is not none: %}
+                <div class="pair__header color-compare" style="position: absolute; left: {{ cols.compare }}px">
+                    <!--{{ dataframe.compare_name }}-->
+                </div>
+                {% if dataframe._target is not none and "compare" in dataframe._target: %}
+                    <div class="pair__header color-compare-target"
+                        style="position: absolute; left: {{ cols.compare_target }}px; line-height: 11px;
+                        {{ "text-align: right;" if True or dataframe._target.type == FeatureType.TYPE_BOOL }}">
+                    {% if dataframe._target.type == FeatureType.TYPE_BOOL: %}
+                        {{ dataframe._target.name }}
+                    {% else %}
+                         {{ dataframe._target.name }}<br>(avg)
+                   {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <!-- ROW CONTENT -->
+        {% for rowdata in feature_dict.detail.detail_count %}
+            {% if rowdata.is_total is not none %}
+                <div class="breakdown-row text-value" style="width:553px">
+                </div>
+            {% endif %}
+            <div class="breakdown-row text-value {{ loop.cycle('', 'row-colored') }}" style="width:553px">
+                <!-- Name -->
+                <div class="text-label color-normal" style="position: absolute; left:10px;
+                width: {{ cols.name_max_len }}px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ rowdata.name }}</div>
+
+                <!-- Freq -->
+                <div class="pair__col color-source" style="left: {{ cols.source }}px">
+                    <div class="pair-pos__num dim">{{ rowdata.count.number|fmt_int_limit }}</div>
+                    <div class="pair-pos__perc">{{ rowdata.count.perc|fmt_percent }}</div>
+                </div>
+                {% if rowdata.count_compare is not none: %}
+                    <div class="pair__col color-compare" style="position: absolute; left: {{ cols.compare }}px">
+                        <div class="pair-pos__num dim">{{ rowdata.count_compare.number|fmt_int_limit }}</div>
+                        <div class="pair-pos__perc">{{ rowdata.count_compare.perc|fmt_percent }}</div>
+                    </div>
+                {% endif %}
+                <!-- Targets -->
+                {% if rowdata.target_stats is not none: %}
+                    {% if dataframe._target.type == FeatureType.TYPE_BOOL: %}
+                        <div class="pair__col color-source-target" style="position: absolute; left: {{ cols.source_target }}px">
+                            <div class="pair-pos__num dim">{{ rowdata.target_stats.number|fmt_int_limit }}</div>
+                            <div class="pair-pos__perc">{{ rowdata.target_stats.perc|fmt_percent }}</div>
+                        {% else %}
+                        <div class="pair__header color-source-target" style="position: absolute; left: {{ cols.source_target }}px; text-align: right;">
+                            {{ rowdata.target_stats.number|fmt_smart_range(feature_dict.detail.max_range) }}
+                    {% endif %}
+                    </div>
+                {% endif %}
+                {% if rowdata.target_stats_compare is not none: %}
+                    {% if dataframe._target.type == FeatureType.TYPE_BOOL: %}
+                        <div class="pair__col color-compare-target" style="position: absolute; left: {{ cols.compare_target }}px">
+                            <div class="pair-pos__num dim">{{ rowdata.target_stats_compare.number|fmt_int_limit }}</div>
+                            <div class="pair-pos__perc">{{ rowdata.target_stats_compare.perc|fmt_percent }}</div>
+                    {% else %}
+                        <div class="pair__header color-compare-target" style="position: absolute; left: {{ cols.compare_target }}px; text-align: right;">
+                            {{ rowdata.target_stats_compare.number|fmt_smart_range(feature_dict.detail.max_range) }}
+                    {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- ASSOCIATIONS -->
+{% if influencing is not none %}
+    <!-- CAT-CAT- -->
+    <div class="pos-detail-cat-assoc-1" id="cat-assoc-CC-f{{ feature_dict.order_index }}">
+        <span class="bg-extra-column"></span>
+        <div class="container-detail-assoc">
+            <div class="text-small-bold color-light" style="text-align:right; line-height: 10px">
+                CATEGORICAL ASSOCIATIONS<br>
+                (UNCERTAINTY COEFFICIENT, 0 to 1)
+            </div>
+            <div class="text-large-bold" style="line-height: 104%;">{{ feature_dict.name }}<br>
+            PROVIDES INFORMATION ON...</div>
+            <hr>
+            {% for item in influencing %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
+                    <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
+                </div>
+            {% endfor %}
+            <br>
+            <div class="text-large-bold" style="line-height: 104%;">THESE FEATURES GIVE INFORMATION<br>
+            ON {{ feature_dict.name }}:</div>
+            <hr>
+            {% for item in influenced %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
+                    <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
+                </div>
+            {% endfor %}
+            <br>
+            <div class="text-small-bold color-light" style="text-align:right; line-height: 10px">
+                NUMERICAL ASSOCIATIONS<br>
+                (CORRELATION RATIO, 0 to 1)
+            </div>
+            <div class="text-large-bold" style="line-height: 104%;">{{ feature_dict.name }}<br>
+                    CORRELATION RATIO WITH...</div>
+            <hr>
+            {% for item in corr_ratio %}
+                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                    <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
+                    <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+</div>
+</div>

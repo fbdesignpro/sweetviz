@@ -1,0 +1,79 @@
+<div class="container-feature-summary" id="summary-df" data-detail-div="detail-df">
+    <div class="pos-logo-group">
+        <div class="pos-logo im-logo"></div>
+        <div class="pos-credits text-credits">
+            v1.0.alpha3<br>
+            Created & maintained by <a href="https://www.fbdesignpro.com">Francois Bertrand</a> <br>
+            Graphic design by <a href="https://www.fbdesignpro.com" data-reach="Jeff is working on his contact info :)">Jean-Francois Hains</a>
+        </div>
+    </div>
+    <div class="pos-dataframe-summary text-label">
+        <span class="top-header"></span>
+        <div class="pos-dataframe-summary-title-source text-dataframe-title color-source">{{ dataframe.summary_source.name }}</div>
+        {% if dataframe.summary_compare is not none: %}
+            <div class="pos-dataframe-summary-title-compare text-dataframe-title color-compare">{{ dataframe.summary_compare.name }}</div>
+        {% else %}
+            <div class="pos-dataframe-summary-title-compare-none text-dataframe-title-small color-title-disabled">NO COMPARISON TARGET</div>
+        {% endif %}
+        <div class="pos-dataframe-summary-rows">
+            <div class="dataframe-summary-row row-colored">
+                <div class="pos-df-summary-source color-source">{{ dataframe.summary_source.num_rows }}</div>
+                <div class="pos-df-summary-center">ROWS</div>
+                <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_rows if dataframe.summary_compare is not none }}</div>
+            </div>
+             <div class="dataframe-summary-row">
+                <div class="pos-df-summary-source color-source">{{ dataframe.summary_source.duplicates.number }}</div>
+                <div class="pos-df-summary-center">DUPLICATES</div>
+                <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.duplicates.number if dataframe.summary_compare is not none  }}</div>
+            </div>
+            <div class="dataframe-summary-row row-colored">
+                <div class="pos-df-summary-source color-source">{{ dataframe.summary_source.memory_total|fmt_RAM }}</div>
+                <div class="pos-df-summary-center">RAM</div>
+                <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.memory_total|fmt_RAM if dataframe.summary_compare is not none  }}</div>
+            </div>
+            <div class="dataframe-summary-row row">
+                <div class="pos-df-summary-source color-source">
+                    {% if dataframe.summary_source.num_skipped_columns > 0 %}
+                        ({{ dataframe.summary_source.num_skipped_columns }} SKIPPED)
+                    {% endif %}
+                    {{ dataframe.summary_source.num_columns }}
+                </div>
+                <div class="pos-df-summary-center">FEATURES</div>
+                <div class="pos-df-summary-compare color-compare">
+                    {% if dataframe.summary_compare is not none %}
+                        {% if dataframe.summary_compare.num_skipped_columns is not none %}
+                            {{ dataframe.summary_compare.num_columns }}
+                            {% if dataframe.summary_compare.num_skipped_columns > 0 %}
+                                ({{ dataframe.summary_compare.num_skipped_columns }} SKIPPED)
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="dataframe-summary-row row-colored">
+                <div class="pos-df-summary-source color-source">{{ dataframe.summary_source.num_cat }}</div>
+                <div class="pos-df-summary-center">CATEGORICAL</div>
+                <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_cat if dataframe.summary_compare is not none  }}</div>
+            </div>
+             <div class="dataframe-summary-row ">
+                <div class="pos-df-summary-source color-source">{{ dataframe.summary_source.num_numerical }}</div>
+                <div class="pos-df-summary-center">NUMERICAL</div>
+                <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_numerical if dataframe.summary_compare is not none  }}</div>
+            </div>
+            <div class="dataframe-summary-row row-colored">
+                <div class="pos-df-summary-source color-source">{{ dataframe.summary_source.num_text }}</div>
+                <div class="pos-df-summary-center">TEXT</div>
+                <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_text if dataframe.summary_compare is not none  }}</div>
+            </div>
+            <button class="button-bins size-df-summary-button pos-df-summary-button-assoc-source" id="button-summary-associations-source"
+                data-detail-div="df-assoc-source">Associations</button >
+            {% if dataframe.summary_compare is not none %}
+                <button class="button-bins size-df-summary-button pos-df-summary-button-assoc-compare" id="button-summary-associations-compare"
+                    data-detail-div="df-assoc-compare">Associations</button >
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
