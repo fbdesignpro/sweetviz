@@ -7,7 +7,7 @@ The system is built around quickly **visualizing target values** and **comparing
 **Note: Sweetviz is in the ALPHA TESTING PHASE.** Core functionality is complete, please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our Discourse server (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
 
 ## Example
-[See an example report from the Titanic dataset HERE](./docs/examples/SWEETVIZ_REPORT.html)
+[See an example report from the Titanic dataset HERE](http://cooltiming.com/SWEETVIZ_REPORT.html)
 
 # Features
 ![Features](./docs/images/features.png)
