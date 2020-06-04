@@ -62,7 +62,12 @@ class FeatureToProcess:
         if predetermined_type_target:
             if predetermined_type_target not in (FeatureType.TYPE_BOOL,
                                                  FeatureType.TYPE_NUM):
-                raise ValueError
+                if predetermined_type_target == FeatureType.TYPE_CAT:
+                    raise ValueError("TARGET values can only be of NUMERICAL or BOOLEAN type for now.\n"
+                                     "CATEGORICAL type was detected; if you meant the target to be\n"
+                                     "NUMERICAL, use a FeatureConfig(force_num=...) object.")
+                else:
+                    raise ValueError("TARGET values can only be of NUMERICAL or BOOLEAN type for now.")
             self.predetermined_type_target = predetermined_type_target
         else:
             self.predetermined_type_target = FeatureType.TYPE_UNKNOWN

@@ -86,6 +86,10 @@ def is_numeric(series: pd.Series, counts: dict) -> bool:
            counts["distinct_count_without_nan"] \
            > config["Type_Detection"].getint("max_numeric_distinct_to_be_categorical")
 
+# For coercion, might need more testing!
+def could_be_numeric(series: pd.Series) -> bool:
+    return pd.api.types.is_numeric_dtype(series)
+
 
 def is_url(series: pd.Series, counts: dict) -> bool:
     if counts["distinct_count_without_nan"] > 0:

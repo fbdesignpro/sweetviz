@@ -136,3 +136,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+UPLOAD.bat

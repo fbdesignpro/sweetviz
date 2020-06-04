@@ -1,6 +1,6 @@
 import pandas as pd
 from sweetviz.sv_types import FeatureType
-from sweetviz.from_profiling_pandas import is_boolean, is_numeric, is_categorical
+from sweetviz.from_profiling_pandas import is_boolean, is_numeric, is_categorical, could_be_numeric
 
 
 def determine_feature_type(series: pd.Series, counts: dict,
@@ -33,15 +33,26 @@ def determine_feature_type(series: pd.Series, counts: dict,
     # COERCE: only supporting the following for now:
     # TEXT -> CAT
     # CAT/BOOL -> TEXT
+    # CAT/BOOL -> NUM
     # NUM -> CAT
     # NUM -> TEXT
-    if must_be_this_type  != FeatureType.TYPE_UNKNOWN and \
+    if must_be_this_type != FeatureType.TYPE_UNKNOWN and \
                 must_be_this_type != var_type:
         if var_type == FeatureType.TYPE_TEXT and must_be_this_type == FeatureType.TYPE_CAT:
             var_type = FeatureType.TYPE_CAT
         elif (var_type == FeatureType.TYPE_CAT or var_type == FeatureType.TYPE_BOOL ) and \
             must_be_this_type == FeatureType.TYPE_TEXT:
             var_type = FeatureType.TYPE_TEXT
+        elif (var_type == FeatureType.TYPE_CAT or var_type == FeatureType.TYPE_BOOL) and \
+             must_be_this_type == FeatureType.TYPE_NUM:
+            # Trickiest: Coerce into numerical
+            if could_be_numeric(series):
+                var_type = FeatureType.TYPE_NUM
+            else:
+                raise TypeError(f"Cannot force series '{series.name}' in {which_dataframe} to be from its type {var_type} to\n"
+                                f"DESIRED type {must_be_this_type}. Check documentation for the possible coercion possibilities.\n"
+                                f"This can be solved by changing the source data or is sometimes caused by\n"
+                                f"a feature type mismatch between source and compare dataframes.")
         elif var_type == FeatureType.TYPE_NUM and must_be_this_type == FeatureType.TYPE_CAT:
             var_type = FeatureType.TYPE_CAT
         elif var_type == FeatureType.TYPE_NUM and must_be_this_type == FeatureType.TYPE_TEXT:

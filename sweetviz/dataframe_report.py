@@ -154,7 +154,8 @@ class DataframeReport:
                     compare_target_series = compare_df[target_feature_name]
 
             # TARGET processed HERE with COMPARE if present
-            target_to_process = FeatureToProcess(-1, source_df[targets_found[0]], compare_target_series)
+            target_to_process = FeatureToProcess(-1, source_df[targets_found[0]], compare_target_series,
+                                                 None, None, fc.get_predetermined_type(targets_found[0]))
             self._target = sa.analyze_feature_to_dictionary(target_to_process)
             filtered_series_names_in_source.remove(targets_found[0])
             target_type = self._target["type"]
