@@ -71,7 +71,7 @@ feature_config = sv.FeatureConfig(skip="PassengerId", force_text=["Age"])
 ## Comparing two dataframes (e.g. Test vs Training sets)
 To compare two data sets, simply use the `compare()` function. Its parameters are the same as `analyze()`, except with an inserted second parameter to cover the comparison dataframe. It is recommended to use the [dataframe, "name"] format of parameters to better differentiate between the base and compared dataframes. (e.g. `[my_df, "Train"]` vs `my_df`)
 ```
-my_report = sv.analyze([my_dataframe, "Training Data"], [test_df, "Test Data"], "Survived", feature_config)
+my_report = sv.compare([my_dataframe, "Training Data"], [test_df, "Test Data"], "Survived", feature_config)
 ```
 ## Comparing two subsets of the same dataframe (e.g. Male vs Female)
 Another way to get great insights is to use the comparison functionality to split your dataset into 2 sub-populations.
