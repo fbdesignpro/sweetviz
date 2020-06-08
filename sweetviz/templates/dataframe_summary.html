@@ -1,12 +1,14 @@
 <div class="container-feature-summary" id="summary-df" data-detail-div="detail-df">
-    <div class="pos-logo-group">
-        <div class="pos-logo im-logo"></div>
-        <div class="pos-credits text-credits">
-            v1.0.alpha4<br>
-            Created & maintained by <a href="https://www.fbdesignpro.com">Francois Bertrand</a> <br>
-            Graphic design by <a href="https://www.fbdesignpro.com" data-reach="Jeff is working on his contact info :)">Jean-Francois Hains</a>
+    {% if layout.show_logo %}
+        <div class="pos-logo-group">
+            <div class="pos-logo im-logo"></div>
+            <div class="pos-credits text-credits">
+                v1.0.alpha4<br>
+                Created & maintained by <a href="https://www.fbdesignpro.com">Francois Bertrand</a> <br>
+                Graphic design by <a href="https://www.fbdesignpro.com" data-reach="Jeff is working on his contact info :)">Jean-Francois Hains</a>
+            </div>
         </div>
-    </div>
+    {% endif %}
     <div class="pos-dataframe-summary text-label">
         <span class="top-header"></span>
         <div class="pos-dataframe-summary-title-source text-dataframe-title color-source">{{ dataframe.summary_source.name }}</div>

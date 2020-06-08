@@ -81,10 +81,15 @@ Support for this is built in through the `compare_intra()` function. This functi
 my_report = sv.compare_intra(my_dataframe, my_dataframe["Sex"] == "male", ["Male", "Female"], feature_config)
 ```
 # Config file
-The package contains an INI file for configuration. You can override any setting by providing your own
+The package contains an INI file for configuration. You can override any setting by providing your own then calling this before creating a report:
 ```
 sv.config_parser.read("Override.ini")
 ```
+You can look into the file `sweetviz_defaults.ini` for what can be overriden (warning: much of it is a work in progress and not well documented). One example is to remove the logo from the report, so it may be used more readily in a business setting. You would create your own `Override.ini` and put the following lines:
+```
+[Layout]
+show_logo = 0
+``` 
 # Contribute
 This is my first open-source project! I built it to be the most useful tool possible and help as many people as possible with their data science work. If it is useful to you, your contribution is more than welcome and can take many forms:
 ### 1. Spread the word!
