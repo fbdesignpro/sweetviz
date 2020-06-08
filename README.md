@@ -25,8 +25,9 @@ The system is built around quickly **visualizing target values** and **comparing
     - min/max/range, quartiles, mean, mode, standard deviation, sum, median absolute deviation, coefficient of variation, kurtosis, skewness
 
 # Installation
+Sweetviz currently supports Python 3.6+ and Pandas 0.25.3+. Reports are output using the base "os" module, so custom environments such as Google Colab which require custom file operations are not yet supported, although I am looking into a solution. 
 ## Using pip
-Currently, the best way to install sweetviz (other than from source) is to use pip:
+The best way to install sweetviz (other than from source) is to use pip:
 ```
 pip install sweetviz
 ```
