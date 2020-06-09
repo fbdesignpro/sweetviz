@@ -10,9 +10,20 @@ def determine_feature_type(series: pd.Series, counts: dict,
     # series.replace(to_replace=[np.inf, np.NINF, np.PINF], value=np.nan,
     #                inplace=True)
     if counts["value_counts_without_nan"].index.inferred_type.startswith("mixed"):
-        raise TypeError(f"Column {series.name} has a 'mixed' inferred_type (as determined by Pandas). "
-                        f"This is is not currently supported; column types should not contain mixed data."
-                        f"e.g. only float, or strings, but not a combination.")
+        raise TypeError(f"Column [{series.name}] has a 'mixed' inferred_type (as determined by Pandas).\n"
+                        f"This is is not currently supported; column types should not contain mixed data.\n"
+                        f"e.g. only floats or strings, but not a combination.\n\n"
+                        f"POSSIBLE RESOLUTIONS:\n"
+                        f"BEST -> Make sure series [{series.name}] only contains a certain type of data (numerical OR string).\n"
+                        f"OR -> Convert series [{series.name}] to a string (if makes sense) so it will be picked up as CATEGORICAL or TEXT.\n"
+                        f"     One way to do this is:\n"
+                        f"     df['{series.name}'] = df['{series.name}'].astype(str)\n"
+                        f"OR -> Convert series [{series.name}] to a numerical value (if makes sense):\n"
+                        f"     One way to do this is:\n"
+                        f"     df['{series.name}'] = pd.to_numeric(df['{series.name}'], errors='coerce')\n"
+                        f"     # (errors='coerce' will transform string values to NaN, that can then be replaced if desired;"
+                        f" consult Pandas manual pages for more details)"
+                        )
 
     try:
         # TODO: must_be_this_type ENFORCING

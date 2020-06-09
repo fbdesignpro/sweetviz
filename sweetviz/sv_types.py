@@ -45,6 +45,15 @@ class FeatureToProcess:
                  predetermined_type_target: FeatureType = None):
         self.order = order
 
+        # Cleanup names
+        source.name = str(source.name)
+        if compare is not None:
+            compare.name = str(compare.name)
+        if source_target is not None:
+            source_target.name = str(source_target.name)
+        if compare_target is not None:
+            compare_target.name = str(compare_target.name)
+
         self.source = source
         self.source_counts = None
         self.source_target  = source_target

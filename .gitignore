@@ -5,6 +5,8 @@ MainTest.py
 sweetviz-temp
 Notes.txt
 Override.ini
+GENERATE.bat
+UPLOAD.bat
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
