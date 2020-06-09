@@ -11,9 +11,16 @@ def get_clamped_value_counts(value_counts: pd.Series, max_categories_incl_other:
         categories_shown_as_is = len(value_counts)
     else:
         categories_shown_as_is = max_categories_incl_other - 1
-    clamped_series = pd.Series(value_counts[0:categories_shown_as_is])
 
-    categories_in_other = value_counts[categories_shown_as_is:]
+    # Fix for #10
+    # clamped_series = pd.Series(value_counts[0:categories_shown_as_is])
+    clamped_series = pd.Series(value_counts.head(categories_shown_as_is))
+
+    # Fix for #10
+    num_in_tail = len(value_counts) - categories_shown_as_is
+    # categories_in_other = value_counts[categories_shown_as_is:]
+    categories_in_other = value_counts.tail(num_in_tail)
+
     if len(categories_in_other) > 0:
         total_in_other = sum(categories_in_other)
         other_series = pd.Series([total_in_other], index = [OTHERS_GROUPED])
