@@ -23,10 +23,15 @@ def get_clamped_value_counts(value_counts: pd.Series, max_categories_incl_other:
 
     if len(categories_in_other) > 0:
         total_in_other = sum(categories_in_other)
-        other_series = pd.Series([total_in_other], index = [OTHERS_GROUPED])
+        if clamped_series.index.dtype.name == 'category':
+            # need to create categorical index
+            other_series = pd.Series([total_in_other], index=pd.CategoricalIndex([OTHERS_GROUPED]))
+        else:
+            other_series = pd.Series([total_in_other], index=[OTHERS_GROUPED])
         clamped_series = clamped_series.append(other_series, ignore_index=False)
 
     return clamped_series
+
 
 def get_matched_value_counts(value_counts: pd.Series, other_to_match: pd.Series) -> pd.Series:
     # Returns a "Value count" Series of another series ONLY for the values in
@@ -49,6 +54,7 @@ def get_matched_value_counts(value_counts: pd.Series, other_to_match: pd.Series)
 
     return matched_series
 # Thank you https://hackersandslackers.com/remove-duplicate-columns-in-pandas/
-def get_duplicate_cols(df: pd.DataFrame) -> pd.Series:
-    return pd.Series(df.columns).value_counts()[lambda x: x>1]
 
+
+def get_duplicate_cols(df: pd.DataFrame) -> pd.Series:
+    return pd.Series(df.columns).value_counts()[lambda x: x > 1]
