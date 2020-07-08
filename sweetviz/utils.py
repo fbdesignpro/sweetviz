@@ -26,6 +26,7 @@ def get_clamped_value_counts(value_counts: pd.Series, max_categories_incl_other:
         if clamped_series.index.dtype.name == 'category':
             # need to create categorical index
             other_series = pd.Series([total_in_other], index=pd.CategoricalIndex([OTHERS_GROUPED]))
+            clamped_series.index = clamped_series.index.add_categories(other_series.index)
         else:
             other_series = pd.Series([total_in_other], index=[OTHERS_GROUPED])
         clamped_series = clamped_series.append(other_series, ignore_index=False)
