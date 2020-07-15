@@ -66,7 +66,7 @@ e.g. `my_df` or `[my_df, "Training"]`
 ```
 feature_config = sv.FeatureConfig(skip="PassengerId", force_text=["Age"])
 ```
-- **pairwise_analysis:** Correlations and other associations can take exponential time (n^2) to complete. The default setting ("auto") will run without warning until a data set contains "association_auto_threshold" features. Past that threshold, you need to explicitly pass the parameter `pairwise_analysis="on"` (or `="off"`) since processing that many features would take a long time. This parameter also covers the generation of the association graphs (based on Drazen Zaric's concept):
+- **pairwise_analysis:** Correlations and other associations can take quadratic time (n^2) to complete. The default setting ("auto") will run without warning until a data set contains "association_auto_threshold" features. Past that threshold, you need to explicitly pass the parameter `pairwise_analysis="on"` (or `="off"`) since processing that many features would take a long time. This parameter also covers the generation of the association graphs (based on Drazen Zaric's concept):
 ![Pairwise sample](./docs/images/pairwise.png)
 
 ## Comparing two dataframes (e.g. Test vs Training sets)
