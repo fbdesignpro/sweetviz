@@ -62,7 +62,7 @@ class GraphAssoc(sweetviz.graph.Graph):
             for list_of_features in [categoricals, nums, combined]:
                 list_of_features.insert(0, dataframe_report._target["name"])
 
-        if len(association_data) == 0:
+        if len(association_data) == 0 or len(combined) == 0:
             f, axs = plt.subplots(1, 1, figsize=(1,1))
             self.graph_base64 = self.get_encoded_base64(f)
             plt.close(f)
