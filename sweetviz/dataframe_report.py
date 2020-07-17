@@ -2,6 +2,7 @@ from typing import Union, List, Tuple
 import os
 import time
 import pandas as pd
+from numpy import isnan
 from tqdm import tqdm
 
 from sweetviz.sv_types import NumWithPercent, FeatureToProcess, FeatureType
@@ -419,11 +420,17 @@ class DataframeReport:
                         # NUM-NUM
                         cur_associations[other.source.name] = \
                             feature.source.corr(other.source, method='pearson')
+                        # TODO: display correlation error better in graph!
+                        if isnan(cur_associations[other.source.name]):
+                            cur_associations[other.source.name] = 0.0
                         mirror_association(self._associations, feature_name, other.source.name, \
                                            cur_associations[other.source.name])
                         if process_compare:
                             cur_associations_compare[other.source.name] = \
                                 feature.compare.corr(other.compare, method='pearson')
+                            # TODO: display correlation error better in graph!
+                            if isnan(cur_associations_compare[other.source.name]):
+                                cur_associations_compare[other.source.name] = 0.0
                             mirror_association(self._associations_compare, feature_name, other.source.name, \
                                                cur_associations_compare[other.source.name])
             self.progress_bar.update(1)

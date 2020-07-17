@@ -12,7 +12,8 @@ def get_counts(series: pd.Series) -> dict:
     value_counts_without_nan = (
         value_counts_with_nan.reset_index().dropna().set_index("index").iloc[:, 0]
     )
-    distinct_count_with_nan = value_counts_with_nan.count()
+    # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
+    # distinct_count_with_nan = value_counts_with_nan.count()
     distinct_count_without_nan = value_counts_without_nan.count()
 
     # Convert  indices to strings (helps with referencing later)
@@ -20,9 +21,11 @@ def get_counts(series: pd.Series) -> dict:
 
     return {
         # "value_counts": value_counts_without_nan,  # Alias
-        "value_counts_with_nan": value_counts_with_nan,
+        # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
+        # "value_counts_with_nan": value_counts_with_nan,
         "value_counts_without_nan": value_counts_without_nan,
-        "distinct_count_with_nan": distinct_count_with_nan,
+        # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
+        # "distinct_count_with_nan": distinct_count_with_nan,
         "distinct_count_without_nan": distinct_count_without_nan,
         "num_rows_with_data": series.count(),
         "num_rows_total": len(series),
@@ -30,7 +33,9 @@ def get_counts(series: pd.Series) -> dict:
 
 
 def fill_out_missing_counts_in_other_series(my_counts:dict, other_counts:dict):
-    to_fill_list = ["value_counts_with_nan", "value_counts_without_nan"]
+    # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
+    # to_fill_list = ["value_counts_with_nan", "value_counts_without_nan"]
+    to_fill_list = ["value_counts_without_nan"]
     for to_fill in to_fill_list:
         for key, value in other_counts[to_fill].items():
             if key not in my_counts[to_fill]:
