@@ -34,6 +34,9 @@ def fill_out_missing_counts_in_other_series(my_counts:dict, other_counts:dict):
     for to_fill in to_fill_list:
         for key, value in other_counts[to_fill].items():
             if key not in my_counts[to_fill]:
+                # If categorical, must do this hack to add new value
+                if my_counts[to_fill].index.dtype.name == 'category':
+                    my_counts[to_fill] = my_counts[to_fill].reindex(my_counts[to_fill].index.add_categories(key))
                 my_counts[to_fill].at[key] = 0
 
 def add_series_base_stats_to_dict(series: pd.Series, counts: dict, updated_dict: dict) -> dict:
