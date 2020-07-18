@@ -268,19 +268,25 @@ class DataframeReport:
     def __setitem__(self, key, value):
         self._features[key] = value
 
-    def show_html(self, filepath='SWEETVIZ_REPORT.html', layout='widescreen'):
+    def _create_embedded_html(self, layout):
         sv_html.load_layout_globals_from_config()
         self.page_layout = layout
         sv_html.set_summary_positions(self)
         sv_html.generate_html_detail(self)
         self._page_html = sv_html.generate_html_dataframe_page(self)
-
-        # self.temp_folder = config["Files"].get("temp_folder")
-        # os.makedirs(os.path.normpath(self.temp_folder), exist_ok=True)
-
+    
+    def get_as_embedded_html(self, layout='widescreen'):
+        self._create_embedded_html(layout)
+        return self._page_html
+    
+    def save_html(self, filepath='SWEETVIZ_REPORT.html', layout='widescreen'):
+        self._create_embedded_html(layout)
         f = open(filepath, 'w', encoding="utf-8")
         f.write(self._page_html)
         f.close()
+
+    def show_html(self, filepath='SWEETVIZ_REPORT.html', layout='widescreen'):
+        self.save_html(filepath, layout)
 
         # Not sure how to work around this: not fatal but annoying...
         # https://bugs.python.org/issue5993
