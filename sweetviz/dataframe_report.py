@@ -297,7 +297,7 @@ class DataframeReport:
     def sanitize_bool(value) -> bool:
         if value is bool:
             return value
-        elif value is str:
+        elif isinstance(value, str):
             return value.lower() in ['true', '1', 't', 'y', 'yes', '1.0']
         elif isinstance(value, float) or isinstance(value, int):
             return bool(value)
