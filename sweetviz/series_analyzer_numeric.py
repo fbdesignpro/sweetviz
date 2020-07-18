@@ -52,7 +52,16 @@ def do_detail_numeric(series: pd.Series, counts: dict, counts_compare: dict, upd
         def get_comparison_num(feature_name):
             this_comparison = None
             if this_compare_count is not None:
-                this_comparison = this_compare_count.get(feature_name)
+                try:
+                    this_comparison = this_compare_count.get(feature_name)
+                except TypeError:
+                    # Workaround for cases where source dataset has ints only, but compare has floats...
+                    pass
+                    #...this was incorrect as it could have created false matches:
+                    # if this_compare_count.index.dtype.name.find('int') != -1:
+                    #     this_comparison = this_compare_count.get(np.int64(feature_name))
+                    # else:
+                    #     this_comparison = None
                 if this_comparison is not None:
                     this_comparison = NumWithPercent(this_comparison, compare_total_num)
                 else:
