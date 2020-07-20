@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="sweetviz",
-    version="1.0beta2",
+    version="1.0beta3",
     author="Francois Bertrand",
     author_email="fb@fbdesignpro.com",
     description="A pandas-based library to visualize and compare datasets.",

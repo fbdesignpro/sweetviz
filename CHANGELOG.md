@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.0beta2 - BETA START - 2020-07-19
+### 1.0beta3 - BETA START - 2020-07-19
 ##### Added
 - Post-report-generation descriptive text for Jupyter/Colab
 - Re-added horizontal scrollbar
