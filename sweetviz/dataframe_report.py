@@ -160,7 +160,7 @@ class DataframeReport:
             self._target = sa.analyze_feature_to_dictionary(target_to_process)
             filtered_series_names_in_source.remove(targets_found[0])
             target_type = self._target["type"]
-        self.progress_bar.update(1)
+            self.progress_bar.update(1)
 
         # Set final target series and sanitize targets (e.g. bool->truly bool)
         source_target_series = None
@@ -282,7 +282,8 @@ class DataframeReport:
         f.write(self._page_html)
         f.close()
 
-        # Not sure how to work around this: not fatal but annoying...
+        print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: no browser will pop up, the report is saved in your notebook/colab files.")
+        # Not sure how to work around this: not fatal but annoying...Notebook/colab
         # https://bugs.python.org/issue5993
         webbrowser.open('file://' + os.path.realpath(filepath))
 
