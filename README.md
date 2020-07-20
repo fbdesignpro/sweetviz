@@ -1,16 +1,20 @@
-![Sweetviz Logo](./docs/images/logo.png)
+![v](https://img.shields.io/badge/version-1.0b9-blue) ![v](https://img.shields.io/badge/updated-19%20Jul%202020-green)
+
+#![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
 Sweetviz is an open source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with a single line of code. Output is a fully self-contained HTML application.
 
 The system is built around quickly **visualizing target values** and **comparing datasets**. Its goal is to help quick analysis of target characteristics, training vs testing data, and other such data characterization tasks. 
 
-**Note: Sweetviz is in the ALPHA TESTING PHASE.** Core functionality is complete, please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our Discourse server (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
+**Note: Sweetviz is in the BETA TESTING PHASE.** Core functionality is complete, please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our Discourse server (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
 
-## Example
-[See an example report from the Titanic dataset HERE](http://cooltiming.com/SWEETVIZ_REPORT.html)
+## Examples
+- [Example report from the Titanic dataset HERE](http://cooltiming.com/SWEETVIZ_REPORT.html)
+- [Article describing features in depth HERE](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
+
 
 # Features
-![Features](./docs/images/features.png)
+![Features](http://cooltiming.com/SV/features.png)
 - Target analysis
   - How target values (boolean or numerical) relate to other features
 - Visualize and compare
@@ -23,6 +27,9 @@ The system is built around quickly **visualizing target values** and **comparing
   - Type, unique values, missing values, duplicate rows, most frequent values
   - Numerical analysis: 
     - min/max/range, quartiles, mean, mode, standard deviation, sum, median absolute deviation, coefficient of variation, kurtosis, skewness
+
+# Upgrading
+Some people have experienced mixed results behavior upgrading through `pip`. To update to the latest from an existing install, it is recommended to `pip uninstall sweetviz` first, Then simply install.
 
 # Installation
 Sweetviz currently supports Python 3.6+ and Pandas 0.25.3+. Reports are output using the base "os" module, so custom environments such as Google Colab which require custom file operations are not yet supported, although I am looking into a solution. 
@@ -50,7 +57,7 @@ my_report = sv.analyze(my_dataframe)
 my_report.show_html() # Default arguments will generate to "SWEETVIZ_REPORT.html"
 ```
 When run, this will output a 1080p widescreen html app in your default browser:
-![Widescreen demo](./docs/images/demo_wide.png)
+![Widescreen demo](http://cooltiming.com/SV/demo_wide.png)
 ### Optional arguments
 The `analyze()` function can take multiple other arguments:
 ```
@@ -67,7 +74,7 @@ e.g. `my_df` or `[my_df, "Training"]`
 feature_config = sv.FeatureConfig(skip="PassengerId", force_text=["Age"])
 ```
 - **pairwise_analysis:** Correlations and other associations can take quadratic time (n^2) to complete. The default setting ("auto") will run without warning until a data set contains "association_auto_threshold" features. Past that threshold, you need to explicitly pass the parameter `pairwise_analysis="on"` (or `="off"`) since processing that many features would take a long time. This parameter also covers the generation of the association graphs (based on Drazen Zaric's concept):
-![Pairwise sample](./docs/images/pairwise.png)
+![Pairwise sample](http://cooltiming.com/SV/pairwise.png)
 
 ## Comparing two dataframes (e.g. Test vs Training sets)
 To compare two data sets, simply use the `compare()` function. Its parameters are the same as `analyze()`, except with an inserted second parameter to cover the comparison dataframe. It is recommended to use the [dataframe, "name"] format of parameters to better differentiate between the base and compared dataframes. (e.g. `[my_df, "Train"]` vs `my_df`)
