@@ -1,6 +1,6 @@
-![v](https://img.shields.io/badge/version-1.0beta1-blue) ![v](https://img.shields.io/badge/updated-19%20Jul%202020-green)
+![v](https://img.shields.io/badge/version-1.0beta2-blue) ![v](https://img.shields.io/badge/updated-19%20Jul%202020-green)
 
-#![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
+![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
 Sweetviz is an open source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with a single line of code. Output is a fully self-contained HTML application.
 
