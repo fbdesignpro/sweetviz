@@ -16,7 +16,9 @@
 
 body
 {
+/* Re-adding horizontal scrollbar
     overflow-x: hidden;
+*/
     background-color: #f7f7f7;
     color: #58544f;
     margin-top: 0px;
@@ -111,7 +113,7 @@ a { color: #58544f; }
 .breakdown-hr-2-lines   { position:absolute; top: 20px; left: 10px; width: 592px; }
 
 /* TAB ICON/NAME */
-.text-title-tab                     { font-family: RobotoBoldCond; font-size: 15.4px; position: absolute; left: 74px; top: 24px; }
+.text-title-tab                     { font-family: RobotoBoldCond; font-size: 15.4px; position: absolute; left: 74px; top: 24px; width:250px; }
 .pos-tab-image                      { position: absolute; left: 45px; top: 21px; }
 .pos-detail-tab-icon-text__offset    { position: absolute; left: -4px; top: -4px; }
 .pos-text-title-tab__no-icon { position: absolute; left: 37px; top: 17px; }
