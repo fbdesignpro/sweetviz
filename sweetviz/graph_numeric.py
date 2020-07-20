@@ -47,15 +47,23 @@ class GraphNumeric(sweetviz.graph.Graph):
         np.seterr(all='raise')
         # WORKAROUND histogram warnings
         cleaned_source = to_process.source[~np.isnan(to_process.source)]
+        if len(cleaned_source):
+            norm_source = np.full(len(cleaned_source), 1.0 / len(cleaned_source))
+        else:
+            norm_source = []
         if to_process.compare is not None:
             # COMPARE
             cleaned_compare = to_process.compare[~np.isnan(to_process.compare)]
             plot_data = (cleaned_source, cleaned_compare)
-            normalizing_weights = (np.full(len(cleaned_source), 1.0 / len(cleaned_source)),
-                                   np.full(len(cleaned_compare), 1.0 / len(cleaned_compare)))
+            if len(cleaned_compare):
+                norm_compare = np.full(len(cleaned_compare), 1.0 / len(cleaned_compare))
+            else:
+                norm_compare = []
+            normalizing_weights = (norm_source, norm_compare)
+
         else:
             plot_data = cleaned_source
-            normalizing_weights = np.full(len(cleaned_source), 1.0 / len(cleaned_source))
+            normalizing_weights = norm_source
 
         gap_percent = config["Graphs"].getfloat("summary_graph_categorical_gap")
 

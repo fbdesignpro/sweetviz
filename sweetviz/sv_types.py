@@ -12,6 +12,7 @@ class FeatureType(Enum):
     TYPE_NUM = "NUM"
     TYPE_TEXT = "TEXT"
     TYPE_UNSUPPORTED = "UNSUPPORTED"
+    TYPE_ALL_NAN = "ALL_NAN"
     TYPE_UNKNOWN = "UNKNOWN"
     TYPE_SKIPPED = "SKIPPED"
 

@@ -29,7 +29,8 @@ def determine_feature_type(series: pd.Series, counts: dict,
         # TODO: must_be_this_type ENFORCING
         if counts["distinct_count_without_nan"] == 0:
             # Empty
-            var_type = FeatureType.TYPE_UNSUPPORTED
+            var_type = FeatureType.TYPE_ALL_NAN
+            # var_type = FeatureType.TYPE_UNSUPPORTED
         elif is_boolean(series, counts):
             var_type = FeatureType.TYPE_BOOL
         elif is_numeric(series, counts):
@@ -48,7 +49,9 @@ def determine_feature_type(series: pd.Series, counts: dict,
     # NUM -> CAT
     # NUM -> TEXT
     if must_be_this_type != FeatureType.TYPE_UNKNOWN and \
-                must_be_this_type != var_type:
+                must_be_this_type != var_type and \
+                must_be_this_type != FeatureType.TYPE_ALL_NAN and \
+                var_type != FeatureType.TYPE_ALL_NAN:
         if var_type == FeatureType.TYPE_TEXT and must_be_this_type == FeatureType.TYPE_CAT:
             var_type = FeatureType.TYPE_CAT
         elif (var_type == FeatureType.TYPE_CAT or var_type == FeatureType.TYPE_BOOL ) and \

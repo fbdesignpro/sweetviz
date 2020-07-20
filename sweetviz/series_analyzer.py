@@ -83,6 +83,7 @@ def analyze_feature_to_dictionary(to_process: FeatureToProcess) -> dict:
     to_process.source_counts = get_counts(to_process.source)
     returned_feature_dict["type"] = determine_feature_type(to_process.source, to_process.source_counts,
                                                            to_process.predetermined_type, "SOURCE")
+    source_type = returned_feature_dict["type"]
 
     # Determine COMPARED feature type & initialize
     compare_dict = None
@@ -91,13 +92,30 @@ def analyze_feature_to_dictionary(to_process: FeatureToProcess) -> dict:
         compare_type = determine_feature_type(to_process.compare,
                                               to_process.compare_counts,
                                               returned_feature_dict["type"], "COMPARED")
-        # Explicitly show missing categories on each set
-        if compare_type == FeatureType.TYPE_CAT or compare_type == FeatureType.TYPE_BOOL:
-            fill_out_missing_counts_in_other_series(to_process.compare_counts, to_process.source_counts)
-            fill_out_missing_counts_in_other_series(to_process.source_counts, to_process.compare_counts)
+        if compare_type != FeatureType.TYPE_ALL_NAN and \
+            source_type != FeatureType.TYPE_ALL_NAN:
+            # Explicitly show missing categories on each set
+            if compare_type == FeatureType.TYPE_CAT or compare_type == FeatureType.TYPE_BOOL:
+                fill_out_missing_counts_in_other_series(to_process.compare_counts, to_process.source_counts)
+                fill_out_missing_counts_in_other_series(to_process.source_counts, to_process.compare_counts)
         returned_feature_dict["compare"] = dict()
         compare_dict = returned_feature_dict["compare"]
         compare_dict["type"] = compare_type
+
+    # Settle all-NaN series, depending on source versus compared
+    if to_process.compare is not None:
+        # Settle all-Nan WITH COMPARE: Must consider all cases between source and compare
+        if compare_type == FeatureType.TYPE_ALL_NAN and source_type == FeatureType.TYPE_ALL_NAN:
+            returned_feature_dict["type"] = FeatureType.TYPE_TEXT
+            compare_dict["type"] = FeatureType.TYPE_TEXT
+        elif compare_type == FeatureType.TYPE_ALL_NAN:
+            compare_dict["type"] = source_type
+        elif source_type == FeatureType.TYPE_ALL_NAN:
+            returned_feature_dict["type"] = compare_type
+    else:
+        # Settle all-Nan WITHOUT COMPARE ( trivial: consider as TEXT )
+        if source_type == FeatureType.TYPE_ALL_NAN:
+            returned_feature_dict["type"] = FeatureType.TYPE_TEXT
 
     # Establish base stats
     add_series_base_stats_to_dict(to_process.source, to_process.source_counts, returned_feature_dict)

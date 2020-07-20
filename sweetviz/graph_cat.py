@@ -83,7 +83,7 @@ class GraphCat(sweetviz.graph.Graph):
             axs.xaxis.tick_top()
         elif is_detail:
             height = config["Graphs"].getfloat("detail_graph_height_base") \
-                + config["Graphs"].getfloat("detail_graph_height_per_elem") * len(plot_data_series)
+                + config["Graphs"].getfloat("detail_graph_height_per_elem") * max(1, len(plot_data_series))
             if height > config["Graphs"].getfloat("detail_graph_categorical_max_height"):
                 # Shrink height to fit, past a certain number
                 height = config["Graphs"].getfloat("detail_graph_categorical_max_height")
