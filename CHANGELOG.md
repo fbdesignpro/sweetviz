@@ -1,5 +1,13 @@
 # Changelog
 
+### 1.0beta4 - 2020-07-23
+##### Added
+- Added __version__and other metadata
+##### Fixed/Updated
+- Fixed "KeyError" crash
+- Fixed error for coercion of boolean series to categorical
+- Enhanced error reporting output for type coercions
+
 ### 1.0beta3 - BETA START - 2020-07-19
 ##### Added
 - Post-report-generation descriptive text for Jupyter/Colab
