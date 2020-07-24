@@ -7,15 +7,16 @@ OTHERS_GROUPED = "     (Other)"
 
 @unique
 class FeatureType(Enum):
-    TYPE_CAT = "CAT"
+    TYPE_CAT = "CATEGORICAL"
     TYPE_BOOL = "BOOL"
-    TYPE_NUM = "NUM"
+    TYPE_NUM = "NUMERIC"
     TYPE_TEXT = "TEXT"
     TYPE_UNSUPPORTED = "UNSUPPORTED"
     TYPE_ALL_NAN = "ALL_NAN"
     TYPE_UNKNOWN = "UNKNOWN"
     TYPE_SKIPPED = "SKIPPED"
-
+    def __str__(self):
+        return "TYPE_" + str(self.value)
 
 class NumWithPercent:
     def __init__(self, number, total_for_percentage):

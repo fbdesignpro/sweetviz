@@ -10,7 +10,7 @@ def determine_feature_type(series: pd.Series, counts: dict,
     # series.replace(to_replace=[np.inf, np.NINF, np.PINF], value=np.nan,
     #                inplace=True)
     if counts["value_counts_without_nan"].index.inferred_type.startswith("mixed"):
-        raise TypeError(f"Column [{series.name}] has a 'mixed' inferred_type (as determined by Pandas).\n"
+        raise TypeError(f"\nColumn [{series.name}] has a 'mixed' inferred_type (as determined by Pandas).\n"
                         f"This is is not currently supported; column types should not contain mixed data.\n"
                         f"e.g. only floats or strings, but not a combination.\n\n"
                         f"POSSIBLE RESOLUTIONS:\n"
@@ -63,17 +63,25 @@ def determine_feature_type(series: pd.Series, counts: dict,
             if could_be_numeric(series):
                 var_type = FeatureType.TYPE_NUM
             else:
-                raise TypeError(f"Cannot force series '{series.name}' in {which_dataframe} to be from its type {var_type} to\n"
+                raise TypeError(f"\nCannot force series '{series.name}' in {which_dataframe} to be converted from its {var_type} to\n"
                                 f"DESIRED type {must_be_this_type}. Check documentation for the possible coercion possibilities.\n"
-                                f"This can be solved by changing the source data or is sometimes caused by\n"
-                                f"a feature type mismatch between source and compare dataframes.")
+                                f"POSSIBLE RESOLUTIONS:\n"
+                                f" -> Use the feat_cfg parameter (see docs on git) to force the column to be a specific type (may or may not help depending on the type)\n"
+                                f" -> Modify the source data to be more explicitly of a single specific type\n"
+                                f" -> This could also be caused by a feature type mismatch between source and compare dataframes:\n"
+                                f"    In that case, make sure the source and compared data frames are compatible.")
         elif var_type == FeatureType.TYPE_NUM and must_be_this_type == FeatureType.TYPE_CAT:
+            var_type = FeatureType.TYPE_CAT
+        elif var_type == FeatureType.TYPE_BOOL and must_be_this_type == FeatureType.TYPE_CAT:
             var_type = FeatureType.TYPE_CAT
         elif var_type == FeatureType.TYPE_NUM and must_be_this_type == FeatureType.TYPE_TEXT:
             var_type = FeatureType.TYPE_TEXT
         else:
-            raise TypeError(f"Cannot force series '{series.name}' in {which_dataframe} to be from its type {var_type} to\n"
-                            f"DESIRED type {must_be_this_type}. Check documentation for the possible coercion possibilities.\n"
-                            f"This can be solved by changing the source data or is sometimes caused by\n"
-                            f"a feature type mismatch between source and compare dataframes.")
+            raise TypeError(f"\nCannot convert series '{series.name}' in {which_dataframe} from its {var_type}\n"
+                            f"to the desired type {must_be_this_type}.\nCheck documentation for the possible coercion possibilities.\n"
+                            f"POSSIBLE RESOLUTIONS:\n"
+                            f" -> Use the feat_cfg parameter (see docs on git) to force the column to be a specific type (may or may not help depending on the type)\n"
+                            f" -> Modify the source data to be more explicitly of a single specific type\n"
+                            f" -> This could also be caused by a feature type mismatch between source and compare dataframes:\n"
+                            f"    In that case, make sure the source and compared data frames are compatible.")
     return var_type
