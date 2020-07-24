@@ -67,7 +67,7 @@ def generate_html_dataframe_page(dataframe_report):
 
 def generate_html_dataframe_summary(dataframe_report):
     template = jinja2_env.get_template('dataframe_summary.html')
-    output = template.render(dataframe=dataframe_report)
+    output = template.render(dataframe=dataframe_report, version=sweetviz.__version__)
     return output
 
 def generate_html_associations(dataframe_report, which):
