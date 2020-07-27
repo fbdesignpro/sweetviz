@@ -69,7 +69,7 @@ def determine_feature_type(series: pd.Series, counts: dict,
                                 f" -> Use the feat_cfg parameter (see docs on git) to force the column to be a specific type (may or may not help depending on the type)\n"
                                 f" -> Modify the source data to be more explicitly of a single specific type\n"
                                 f" -> This could also be caused by a feature type mismatch between source and compare dataframes:\n"
-                                f"    In that case, make sure the source and compared data frames are compatible.")
+                                f"    In that case, make sure the source and compared dataframes are compatible.")
         elif var_type == FeatureType.TYPE_NUM and must_be_this_type == FeatureType.TYPE_CAT:
             var_type = FeatureType.TYPE_CAT
         elif var_type == FeatureType.TYPE_BOOL and must_be_this_type == FeatureType.TYPE_CAT:
@@ -83,5 +83,5 @@ def determine_feature_type(series: pd.Series, counts: dict,
                             f" -> Use the feat_cfg parameter (see docs on git) to force the column to be a specific type (may or may not help depending on the type)\n"
                             f" -> Modify the source data to be more explicitly of a single specific type\n"
                             f" -> This could also be caused by a feature type mismatch between source and compare dataframes:\n"
-                            f"    In that case, make sure the source and compared data frames are compatible.")
+                            f"    In that case, make sure the source and compared dataframes are compatible.")
     return var_type

@@ -43,13 +43,24 @@ def do_detail_categorical(to_process: FeatureToProcess, updated_dict: dict):
                     ~to_process.source.isin(category_counts.keys())]
             else:
                 this_value_target_only = to_process.source_target[to_process.source == row["name"]]
+
             if to_process.predetermined_type_target == FeatureType.TYPE_BOOL:
-                count_this_value_target_only = float(this_value_target_only.count())
-                count_true = this_value_target_only.sum()
-                row["target_stats"] = NumWithPercent(count_true, count_this_value_target_only)
+                # If value is only present in compared
+                if len(this_value_target_only) > 0:
+                    count_this_value_target_only = float(this_value_target_only.count())
+                    count_true = this_value_target_only.sum()
+                    row["target_stats"] = NumWithPercent(count_true, count_this_value_target_only)
+                else:
+                    # None will be correctly interpreted by our display, not nan
+                    row["target_stats"] = None
             elif to_process.predetermined_type_target == FeatureType.TYPE_NUM:
-                row["target_stats"] = NumWithPercent(this_value_target_only.mean(), 1.0)
-                max_abs_value = max(max_abs_value, row["target_stats"].number)
+                # If value is only present in compared
+                if len(this_value_target_only) > 0:
+                    row["target_stats"] = NumWithPercent(this_value_target_only.mean(), 1.0)
+                    max_abs_value = max(max_abs_value, row["target_stats"].number)
+                else:
+                    # None will be correctly interpreted by our display, not nan
+                    row["target_stats"] = None
 
         if to_process.compare_counts is not None:
             # HAS COMPARE...
@@ -67,12 +78,21 @@ def do_detail_categorical(to_process: FeatureToProcess, updated_dict: dict):
                         this_value_target_only = to_process.compare_target[to_process.compare == row["name"]]
                     # HAS COMPARE-TARGET
                     if to_process.predetermined_type_target == FeatureType.TYPE_BOOL:
-                        count_this_value_target_only = float(this_value_target_only.count())
-                        count_true = this_value_target_only.sum()
-                        row["target_stats_compare"] = NumWithPercent(count_true, count_this_value_target_only)
+                        if len(this_value_target_only) > 0:
+                            count_this_value_target_only = float(this_value_target_only.count())
+                            count_true = this_value_target_only.sum()
+                            row["target_stats_compare"] = NumWithPercent(count_true,
+                                                                         count_this_value_target_only)
+                        else:
+                            # None will be correctly interpreted by our display, not nan
+                            row["target_stats_compare"] = None
                     elif to_process.predetermined_type_target == FeatureType.TYPE_NUM:
-                        row["target_stats_compare"] = NumWithPercent(this_value_target_only.mean(), 1.0)
-                        max_abs_value = max(max_abs_value, row["target_stats_compare"].number)
+                        if len(this_value_target_only) > 0:
+                            row["target_stats_compare"] = NumWithPercent(this_value_target_only.mean(), 1.0)
+                            max_abs_value = max(max_abs_value, row["target_stats_compare"].number)
+                        else:
+                            # None will be correctly interpreted by our display, not nan
+                            row["target_stats_compare"] = None
 
         detail["full_count"].append(row)
     detail["max_range"] = max_abs_value

@@ -12,23 +12,20 @@ def get_counts(series: pd.Series) -> dict:
     value_counts_without_nan = (
         value_counts_with_nan.reset_index().dropna().set_index("index").iloc[:, 0]
     )
+    # print(value_counts_without_nan.index.dtype.name)
+
     # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
     # distinct_count_with_nan = value_counts_with_nan.count()
+
     distinct_count_without_nan = value_counts_without_nan.count()
-
-    # Convert  indices to strings (helps with referencing later)
-    # value_counts_without_nan.index = value_counts_without_nan.index.map(str)
-
     return {
-        # "value_counts": value_counts_without_nan,  # Alias
-        # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
-        # "value_counts_with_nan": value_counts_with_nan,
         "value_counts_without_nan": value_counts_without_nan,
-        # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
-        # "distinct_count_with_nan": distinct_count_with_nan,
         "distinct_count_without_nan": distinct_count_without_nan,
         "num_rows_with_data": series.count(),
         "num_rows_total": len(series),
+        # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]:
+        # "value_counts_with_nan": value_counts_with_nan,
+        # "distinct_count_with_nan": distinct_count_with_nan,
     }
 
 
