@@ -37,12 +37,18 @@ def fill_out_missing_counts_in_other_series(my_counts:dict, other_counts:dict):
     # to_fill_list = ["value_counts_with_nan", "value_counts_without_nan"]
     to_fill_list = ["value_counts_without_nan"]
     for to_fill in to_fill_list:
+        fill_using_strings = True if my_counts[to_fill].index.dtype.name in ('category', 'object') else False
         for key, value in other_counts[to_fill].items():
             if key not in my_counts[to_fill]:
                 # If categorical, must do this hack to add new value
                 if my_counts[to_fill].index.dtype.name == 'category':
                     my_counts[to_fill] = my_counts[to_fill].reindex(my_counts[to_fill].index.add_categories(key))
-                my_counts[to_fill].at[str(key)] = 0
+
+                # Add empty value at new index, but make sure we are using the right index type
+                if fill_using_strings:
+                    my_counts[to_fill].at[str(key)] = 0
+                else:
+                    my_counts[to_fill].at[key] = 0
 
 def add_series_base_stats_to_dict(series: pd.Series, counts: dict, updated_dict: dict) -> dict:
     updated_dict["stats"] = dict()
