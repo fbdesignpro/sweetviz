@@ -74,7 +74,9 @@ function(event) {
 // $(".container-feature-summary, .container-feature-summary-target").click(function(event) {
 $(".selector").click(function(event) {
 // alert($(this).parent().attr('id'));
-if(g_snapped == $(this).parent().attr('id'))
+    let cur_g_snapped=$(this).parent().attr('id');
+
+    if(g_snapped == $(this).parent().attr('id'))
     {
         $("#" + $(this).data("rollover-span")).removeClass("bg-tab-summary-rollover-locked");
         $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover");
@@ -85,12 +87,28 @@ if(g_snapped == $(this).parent().attr('id'))
         $("#" + $(this).data("rollover-span")).removeClass("bg-tab-summary-rollover");
         $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover-locked");
         g_snapped = $(this).parent().attr('id');
-//        $("#" + $(this).data("detail-div")).show();
+        //$("#" + $(this).data("detail-div")).show();
         //$(g_lastHovered).show();
         // alert(this.parent().id);
     }
+    else if (g_snapped !== cur_g_snapped)
+    {
+        
+        $("#" + $("#"+g_snapped).children().data("rollover-span")).removeClass("bg-tab-summary-rollover-locked");
+        $("#" + $("#"+g_snapped).children().data("rollover-span")).addClass("bg-tab-summary-rollover");
+
+        $(".container-feature-detail").hide();
+        $("span.bg-tab-summary-rollover").hide();
+        $("#" + $(this).data("detail-div")).show();
+        
+        $("#" + $(this).data("rollover-span")).removeClass("bg-tab-summary-rollover");
+        $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover-locked");
+        $("#" + $(this).data("rollover-span")).css("display","inline");
+        g_snapped = $(this).parent().attr('id');
     }
+}
 );
+        
 
 
 // SPECIFIC BUTTONS
