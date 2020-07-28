@@ -1,5 +1,5 @@
 let g_snapped = "";
-let g_lastHovered = "";
+// let g_lastHovered = "";
 
 function hideAllDetails()
 {
@@ -58,7 +58,7 @@ function(event) {
         $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover");
         $("#" + $(this).data("rollover-span")).show();
     }
-    g_lastHovered = "#" + $(this).data("detail-div");
+    // g_lastHovered = "#" + $(this).data("detail-div");
     },
 // EXIT function
 function(event) {
@@ -73,17 +73,19 @@ function(event) {
 // EVENT: SUMMARY CLICK
 // $(".container-feature-summary, .container-feature-summary-target").click(function(event) {
 $(".selector").click(function(event) {
-// alert($(this).parent().attr('id'));
-    let cur_g_snapped=$(this).parent().attr('id');
+    // alert($(this).parent().attr('id'));
+    let this_to_snap=$(this).parent().attr('id');
 
-    if(g_snapped == $(this).parent().attr('id'))
+    if(g_snapped == this_to_snap)
     {
+        // "Unselect"
         $("#" + $(this).data("rollover-span")).removeClass("bg-tab-summary-rollover-locked");
         $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover");
         g_snapped = "";
     }
     else if (g_snapped == "")
     {
+        // "Select"
         $("#" + $(this).data("rollover-span")).removeClass("bg-tab-summary-rollover");
         $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover-locked");
         g_snapped = $(this).parent().attr('id');
@@ -91,9 +93,9 @@ $(".selector").click(function(event) {
         //$(g_lastHovered).show();
         // alert(this.parent().id);
     }
-    else if (g_snapped !== cur_g_snapped)
+    else if (g_snapped !== this_to_snap) // implied
     {
-        
+        // "Select" while another was previously selected
         $("#" + $("#"+g_snapped).children().data("rollover-span")).removeClass("bg-tab-summary-rollover-locked");
         $("#" + $("#"+g_snapped).children().data("rollover-span")).addClass("bg-tab-summary-rollover");
 
@@ -125,7 +127,7 @@ $("#button-summary-associations-source, #button-summary-associations-compare").h
             // $("#df-assoc").show();
             //$("#df-assoc").show();
         }
-        g_lastHovered = "#df-assoc";
+        // g_lastHovered = "#df-assoc";
     },
     // EXIT function
     function()
@@ -137,16 +139,28 @@ $("#button-summary-associations-source, #button-summary-associations-compare").h
     });
 // ASSOCIATIONS CLICK
 $("#button-summary-associations-source, #button-summary-associations-compare").click(function(event) {
-    if(g_snapped == this.id)
+    let this_to_snap=this.id;
+    if(g_snapped == this_to_snap)
     {
+        // "Unselect"
         g_snapped = "";
     }
-    else
+    else if(g_snapped=="")
     {
+        // "Select"
         //$(".container-feature-detail").hide();
         //alert("#" + this.id+" GS:"+g_snapped);
         //$("#df-assoc").show();
         g_snapped = this.id;
+    }
+    else
+    {
+        // "Select" while another was previously selected
+        $("#" + $("#"+g_snapped).children().data("rollover-span")).removeClass("bg-tab-summary-rollover-locked");
+        $("#" + $("#"+g_snapped).children().data("rollover-span")).addClass("bg-tab-summary-rollover");
+        hideAllDetails();
+        g_snapped = this.id;
+        $("#" + $(this).data("detail-div")).show();
     }
 });
 
