@@ -112,8 +112,33 @@ def create_summary_numeric_group_data(feature_dict: dict, compare_dict: dict):
 def generate_html_summary_numeric(feature_dict: dict, compare_dict: dict):
     template = jinja2_env.get_template('feature_summary_numeric.html')
     group_1, group_2 = create_summary_numeric_group_data(feature_dict, compare_dict)
+
+    # NEW: Move numbers if there is not enough room
+    def formatted_range(val):
+        if isinstance(val, str):
+            return ""
+        return sweetviz.sv_html_formatters.fmt_smart_range(val, feature_dict["stats"]["range"])
+    longest = max([len(formatted_range(x["value"])) for x in group_1])
+    if longest > 7:
+        group_1_width_suffix = "-wide"
+    else:
+        group_1_width_suffix = ""
+
+    def formatted(val):
+        if isinstance(val, str):
+            return ""
+        return sweetviz.sv_html_formatters.fmt_smart(val)
+    longest = max([len(formatted(x["value"])) for x in group_2])
+    if longest > 7:
+        group_2_width_suffix = "-wide"
+    else:
+        group_2_width_suffix = ""
+
     output = template.render(feature_dict = feature_dict, compare_dict = compare_dict, \
-                             group_1=group_1, group_2=group_2)
+                             group_1=group_1, group_2=group_2, \
+                             group_1_width_suffix=group_1_width_suffix, \
+                             group_2_width_suffix=group_2_width_suffix \
+                             )
     return output
 
 def generate_html_summary_cat(feature_dict: dict, compare_dict: dict):

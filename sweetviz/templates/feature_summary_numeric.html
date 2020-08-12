@@ -15,9 +15,9 @@
     {% for item in group_1 %}
         <div class="row-numeric-summary {{ "row-separator-top" if item.name == "MIN" }} {{ "row-separator-bottom" if item.name == "MAX" }} ">
             <div class="text-label" style="position:absolute">{{ item.name }}</div>
-            <div class="pos-summary-numeric-source text-value color-source">{{ item.value|fmt_smart_range(feature_dict.stats.range) }}</div>
+            <div class="pos-summary-numeric-source{{ group_1_width_suffix }} text-value color-source">{{ item.value|fmt_smart_range(feature_dict.stats.range) }}</div>
             {% if compare_dict is not none: %}
-                <div class="pos-summary-numeric-compare text-value color-compare">{{ item.compare_value|fmt_smart_range(feature_dict.stats.range) }}</div>
+                <div class="pos-summary-numeric-compare{{ group_1_width_suffix }} text-value color-compare">{{ item.compare_value|fmt_smart_range(feature_dict.stats.range) }}</div>
             {% endif %}
         </div>
     {% endfor %}
@@ -27,9 +27,9 @@
         <div class="row-numeric-summary">
             {% if item.name != "" %}
                 <div class="text-label" style="position:absolute">{{ item.name }}</div>
-                <div class="pos-summary-numeric-source text-value color-source">{{ item.value|fmt_smart }}</div>
+                <div class="pos-summary-numeric-source{{ group_2_width_suffix }} text-value color-source">{{ item.value|fmt_smart }}</div>
                 {% if compare_dict is not none: %}
-                    <div class="pos-summary-numeric-compare text-value color-compare">{{ item.compare_value|fmt_smart }}</div>
+                    <div class="pos-summary-numeric-compare{{ group_2_width_suffix }} text-value color-compare">{{ item.compare_value|fmt_smart }}</div>
                 {% endif %}
             {% endif %}
         </div>

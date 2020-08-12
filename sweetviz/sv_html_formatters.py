@@ -1,3 +1,4 @@
+from decimal import Decimal
 
 
 def fmt_int_commas(value: float) -> str:
@@ -38,10 +39,14 @@ def fmt_percent1d(value: float) -> str:
 
 
 def fmt_smart(value: float) -> str:
+    # Mainly used to shall average, etc. in the second column of numerical summary
     # Keep to ~5 display digits based on scale of input number
     absolute = abs(value)
-    if absolute < 0.001:
-        return f"0.00"
+
+    if absolute == 0.0:
+        return "0.00"
+    elif absolute < 0.001:
+        return f"{Decimal(value):.2e}"
     elif absolute < 0.1:
         return f"{value:.3f}"
     elif absolute < 1.0:
@@ -75,56 +80,55 @@ def fmt_RAM(value: float) -> str:
 
 def fmt_smart_range(value: float, range: float) -> str:
     # Keep to ~5 display digits based on scale given by range number
-    absolute = abs(range)
-    if absolute < 0.001:
-        return f"0.00"
-    elif absolute < 0.1:
+    absolute_range = abs(range)
+    if absolute_range == 0.0:
+        return "0.00"
+    elif absolute_range < 0.001:
+        return f"{value:.5f}"
+    elif absolute_range < 0.1:
         return f"{value:.3f}"
-    elif absolute < 1.0:
+    elif absolute_range < 1.0:
         return f"{value:.3f}"
-    elif absolute < 10:
+    elif absolute_range < 10:
         return f"{value:.2f}"
-    elif absolute < 100:
+    elif absolute_range < 100:
         return f"{value:,.1f}"
-    elif absolute < 99999:
+    elif absolute_range < 99999:
         return f"{value:,.0f}"
-    elif absolute < 999999:
+    elif absolute_range < 999999:
         return f"{value / 1000.0:.0f}k"
-    elif absolute < 999999999:
+    elif absolute_range < 999999999:
         return f"{value / 1000000.0:.1f}M"
-    elif absolute < 999999999999:
+    elif absolute_range < 999999999999:
         return f"{value / 1000000000.0:.1f}B"
     else :
         return f"{value / 1000000000000.0:.1f}T"
 
 def fmt_smart_range_tight(value: float, range: float) -> str:
+    # Used for graph labels
     # Keep to ~4 display digits based on scale given by range number
-    absolute = abs(range)
-    if absolute < 0.001:
-        return f"0.00"
-    elif absolute < 0.1:
+    absolute_range = abs(range)
+    if absolute_range < 1.0:
         return f"{value:.3f}"
-    elif absolute < 1.0:
-        return f"{value:.3f}"
-    elif absolute < 10:
+    elif absolute_range < 10:
         return f"{value:.2f}"
-    elif absolute < 100:
+    elif absolute_range < 100:
         return f"{value:,.1f}"
-    elif absolute < 4999:
+    elif absolute_range < 4999:
         return f"{value:,.0f}"
-    elif absolute < 99999:
+    elif absolute_range < 99999:
         return f"{value / 1000.0:,.1f}k"
-    elif absolute < 999999:
+    elif absolute_range < 999999:
         return f"{value / 1000.0:.0f}k"
-    elif absolute < 99999999:
+    elif absolute_range < 99999999:
         # 99.9M
         return f"{value / 1000000.0:.1f}M"
-    elif absolute < 999999999:
+    elif absolute_range < 999999999:
         return f"{value / 1000000.0:.0f}M"
-    elif absolute < 99999999999:
+    elif absolute_range < 99999999999:
         # 99.9B
         return f"{value / 1000000000.0:.1f}B"
-    elif absolute < 999999999999:
+    elif absolute_range < 999999999999:
         return f"{value / 1000000000.0:.0f}B"
     else :
         return f"{value / 1000000000000.0:.1f}T"

@@ -159,6 +159,8 @@ a { color: #58544f; }
 .pos-summary-numeric-group2             { position: absolute; top: 67px; left: 560px; }
 .pos-summary-numeric-source          { position: absolute; left: 40px; width: 50px; text-align: right;}
 .pos-summary-numeric-compare         { position: absolute; left: 90px; width: 50px; text-align: right;}
+.pos-summary-numeric-source-wide          { position: absolute; left: 40px; width: 64px; text-align: right;}
+.pos-summary-numeric-compare-wide         { position: absolute; left: 104px; width: 64px; text-align: right;}
 .pos-detail-num__top                  { position: absolute; top: 63px; line-height: 13px; }
 .pos-detail-num-col1__labels          { left: 320px; text-align: left; }
 .pos-detail-num-col1__source          { right: 636px; text-align: right;}
