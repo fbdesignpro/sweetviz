@@ -1,5 +1,8 @@
 # Changelog
 
+#### 1.0beta6 - 2020-08-12
+- **Fixed:** numerical summary showing 0.00 for small values or ranges
+
 #### 1.0beta5 - 2020-07-27
 - **Fixed:** indexing issues that were causing warnings and report inconsistencies
 - **Fixed:** selection issues in the reports
