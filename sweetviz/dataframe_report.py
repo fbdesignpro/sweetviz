@@ -336,11 +336,13 @@ class DataframeReport:
     def summarize_category_types(self, source: pd.DataFrame, target_dict: dict, skip: List[str]):
         target_dict["num_cat"] = len([x for x in self._features.values()
                                         if (x["type"] == FeatureType.TYPE_CAT or x["type"] == FeatureType.TYPE_BOOL)
-                                            and x["name"] not in skip])
+                                            and x["name"] not in skip and x["name"] in source])
         target_dict["num_numerical"] = len([x for x in self._features.values()
-                                                    if x["type"] == FeatureType.TYPE_NUM and x["name"] not in skip])
+                                                    if x["type"] == FeatureType.TYPE_NUM and x["name"] not in skip \
+                                                        and x["name"] in source])
         target_dict["num_text"] = len([x for x in self._features.values()
-                                               if x["type"] == FeatureType.TYPE_TEXT and x["name"] not in skip])
+                                               if x["type"] == FeatureType.TYPE_TEXT and x["name"] not in skip \
+                                                    and x["name"] in source])
         return
 
     def get_what_influences_me(self, feature_name: str) -> dict:
