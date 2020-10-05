@@ -43,6 +43,9 @@ import matplotlib.patches as patches
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# A name for a custom index column that likely will not be used by users
+UNIQUE_INDEX_NAME = 'indexZZ8vr$#RVwadfaFASDFSA'
+
 class GraphAssoc(sweetviz.graph.Graph):
     def __init__(self, dataframe_report, which_graph: str, association_data):
         self.set_style(["graph_base.mplstyle"])
@@ -56,7 +59,8 @@ class GraphAssoc(sweetviz.graph.Graph):
         combined = [dataframe_report[feature]["name"] for feature in dataframe_report._features \
                     if dataframe_report[feature]["type"] in [FeatureType.TYPE_CAT,
                                                              FeatureType.TYPE_BOOL,
-                                                             FeatureType.TYPE_NUM]]
+                                                             FeatureType.TYPE_NUM] and \
+                        feature in association_data]
         # Add target at beginning
         if dataframe_report._target is not None and dataframe_report._target["name"] in association_data:
             for list_of_features in [categoricals, nums, combined]:
@@ -81,8 +85,8 @@ class GraphAssoc(sweetviz.graph.Graph):
                         graph_data.at[combined.index(feature), associated_feature_name] = \
                             associated_feature_val
             # Workaround
-            graph_data['index'] = combined
-            graph_data.set_index('index', inplace=True)
+            graph_data[UNIQUE_INDEX_NAME] = combined
+            graph_data.set_index(UNIQUE_INDEX_NAME, inplace=True)
             # matplotlib.use('tkagg')
             # corrplot(graph_data)
             # plt.show()
@@ -376,7 +380,7 @@ def corrplot(correlation_dataframe, dataframe_report, size_scale=100, marker='s'
     # Fare            0.012658  0.257307 -0.549500  ...  0.159651  0.216225  1.000000
     # filter_best_corr(correlation_dataframe)
     sweetviz.graph.Graph.set_style(["graph_base.mplstyle"])
-    corr = pd.melt(correlation_dataframe.reset_index(), id_vars='index')
+    corr = pd.melt(correlation_dataframe.reset_index(), id_vars=UNIQUE_INDEX_NAME)
     corr.columns = ['x', 'y', 'value']
     # e.g.:
     #              x            y     value
