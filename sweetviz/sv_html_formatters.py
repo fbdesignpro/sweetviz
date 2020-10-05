@@ -46,7 +46,7 @@ def fmt_smart(value: float) -> str:
     if absolute == 0.0:
         return "0.00"
     elif absolute < 0.001:
-        return f"{Decimal(value):.2e}"
+        return f"{Decimal(float(value)):.2e}"
     elif absolute < 0.1:
         return f"{value:.3f}"
     elif absolute < 1.0:
