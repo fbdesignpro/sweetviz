@@ -46,6 +46,10 @@ import matplotlib.patches as patches
 # A name for a custom index column that likely will not be used by users
 UNIQUE_INDEX_NAME = 'indexZZ8vr$#RVwadfaFASDFSA'
 
+# Something to detect correlation errors to display
+# TODO: Better/more intuitive display of correlation errors (right now just show up as empty)
+CORRELATION_ERROR = 83572398457329.0
+
 class GraphAssoc(sweetviz.graph.Graph):
     def __init__(self, dataframe_report, which_graph: str, association_data):
         self.set_style(["graph_base.mplstyle"])
@@ -207,6 +211,8 @@ def heatmap(y, x, figure_size, **kwargs):
         if color_min == color_max:
             return palette[-1]
         else:
+            if val == CORRELATION_ERROR:
+                return palette[(n_colors - 1)]
             val_position = float((val - color_min)) / (color_max - color_min) # position of value in the input range, relative to the length of the input range
             val_position = min(max(val_position, 0), 1) # bound the position betwen 0 and 1
             # LOG IT
@@ -233,6 +239,9 @@ def heatmap(y, x, figure_size, **kwargs):
             return 1 * size_scale
         else:
             if val == 0:
+                return 0.0
+            # TODO: Better/more intuitive display of correlation errors
+            if val == CORRELATION_ERROR:
                 return 0.0
             val_position = (val - size_min) * 0.999 / (size_max - size_min) + 0.001 # position of value in the input range, relative to the length of the input range
             val_position = min(max(val_position, 0), 1) # bound the position betwen 0 and 1

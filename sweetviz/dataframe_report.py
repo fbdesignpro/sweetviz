@@ -10,6 +10,7 @@ import sweetviz.from_dython as associations
 import sweetviz.series_analyzer as sa
 import sweetviz.utils as su
 from sweetviz.graph_associations import GraphAssoc
+from sweetviz.graph_associations import CORRELATION_ERROR
 from sweetviz.graph_legend import GraphLegend
 from sweetviz.config import config
 import sweetviz.sv_html as sv_html
@@ -268,24 +269,26 @@ class DataframeReport:
     def __setitem__(self, key, value):
         self._features[key] = value
 
-    def show_html(self, filepath='SWEETVIZ_REPORT.html', layout='widescreen'):
+    # OUTPUT
+    # ----------------------------------------------------------------------------------------------
+    def show_html(self, filepath='SWEETVIZ_REPORT.html', open_browser=True, layout='widescreen'):
         sv_html.load_layout_globals_from_config()
         self.page_layout = layout
         sv_html.set_summary_positions(self)
         sv_html.generate_html_detail(self)
         self._page_html = sv_html.generate_html_dataframe_page(self)
 
-        # self.temp_folder = config["Files"].get("temp_folder")
-        # os.makedirs(os.path.normpath(self.temp_folder), exist_ok=True)
-
         f = open(filepath, 'w', encoding="utf-8")
         f.write(self._page_html)
         f.close()
 
-        print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: no browser will pop up, the report is saved in your notebook/colab files.")
-        # Not sure how to work around this: not fatal but annoying...Notebook/colab
-        # https://bugs.python.org/issue5993
-        webbrowser.open('file://' + os.path.realpath(filepath))
+        if open_browser:
+            print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: no browser will pop up, the report is saved in your notebook/colab files.")
+            # Not sure how to work around this: not fatal but annoying...Notebook/colab
+            # https://bugs.python.org/issue5993
+            webbrowser.open('file://' + os.path.realpath(filepath))
+        else:
+            print(f"Report {filepath} was generated!")
 
     @staticmethod
     def get_predetermined_type(name: str,
@@ -425,7 +428,7 @@ class DataframeReport:
                             feature.source.corr(other.source, method='pearson')
                         # TODO: display correlation error better in graph!
                         if isnan(cur_associations[other.source.name]):
-                            cur_associations[other.source.name] = 0.0
+                            cur_associations[other.source.name] = CORRELATION_ERROR
                         mirror_association(self._associations, feature_name, other.source.name, \
                                            cur_associations[other.source.name])
                         if process_compare:
@@ -433,7 +436,7 @@ class DataframeReport:
                                 feature.compare.corr(other.compare, method='pearson')
                             # TODO: display correlation error better in graph!
                             if isnan(cur_associations_compare[other.source.name]):
-                                cur_associations_compare[other.source.name] = 0.0
+                                cur_associations_compare[other.source.name] = CORRELATION_ERROR
                             mirror_association(self._associations_compare, feature_name, other.source.name, \
                                                cur_associations_compare[other.source.name])
             self.progress_bar.update(1)
