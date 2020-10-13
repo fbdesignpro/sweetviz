@@ -4,6 +4,9 @@ from jinja2 import Environment, PackageLoader
 import sweetviz.sv_html_formatters
 from sweetviz.config import config
 from sweetviz.sv_types import NumWithPercent, FeatureType, OTHERS_GROUPED
+from sweetviz.graph_associations import CORRELATION_ERROR
+from sweetviz.graph_associations import CORRELATION_IDENTICAL
+from functools import cmp_to_key
 
 package_loader = PackageLoader("sweetviz", "templates")
 jinja2_env = Environment(lstrip_blocks = True,
@@ -11,6 +14,7 @@ jinja2_env = Environment(lstrip_blocks = True,
                          loader = package_loader)
 jinja2_env.filters["fmt_int_commas"] = sweetviz.sv_html_formatters.fmt_int_commas
 jinja2_env.filters["fmt_int_limit"] = sweetviz.sv_html_formatters.fmt_int_limit
+jinja2_env.filters["fmt_assoc"] = sweetviz.sv_html_formatters.fmt_assoc
 jinja2_env.filters["fmt_percent_parentheses"] = sweetviz.sv_html_formatters.fmt_percent_parentheses
 jinja2_env.filters["fmt_percent"] = sweetviz.sv_html_formatters.fmt_percent
 jinja2_env.filters["fmt_percent1d"] = sweetviz.sv_html_formatters.fmt_percent1d
@@ -59,7 +63,7 @@ def generate_html_dataframe_page(dataframe_report):
     # Add in total page size (160 is hardcoded from the top of page-all-summaries in CSS)
     # This could be programmatically set
     dataframe_report.page_height = 160 + (dataframe_report.num_summaries * (config["Layout"].getint("summary_height_per_element")))
-    padding = max(900, (dataframe_report.num_summaries * (config["Layout"].getint("summary_vertical_padding"))))
+    padding = 50 # max(50, (dataframe_report.num_summaries * (config["Layout"].getint("summary_vertical_padding"))))
     dataframe_report.page_height += padding
     output = template.render(dataframe=dataframe_report)
     return output
@@ -134,10 +138,10 @@ def generate_html_summary_numeric(feature_dict: dict, compare_dict: dict):
     else:
         group_2_width_suffix = ""
 
-    output = template.render(feature_dict = feature_dict, compare_dict = compare_dict, \
-                             group_1=group_1, group_2=group_2, \
-                             group_1_width_suffix=group_1_width_suffix, \
-                             group_2_width_suffix=group_2_width_suffix \
+    output = template.render(feature_dict = feature_dict, compare_dict = compare_dict,
+                             group_1=group_1, group_2=group_2,
+                             group_1_width_suffix=group_1_width_suffix,
+                             group_2_width_suffix=group_2_width_suffix
                              )
     return output
 
@@ -220,6 +224,14 @@ def generate_html_summary_target_cat(feature_dict: dict, compare_dict: dict):
 
 # DETAILS
 # ----------------------------------------------------------------------------------------------
+# negative value (< 0) when the left item should be sorted before the right item
+def cmp_assoc_values(item1, item2):
+    if item1[1] == CORRELATION_ERROR or item1[1] == CORRELATION_IDENTICAL:
+        return -1
+    if item2[1] == CORRELATION_ERROR or item2[1] == CORRELATION_IDENTICAL:
+        return 1
+    return abs(item1[1]) - abs(item2[1])
+
 def generate_html_detail_numeric(feature_dict: dict, compare_dict: dict, dataframe_report):
     template = jinja2_env.get_template('feature_detail_numeric.html')
 
@@ -252,7 +264,7 @@ def generate_html_detail_numeric(feature_dict: dict, compare_dict: dict, datafra
 
         # Sort & get top
         max_num = config["Detail_Stats"].getint("max_num_top_associations")
-        numerical = sorted(numerical.items(), key=lambda elem: abs(elem[1]), reverse=True)[:max_num]
+        numerical = sorted(numerical.items(), key=cmp_to_key(cmp_assoc_values), reverse=True)[:max_num]
         categorical = sorted(categorical.items(), key=itemgetter(1), reverse=True)[:max_num]
     else:
         max_num = None
@@ -323,15 +335,15 @@ def generate_html_detail_cat(feature_dict: dict, compare_dict: dict, dataframe_r
     # ------------------------------------
     feature_name = feature_dict["name"]
     if dataframe_report._associations is not None:
-        influencing = dataframe_report._associations[feature_name]
         # Filter by datatype CATEGORICAL
+        influencing = dataframe_report._associations[feature_name]
         influencing = { k: v for k, v in influencing.items() \
                         if (dataframe_report.get_type(k) == FeatureType.TYPE_BOOL or
                             dataframe_report.get_type(k) == FeatureType.TYPE_CAT) and
                             k != feature_name }
 
-        influenced = dataframe_report.get_what_influences_me(feature_name)
         # Filter by datatype CATEGORICAL
+        influenced = dataframe_report.get_what_influences_me(feature_name)
         influenced = { k: v for k, v in influenced.items() \
                         if (dataframe_report.get_type(k) == FeatureType.TYPE_BOOL or
                             dataframe_report.get_type(k) == FeatureType.TYPE_CAT) and

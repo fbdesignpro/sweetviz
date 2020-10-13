@@ -11,6 +11,7 @@ import sweetviz.series_analyzer as sa
 import sweetviz.utils as su
 from sweetviz.graph_associations import GraphAssoc
 from sweetviz.graph_associations import CORRELATION_ERROR
+from sweetviz.graph_associations import CORRELATION_IDENTICAL
 from sweetviz.graph_legend import GraphLegend
 from sweetviz.config import config
 import sweetviz.sv_html as sv_html
@@ -428,7 +429,10 @@ class DataframeReport:
                             feature.source.corr(other.source, method='pearson')
                         # TODO: display correlation error better in graph!
                         if isnan(cur_associations[other.source.name]):
-                            cur_associations[other.source.name] = CORRELATION_ERROR
+                            if feature.source.equals(other.source):
+                                cur_associations[other.source.name] = CORRELATION_IDENTICAL
+                            else:
+                                cur_associations[other.source.name] = CORRELATION_ERROR
                         mirror_association(self._associations, feature_name, other.source.name, \
                                            cur_associations[other.source.name])
                         if process_compare:
@@ -436,7 +440,10 @@ class DataframeReport:
                                 feature.compare.corr(other.compare, method='pearson')
                             # TODO: display correlation error better in graph!
                             if isnan(cur_associations_compare[other.source.name]):
-                                cur_associations_compare[other.source.name] = CORRELATION_ERROR
+                                if feature.compare.equals(other.compare):
+                                    cur_associations_compare[other.source.name] = CORRELATION_IDENTICAL
+                                else:
+                                    cur_associations_compare[other.source.name] = CORRELATION_ERROR
                             mirror_association(self._associations_compare, feature_name, other.source.name, \
                                                cur_associations_compare[other.source.name])
             self.progress_bar.update(1)

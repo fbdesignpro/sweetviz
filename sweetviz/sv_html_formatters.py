@@ -1,4 +1,6 @@
 from decimal import Decimal
+from sweetviz.graph_associations import CORRELATION_ERROR
+from sweetviz.graph_associations import CORRELATION_IDENTICAL
 
 
 def fmt_int_commas(value: float) -> str:
@@ -13,6 +15,14 @@ def fmt_int_limit(value: float) -> str:
     if value > 999999:
         return f"{value/1000000:.1f}M"
     return f"{value:,}"
+
+
+def fmt_assoc(value: float) -> str:
+    if value == CORRELATION_IDENTICAL:
+        value = 1.0
+    if value == CORRELATION_ERROR:
+        return "---"
+    return f"{value:.2f}"
 
 
 def fmt_percent_parentheses(value: float) -> str:

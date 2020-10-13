@@ -43,7 +43,7 @@ id="detail-f{{ feature_dict.order_index }}" >
                 <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
                     <div class="pos-assoc-row__source text-label
-                        {{ "color-red" if item[1] < 0.0 else "color-source" }}">{{ "%.2f"|format(item[1]) }}</div>
+                        {{ "color-red" if item[1] < 0.0 else "color-source" }}">{{ item[1]|fmt_assoc }}</div>
                 </div>
             {% endfor %}
             <br>
@@ -55,7 +55,7 @@ id="detail-f{{ feature_dict.order_index }}" >
             {% for item in categorical %}
                 <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
-                    <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
+                    <div class="pos-assoc-row__source text-label color-source">{{ item[1]|fmt_assoc }}</div>
                 </div>
             {% endfor %}
         </div>

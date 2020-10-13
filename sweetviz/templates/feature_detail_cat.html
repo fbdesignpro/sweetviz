@@ -100,10 +100,10 @@
 
     <!-- ASSOCIATIONS -->
 {% if influencing is not none %}
-    <!-- CAT-CAT- -->
     <div class="pos-detail-cat-assoc-1" id="cat-assoc-CC-f{{ feature_dict.order_index }}">
         <span class="bg-extra-column"></span>
         <div class="container-detail-assoc">
+            <!-- CAT-CAT -->
             <div class="text-small-bold color-light" style="text-align:right; line-height: 10px">
                 CATEGORICAL ASSOCIATIONS<br>
                 (UNCERTAINTY COEFFICIENT, 0 to 1)
@@ -113,8 +113,8 @@
             <hr>
             {% for item in influencing %}
                 <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
-                    <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
-                    <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
+                    <div class="pos-assoc-row__label text-label">{{ item[0] }}<!--{{ dataframe._target.name }}--></div>
+                    <div class="pos-assoc-row__source text-label color-source">{{ item[1]|fmt_assoc }}</div>
                 </div>
             {% endfor %}
             <br>
@@ -124,10 +124,11 @@
             {% for item in influenced %}
                 <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
-                    <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
+                    <div class="pos-assoc-row__source text-label color-source">{{ item[1]|fmt_assoc }}</div>
                 </div>
             {% endfor %}
             <br>
+            <!-- CAT-NUM -->
             <div class="text-small-bold color-light" style="text-align:right; line-height: 10px">
                 NUMERICAL ASSOCIATIONS<br>
                 (CORRELATION RATIO, 0 to 1)
