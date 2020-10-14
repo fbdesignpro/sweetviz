@@ -9,9 +9,15 @@ import sweetviz.series_analyzer_text
 def get_counts(series: pd.Series) -> dict:
     # The value_counts() function is used to get a Series containing counts of unique values.
     value_counts_with_nan = series.value_counts(dropna=False)
-    value_counts_without_nan = (
-        value_counts_with_nan.reset_index().dropna().set_index("index").iloc[:, 0]
-    )
+
+    # Fix for data with only a single value; reset_index was flipping the data returned
+    if len(value_counts_with_nan) == 1:
+        if pd.isna(value_counts_with_nan.index[0]):
+            value_counts_without_nan = pd.Series()
+        else:
+            value_counts_without_nan = value_counts_with_nan
+    else:
+        value_counts_without_nan = (value_counts_with_nan.reset_index().dropna().set_index("index").iloc[:, 0])
     # print(value_counts_without_nan.index.dtype.name)
 
     # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
