@@ -62,6 +62,17 @@
     <!-- ALL SUMMARY TABS -->
     <div class="page-column-main" id="col1">
         <!-- DF Summary -->
+        {% if layout.show_logo %}
+            <div class="pos-logo-group">
+                <div class="pos-logo im-logo"></div>
+                <div class="pos-credits text-credits">
+                    {{ version }}<br>
+                    <a href="https://github.com/fbdesignpro/sweetviz">Click here for docs & updates</a> <br>
+                    Created & maintained by <a href="https://www.fbdesignpro.com">Francois Bertrand</a> <br>
+                    Graphic design by <a href="https://www.fbdesignpro.com" data-reach="Jeff is working on his contact info :)">Jean-Francois Hains</a>
+                </div>
+            </div>
+        {% endif %}
         {{ dataframe.dataframe_summary_html }}
         <div class="page-all-summaries">
             <span class="graph-legend" style="left: 391px;position: absolute;top: 5px;"></span>

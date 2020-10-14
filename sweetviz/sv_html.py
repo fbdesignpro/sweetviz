@@ -65,13 +65,13 @@ def generate_html_dataframe_page(dataframe_report):
     dataframe_report.page_height = 160 + (dataframe_report.num_summaries * (config["Layout"].getint("summary_height_per_element")))
     padding = 50 # max(50, (dataframe_report.num_summaries * (config["Layout"].getint("summary_vertical_padding"))))
     dataframe_report.page_height += padding
-    output = template.render(dataframe=dataframe_report)
+    output = template.render(dataframe=dataframe_report, version=sweetviz.__version__)
     return output
 
 
 def generate_html_dataframe_summary(dataframe_report):
     template = jinja2_env.get_template('dataframe_summary.html')
-    output = template.render(dataframe=dataframe_report, version=sweetviz.__version__)
+    output = template.render(dataframe=dataframe_report)
     return output
 
 def generate_html_associations(dataframe_report, which):
