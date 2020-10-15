@@ -103,6 +103,7 @@ a { color: #58544f; }
 .row-colored            { background-color: #00000008; }
 .row-missing            { background-color: #00000008; text-indent: 4px; height: 16px; width: 250px; }
 .assoc-row              { height: 13px; line-height: 11px; text-indent: 4px; }
+.assoc-row-target       { height: 13px; line-height: 11px; text-indent: 4px; background-color: #221F1F; color: #c1b9af; }
 .row-numeric-summary    { height: 13px; line-height: 11px; width: 140px; }
 .row-separator-bottom   { border-bottom: 1px solid #00000018; }
 .row-separator-top      { border-top: 1px solid #00000018; }

@@ -1,4 +1,5 @@
 from decimal import Decimal
+import numpy as np
 from sweetviz.graph_associations import CORRELATION_ERROR
 from sweetviz.graph_associations import CORRELATION_IDENTICAL
 
@@ -45,14 +46,17 @@ def fmt_percent(value: float) -> str:
 
 
 def fmt_percent1d(value: float) -> str:
+    if value is None or np.isnan(value):
+        return "---"
     return f"{value:.1f}%"
 
 
 def fmt_smart(value: float) -> str:
     # Mainly used to shall average, etc. in the second column of numerical summary
     # Keep to ~5 display digits based on scale of input number
+    if np.isnan(value):
+        return "---"
     absolute = abs(value)
-
     if absolute == 0.0:
         return "0.00"
     elif absolute < 0.001:
@@ -90,6 +94,8 @@ def fmt_RAM(value: float) -> str:
 
 def fmt_smart_range(value: float, range: float) -> str:
     # Keep to ~5 display digits based on scale given by range number
+    if np.isnan(value):
+        return "---"
     absolute_range = abs(range)
     if absolute_range == 0.0:
         return "0.00"
@@ -117,6 +123,8 @@ def fmt_smart_range(value: float, range: float) -> str:
 def fmt_smart_range_tight(value: float, range: float) -> str:
     # Used for graph labels
     # Keep to ~4 display digits based on scale given by range number
+    if np.isnan(value):
+        return "---"
     absolute_range = abs(range)
     if absolute_range < 1.0:
         return f"{value:.3f}"

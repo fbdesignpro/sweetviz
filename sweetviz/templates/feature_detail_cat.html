@@ -112,17 +112,17 @@
             PROVIDES INFORMATION ON...</div>
             <hr>
             {% for item in influencing %}
-                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                <div class="{{ 'assoc-row-target' if item[2] else 'assoc-row' }} {{ loop.cycle('', 'row-colored') }}" {{ 'style="font-weight: bold;"' if item[1] > general.association_min_to_bold }}>
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}<!--{{ dataframe._target.name }}--></div>
                     <div class="pos-assoc-row__source text-label color-source">{{ item[1]|fmt_assoc }}</div>
                 </div>
             {% endfor %}
             <br>
-            <div class="text-large-bold" style="line-height: 104%;">THESE FEATURES GIVE INFORMATION<br>
+            <div class="text-large-bold" style="line-height: 104%;">THESE FEATURES<br>GIVE INFORMATION<br>
             ON {{ feature_dict.name }}:</div>
             <hr>
             {% for item in influenced %}
-                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                <div class="{{ 'assoc-row-target' if item[2] else 'assoc-row' }} {{ loop.cycle('', 'row-colored') }}" {{ 'style="font-weight: bold;"' if item[1] > general.association_min_to_bold }}>
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
                     <div class="pos-assoc-row__source text-label color-source">{{ item[1]|fmt_assoc }}</div>
                 </div>
@@ -137,7 +137,7 @@
                     CORRELATION RATIO WITH...</div>
             <hr>
             {% for item in corr_ratio %}
-                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                <div class="{{ 'assoc-row-target' if item[2] else 'assoc-row' }} {{ loop.cycle('', 'row-colored') }}" {{ 'style="font-weight: bold;"' if item[1] > general.association_min_to_bold }}>
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
                     <div class="pos-assoc-row__source text-label color-source">{{ "%.2f"|format(item[1]) }}</div>
                 </div>

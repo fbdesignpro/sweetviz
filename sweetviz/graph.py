@@ -9,6 +9,7 @@ from pkg_resources import resource_filename
 from pandas.plotting import register_matplotlib_converters
 
 from sweetviz import sv_html_formatters
+from sweetviz.config import config
 
 register_matplotlib_converters()
 #matplotlib.use('SVG')
@@ -37,7 +38,7 @@ class Graph:
     def set_style(style_filename_list):
         # graph_font_filename = resource_filename(__name__, os.path.join("fonts", "Roboto-Medium.ttf"))
 
-        # WORKAROUND: createFontList deprecation in mpl >=3.2
+         # WORKAROUND: createFontList deprecation in mpl >=3.2
         if hasattr(fm.fontManager, "addfont"):
             font_dirs = [resource_filename(__name__, "fonts"), ]
             font_files = fm.findSystemFonts(fontpaths=font_dirs)
@@ -55,7 +56,14 @@ class Graph:
             styles_in_final_location.append(resource_filename(__name__, os.path.join("mpl_styles",
                                                                                      source_name)))
         # fm.FontProperties(fname=graph_font_filename)
+
+        # Apply style
         matplotlib.style.use(styles_in_final_location)
+
+        # NEW: support for CJK characters, apply override after setting the style
+        if config["General"].getint("use_cjk_font") != 0:
+            plt.rcParams['font.family'] = 'Noto Sans CJK JP'
+
 
     @staticmethod
     def format_smart(x, pos=None):

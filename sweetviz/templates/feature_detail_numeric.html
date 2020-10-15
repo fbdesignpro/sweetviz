@@ -40,7 +40,7 @@ id="detail-f{{ feature_dict.order_index }}" >
 -->
             <hr>
             {% for item in numerical %}
-                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                <div class="{{ 'assoc-row-target' if item[2] else 'assoc-row' }} {{ loop.cycle('', 'row-colored') }}" {{ 'style="font-weight: bold;"' if (item[1] > general.association_min_to_bold) or (item[1] < -general.association_min_to_bold) }}>
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
                     <div class="pos-assoc-row__source text-label
                         {{ "color-red" if item[1] < 0.0 else "color-source" }}">{{ item[1]|fmt_assoc }}</div>
@@ -53,7 +53,7 @@ id="detail-f{{ feature_dict.order_index }}" >
             </div>
             <hr>
             {% for item in categorical %}
-                <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
+                <div class="{{ 'assoc-row-target' if item[2] else 'assoc-row' }} {{ loop.cycle('', 'row-colored') }}" {{ 'style="font-weight: bold;"' if item[1] > general.association_min_to_bold }}>
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
                     <div class="pos-assoc-row__source text-label color-source">{{ item[1]|fmt_assoc }}</div>
                 </div>

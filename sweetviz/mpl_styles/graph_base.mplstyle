@@ -8,7 +8,9 @@ axes.edgecolor      : 58544f   ## axes edge color
 axes.linewidth      : 0.8     ## edge linewidth
 
 font.family: Roboto
+#font.family: Noto Sans CJK JP, Roboto
 #font.sans-serif: Roboto-Medium, Arial,Verdana,Helvetica,DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif, Lucida Grande,  Geneva, Lucid, Arial,  Avant Garde, sans-serif
+#font.family: sans-serif
 
 
 # BAR CONTENT

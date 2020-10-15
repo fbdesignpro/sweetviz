@@ -3,7 +3,7 @@ import os
 import time
 import pandas as pd
 from numpy import isnan
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from sweetviz.sv_types import NumWithPercent, FeatureToProcess, FeatureType
 import sweetviz.from_dython as associations
@@ -245,12 +245,18 @@ class DataframeReport:
             self.process_associations(features_to_process, source_target_series, compare_target_series)
             self.progress_bar.set_description(':PAIRWISE DONE')
             self.progress_bar.close()
-            print("Creating Associations graph...", end=' ')
+
+            self.progress_bar = tqdm(total=1, \
+                bar_format='{desc:35}|{bar}| [{percentage:3.0f}%]   {elapsed}', \
+                ascii=False, ncols=73)
+            self.progress_bar.set_description(":Generating associations graph")
             self._association_graphs["all"] = GraphAssoc(self, "all", self._associations)
             self._association_graphs_compare["all"] = GraphAssoc(self, "all", self._associations_compare)
             self.associations_html_source = sv_html.generate_html_associations(self, "source")
             self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
-            print("DONE!")
+            self.progress_bar.set_description(":ASSOCIATIONS GRAPH DONE")
+            self.progress_bar.update(1)
+            self.progress_bar.close()
         else:
             self._associations = None
             self._associations_compare = None
@@ -284,7 +290,7 @@ class DataframeReport:
         f.close()
 
         if open_browser:
-            print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: no browser will pop up, the report is saved in your notebook/colab files.")
+            print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: the web browser MAY not pop up, regardless, the report IS saved in your notebook/colab files.")
             # Not sure how to work around this: not fatal but annoying...Notebook/colab
             # https://bugs.python.org/issue5993
             webbrowser.open('file://' + os.path.realpath(filepath))
@@ -410,6 +416,8 @@ class DataframeReport:
                                 associations.theils_u(feature.compare, other.compare)
                     elif self[other.source.name]["type"] == FeatureType.TYPE_NUM:
                         # CAT-NUM
+                        # This handles cat-num, then mirrors so no need to process num-cat separately
+                        # (symmetrical relationship)
                         cur_associations[other.source.name] = \
                             associations.correlation_ratio(feature.source, other.source)
                         mirror_association(self._associations, feature_name, other.source.name, \

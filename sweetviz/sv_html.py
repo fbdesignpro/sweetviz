@@ -1,3 +1,4 @@
+import numpy as np
 import html
 from operator import itemgetter
 from jinja2 import Environment, PackageLoader
@@ -24,11 +25,16 @@ jinja2_env.filters["fmt_smart_range"] = sweetviz.sv_html_formatters.fmt_smart_ra
 jinja2_env.globals["hello"] = "Superduper"
 
 def load_layout_globals_from_config():
+    jinja2_env.globals["FeatureType"] = FeatureType
+
     layout_globals = dict()
+    general_globals = dict()
     for element in config["Layout"]:
         layout_globals[element] = config["Layout"].getint(element)
+    general_globals['use_cjk_font'] = config["General"].getint("use_cjk_font")
+    general_globals['association_min_to_bold'] = config["General"].getfloat("association_min_to_bold")
     jinja2_env.globals["layout"] = layout_globals
-    jinja2_env.globals["FeatureType"] = FeatureType
+    jinja2_env.globals["general"] = general_globals
 
 
 def set_summary_positions(dataframe_report):
@@ -63,7 +69,7 @@ def generate_html_dataframe_page(dataframe_report):
     # Add in total page size (160 is hardcoded from the top of page-all-summaries in CSS)
     # This could be programmatically set
     dataframe_report.page_height = 160 + (dataframe_report.num_summaries * (config["Layout"].getint("summary_height_per_element")))
-    padding = 50 # max(50, (dataframe_report.num_summaries * (config["Layout"].getint("summary_vertical_padding"))))
+    padding = 100 # max(50, (dataframe_report.num_summaries * (config["Layout"].getint("summary_vertical_padding"))))
     dataframe_report.page_height += padding
     output = template.render(dataframe=dataframe_report, version=sweetviz.__version__)
     return output
@@ -116,6 +122,12 @@ def create_summary_numeric_group_data(feature_dict: dict, compare_dict: dict):
 def generate_html_summary_numeric(feature_dict: dict, compare_dict: dict):
     template = jinja2_env.get_template('feature_summary_numeric.html')
     group_1, group_2 = create_summary_numeric_group_data(feature_dict, compare_dict)
+
+    # Edge case fix for if there is only data in the compare
+    if compare_dict is not None:
+        if np.isnan(feature_dict["stats"]["range"]) and \
+             np.isnan(compare_dict["stats"]["range"]) == False:
+            feature_dict["stats"]["range"] = compare_dict["stats"]["range"]
 
     # NEW: Move numbers if there is not enough room
     def formatted_range(val):
@@ -232,6 +244,15 @@ def cmp_assoc_values(item1, item2):
         return 1
     return abs(item1[1]) - abs(item2[1])
 
+def add_is_target_or_not(association_list, target_name):
+    returned = list()
+    for it in association_list:
+        if it[0] == target_name:
+            returned.append([it[0], it[1], True])
+        else:
+            returned.append([it[0], it[1], False])
+    return returned
+
 def generate_html_detail_numeric(feature_dict: dict, compare_dict: dict, dataframe_report):
     template = jinja2_env.get_template('feature_detail_numeric.html')
 
@@ -254,7 +275,7 @@ def generate_html_detail_numeric(feature_dict: dict, compare_dict: dict, datafra
         numerical = dataframe_report._associations[feature_name]
         # Filter by datatype NUMERICAL
         numerical = {k: v for k, v in numerical.items() \
-                       if dataframe_report.get_type(k) == FeatureType.TYPE_NUM}
+                       if dataframe_report.get_type(k) == FeatureType.TYPE_NUM and k != feature_name}
 
         categorical = dataframe_report._associations[feature_name]
         # Filter by datatype CATEGORICAL
@@ -266,6 +287,11 @@ def generate_html_detail_numeric(feature_dict: dict, compare_dict: dict, datafra
         max_num = config["Detail_Stats"].getint("max_num_top_associations")
         numerical = sorted(numerical.items(), key=cmp_to_key(cmp_assoc_values), reverse=True)[:max_num]
         categorical = sorted(categorical.items(), key=itemgetter(1), reverse=True)[:max_num]
+
+        # Set who's the target, for highlighting
+        if dataframe_report._target is not None:
+            numerical = add_is_target_or_not(numerical, dataframe_report._target["name"])
+            categorical = add_is_target_or_not(categorical, dataframe_report._target["name"])
     else:
         max_num = None
         numerical = None
@@ -360,6 +386,12 @@ def generate_html_detail_cat(feature_dict: dict, compare_dict: dict, dataframe_r
         influencing = sorted(influencing.items(), key=itemgetter(1), reverse=True)[:max_num]
         influenced = sorted(influenced.items(), key=itemgetter(1), reverse=True)[:max_num]
         corr_ratio = sorted(corr_ratio.items(), key=itemgetter(1), reverse=True)[:max_num]
+
+        # Set who's the target, for highlighting
+        if dataframe_report._target is not None:
+            influencing = add_is_target_or_not(influencing, dataframe_report._target["name"])
+            influenced = add_is_target_or_not(influenced, dataframe_report._target["name"])
+            corr_ratio = add_is_target_or_not(corr_ratio, dataframe_report._target["name"])
     else:
         influencing = None
         influenced = None
