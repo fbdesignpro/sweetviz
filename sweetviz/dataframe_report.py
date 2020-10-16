@@ -440,6 +440,7 @@ class DataframeReport:
                             if feature.source.equals(other.source):
                                 cur_associations[other.source.name] = CORRELATION_IDENTICAL
                             else:
+                                # ERROR may occur if Nan's in one match values in other, and vice-versa
                                 cur_associations[other.source.name] = CORRELATION_ERROR
                         mirror_association(self._associations, feature_name, other.source.name, \
                                            cur_associations[other.source.name])
@@ -451,6 +452,7 @@ class DataframeReport:
                                 if feature.compare.equals(other.compare):
                                     cur_associations_compare[other.source.name] = CORRELATION_IDENTICAL
                                 else:
+                                    # ERROR may occur if Nan's in one match values in other, and vice-versa
                                     cur_associations_compare[other.source.name] = CORRELATION_ERROR
                             mirror_association(self._associations_compare, feature_name, other.source.name, \
                                                cur_associations_compare[other.source.name])
