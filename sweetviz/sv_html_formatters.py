@@ -36,7 +36,7 @@ def fmt_percent_parentheses(value: float) -> str:
 
 def fmt_percent(value: float) -> str:
     # This returns the percentage as a rounded number. 100% is only used if truly 100%
-    if value is None:
+    if value is None or np.isnan(value):
         # Support for empty fields
         return "---"
     rounded = round(value)
@@ -151,3 +151,23 @@ def fmt_smart_range_tight(value: float, range: float) -> str:
     else :
         return f"{value / 1000000000000.0:.1f}T"
 
+def fmt_div_color_override_missing(value: float) -> str:
+    if value is None or np.isnan(value) or value <= 0:
+        return ''
+    return 'style="color:#202020"'
+
+def fmt_div_icon_missing(value: float) -> str:
+    if value is None or np.isnan(value) or value <= 0:
+        return ''
+
+    returned = '<div class="'
+    if value <= 15:
+        returned += "ic-missing-green"
+    elif value <= 50:
+        returned += "ic-missing-yellow"
+    elif value <= 75:
+        returned += "ic-missing-orange"
+    else:
+        returned += "ic-missing-red"
+    returned += '"></div>'
+    return returned

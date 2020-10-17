@@ -25,8 +25,9 @@
                     ---
                 {% endif %}
             </div>
-            <div class="text-value color-source pos-base-stats__source-perc">
+            <div class="text-value color-source pos-base-stats__source-perc" {{ feature_dict.base_stats.num_missing.perc|fmt_div_color_override_missing }}>
                 {% if feature_dict.base_stats.num_missing.number > 0: %}
+                    {{ feature_dict.base_stats.num_missing.perc|fmt_div_icon_missing }}
                     {{ feature_dict.base_stats.num_missing.perc|fmt_percent_parentheses }}
                 {% else %}
 
@@ -40,8 +41,9 @@
                         ---
                     {% endif %}
                 </div>
-                <div class="text-value color-compare pos-base-stats__compare-perc">
+                <div class="text-value color-compare pos-base-stats__compare-perc" {{ compare_dict.base_stats.num_missing.perc|fmt_div_color_override_missing }}>
                     {% if compare_dict.base_stats.num_missing.number > 0: %}
+                        {{ compare_dict.base_stats.num_missing.perc|fmt_div_icon_missing }}
                         {{ compare_dict.base_stats.num_missing.perc|fmt_percent_parentheses }}
                     {% else %}
 

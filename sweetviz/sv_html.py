@@ -22,6 +22,8 @@ jinja2_env.filters["fmt_percent1d"] = sweetviz.sv_html_formatters.fmt_percent1d
 jinja2_env.filters["fmt_smart"] = sweetviz.sv_html_formatters.fmt_smart
 jinja2_env.filters["fmt_RAM"] = sweetviz.sv_html_formatters.fmt_RAM
 jinja2_env.filters["fmt_smart_range"] = sweetviz.sv_html_formatters.fmt_smart_range
+jinja2_env.filters["fmt_div_icon_missing"] = sweetviz.sv_html_formatters.fmt_div_icon_missing
+jinja2_env.filters["fmt_div_color_override_missing"] = sweetviz.sv_html_formatters.fmt_div_color_override_missing
 jinja2_env.globals["hello"] = "Superduper"
 
 def load_layout_globals_from_config():
