@@ -1,5 +1,9 @@
 # Changelog
 
+#### 1.1.1 - 2020-10-18
+
+- **Updated:** restored compact font as default
+
 #### 1.1 - 2020-10-18 - Initial release
 
 - **Added:** CJK font support
