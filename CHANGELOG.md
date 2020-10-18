@@ -1,5 +1,22 @@
 # Changelog
 
+#### 1.1 - 2020-10-18 - Initial release
+
+- **Added:** CJK font support
+- **Added:** color-coding for % of missing values
+- **Added:** "open_browser" option for show_html()
+- **Enhanced:** multiple report generation fixes and cosmetic updates
+- **Enhanced:** better correlation edge-case handling
+- **Enhanced:** moved logo HTML to be easier to control through INI
+- **Fixed:** issues with columns named 'index' and missing columns in comparison data. Closes #60.
+- **Fixed:** for issues with missing data
+- **Fixed:** support for numpy.float32 data. Closes #58.
+- **Fixed:** issues for data columns with a single value
+- **Fixed:** issues with page height
+- **Fixed:** sorting issue when >500 features
+- **Fixed:** multiple minor report generation issues
+
+
 #### 1.0beta6 - 2020-08-12
 - **Fixed:** numerical summary showing 0.00 for small values or ranges
 
@@ -13,7 +30,7 @@
 - **Fixed:** error for coercion of boolean series to categorical
 - **Enhanced:** error reporting output for type coercions
 
-#### 1.0beta3 - BETA START - 2020-07-19
+#### 1.0beta3 - 2020-07-19 - BETA START
 - **Added:** post-report-generation descriptive text for Jupyter/Colab
 - **Re-added:** horizontal scrollbar
 - **Added:** link to check for updates in header
@@ -30,7 +47,7 @@
 #### 1.0alpha7 - 2020-06-09
 - **Fixed:** "ValueError: index must be monotonic..." crash with some datasets (#10)
 
-#### 1.0alpha6 - ALPHA START - 2020-06-08
+#### 1.0alpha6 - 2020-06-08 - ALPHA START
 - **Fixed:** forcing feature names to be strings, to avoid crashing if numerical (#9)
 - **Improved:** error message in case of mixed type feature (#3)
 - **Added:** CHANGELOG.md!

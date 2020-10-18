@@ -1,4 +1,5 @@
 # CUSTOM SWEETVIZ DEV
+SWEETVIZ_REPORT.html
 internal_tests/
 .idea/
 MainTest.py
@@ -139,3 +140,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 UPLOAD.bat
+/sweetviz/images/

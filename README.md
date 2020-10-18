@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-1.0beta6-blue) ![v](https://img.shields.io/badge/updated-12%20Aug%202020-green)
+![v](https://img.shields.io/badge/version-1.1-blue) ![v](https://img.shields.io/badge/updated-18%20Oct%202020-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
@@ -6,11 +6,13 @@ Sweetviz is an open source Python library that generates beautiful, high-density
 
 The system is built around quickly **visualizing target values** and **comparing datasets**. Its goal is to help quick analysis of target characteristics, training vs testing data, and other such data characterization tasks. 
 
-**Note: Sweetviz is in the BETA TESTING PHASE.** Core functionality is complete, please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our Discourse server (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
+Usage and parameters are described below, [you can also find an article describing its features in depth and see examples in action HERE](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34).
 
-## Examples
-- [Example report from the Titanic dataset HERE](http://cooltiming.com/SWEETVIZ_REPORT.html)
-- [Article describing features in depth HERE](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
+**October 2020 update: Sweetviz is out of beta and development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our forum (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
+
+## Example
+[Example report from the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
+
 
 
 # Features
@@ -29,7 +31,7 @@ The system is built around quickly **visualizing target values** and **comparing
     - min/max/range, quartiles, mean, mode, standard deviation, sum, median absolute deviation, coefficient of variation, kurtosis, skewness
 
 # Upgrading
-Some people have experienced mixed results behavior upgrading through `pip`. To update to the latest from an existing install, it is recommended to `pip uninstall sweetviz` first, Then simply install.
+Some people have experienced mixed results behavior upgrading through `pip`. To update to the latest from an existing install, it is recommended to `pip uninstall sweetviz` first, then simply install.
 
 # Installation
 Sweetviz currently supports Python 3.6+ and Pandas 0.25.3+. Reports are output using the base "os" module, so custom environments such as Google Colab which require custom file operations are not yet supported, although I am looking into a solution. 
@@ -38,17 +40,27 @@ The best way to install sweetviz (other than from source) is to use pip:
 ```
 pip install sweetviz
 ```
+#### Installation issues & fixes
+In some rare cases, users have reported errors such as `ModuleNotFoundError: No module named 'sweetviz'` and `AttributeError: module 'sweetviz' has no attribute 'analyze'`.
+In those cases, we suggest the following:
+- Make sure none of your scripts are named `sweetviz.py`, as that interferes with the library itself. Delete or rename that script (and any associated `.pyc` files), and try again.
+- Try uninstalling the library using `pip uninstall sweetviz`, then reinstalling
+- The issue may stem from using multiple versions of Python, or from OS permissions. The following Stack Overflow articles have resolved many of these issues reported: [Article 1](https://stackoverflow.com/questions/32680081/importerror-after-successful-pip-installation/32680082), [Article 2](https://stackoverflow.com/questions/14295680/unable-to-import-a-module-that-is-definitely-installed), [Article 3](https://stackoverflow.com/questions/44528638/after-pip-successful-installed-modulenotfounderror) 
+- If all else fails, post a bug issue [here on github](https://github.com/fbdesignpro/sweetviz/issues). Thank you for taking the time, it may help resolve the issue for you and everyone else!
 # Basic Usage
-Create a `DataframeReport` object, then use a `show_xxx` function to render the report. 
+Creating a report is a quick 2-line process:
+1. Create a `DataframeReport` object using one of: `analyze()`, `compare()` or `compare_intra()`
+2. Use a `show_xxx()` function to render the report. 
 
-**Note: Currently the only rendering supported is to a standalone HTML file, using a "widescreen" aspect ratio (i.e. 1080p resolution or wider).** Please let me know of formats/resolutions you would like to be supported in our Discourse Forum.
+**Note: Currently the only rendering supported is to a standalone HTML file, using a "widescreen" aspect ratio (i.e. 1080p resolution or wider).** Please let me know of formats/resolutions you would like to be supported in our [ forum](https://sweetviz.fbdesignpro.com).
 
+## Step 1: Create the report
 There are 3 main functions for creating reports:
 - analyze(...)
 - compare(...)
 - compare_intra(...)
 
-## Analyzing a single dataframe (and its optional target feature)
+#### Analyzing a single dataframe (and its optional target feature)
 To analyze a single dataframe, simply use the `analyze(...)` function, then the `show_html(...)` function:
 ```
 import sweetviz as sv
@@ -58,7 +70,7 @@ my_report.show_html() # Default arguments will generate to "SWEETVIZ_REPORT.html
 ```
 When run, this will output a 1080p widescreen html app in your default browser:
 ![Widescreen demo](http://cooltiming.com/SV/demo_wide.png)
-### Optional arguments
+##### Optional arguments
 The `analyze()` function can take multiple other arguments:
 ```
 analyze(source: Union[pd.DataFrame, Tuple[pd.DataFrame, str]],
@@ -73,31 +85,78 @@ e.g. `my_df` or `[my_df, "Training"]`
 ```
 feature_config = sv.FeatureConfig(skip="PassengerId", force_text=["Age"])
 ```
-- **pairwise_analysis:** Correlations and other associations can take quadratic time (n^2) to complete. The default setting ("auto") will run without warning until a data set contains "association_auto_threshold" features. Past that threshold, you need to explicitly pass the parameter `pairwise_analysis="on"` (or `="off"`) since processing that many features would take a long time. This parameter also covers the generation of the association graphs (based on Drazen Zaric's concept):
+- **pairwise_analysis:** Correlations and other associations can take quadratic time (n^2) to complete. The default setting ("auto") will run without warning until a data set contains "association_auto_threshold" features. Past that threshold, you need to explicitly pass the parameter `pairwise_analysis="on"` (or `="off"`) since processing that many features would take a long time. This parameter also covers the generation of the association graphs (based on [Drazen Zaric's concept](https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec)):
+
 ![Pairwise sample](http://cooltiming.com/SV/pairwise.png)
 
-## Comparing two dataframes (e.g. Test vs Training sets)
+#### Comparing two dataframes (e.g. Test vs Training sets)
 To compare two data sets, simply use the `compare()` function. Its parameters are the same as `analyze()`, except with an inserted second parameter to cover the comparison dataframe. It is recommended to use the [dataframe, "name"] format of parameters to better differentiate between the base and compared dataframes. (e.g. `[my_df, "Train"]` vs `my_df`)
 ```
 my_report = sv.compare([my_dataframe, "Training Data"], [test_df, "Test Data"], "Survived", feature_config)
 ```
-## Comparing two subsets of the same dataframe (e.g. Male vs Female)
+#### Comparing two subsets of the same dataframe (e.g. Male vs Female)
 Another way to get great insights is to use the comparison functionality to split your dataset into 2 sub-populations.
 
 Support for this is built in through the `compare_intra()` function. This function takes a boolean series as one of the arguments, as well as an explicit "name" tuple for naming the (true, false) resulting datasets. Note that internally, this creates 2 separate dataframes to represent each resulting group. As such, it is more of a shorthand function of doing such processing manually.
 ```
 my_report = sv.compare_intra(my_dataframe, my_dataframe["Sex"] == "male", ["Male", "Female"], feature_config)
 ```
+## Step 2: Show the report
+Once you have created your report object (e.g. `my_report` in the examples above), simply pass it into a `show_xxx()` function.
+
+Currently the only rendering supported is to a standalone HTML file, using a "widescreen" aspect ratio (i.e. 1080p resolution or wider). 
+Please let me know of formats/resolutions you would like to be supported in our [forum](https://sweetviz.fbdesignpro.com).
+
+So currently, simply call the following function with the desired parameters:
+
+`my_report.show_html(filepath='SWEETVIZ_REPORT.html', open_browser=True)`
+
+The `open_browser` parameter is a new addition in 1.1 to give the option to avoid opening a browser window once the HTML file is generated.
+
 # Config file
 The package contains an INI file for configuration. You can override any setting by providing your own then calling this before creating a report:
 ```
 sv.config_parser.read("Override.ini")
 ```
-You can look into the file `sweetviz_defaults.ini` for what can be overriden (warning: much of it is a work in progress and not well documented). One example is to remove the logo from the report, so it may be used more readily in a business setting. You would create your own `Override.ini` and put the following lines:
+**IMPORTANT #1:** it is best to load overrides **before any other command**, as many of the INI options are used in the report generation.  
+
+**IMPORTANT #2:** always set the header (e.g. `[General]` before the value, otherwise there will be an error).  
+
+### Most useful config overrides
+ You can look into the file `sweetviz_defaults.ini` for what can be overriden (warning: much of it is a work in progress and not well documented), but the most useful overrides are:
 ```
+[General]
+use_cjk_font = 1
+
 [Layout]
 show_logo = 0
 ``` 
+##### New: Chinese, Japanse, Korean (CJK) character support
+```
+[General]
+use_cjk_font = 1 
+```
+Will switch the font in the graphs to use a CJK-compatible font. Although this font is not as compact, it will get rid of any warnings and "unknown character" symbols for these languages.
+##### Remove Sweetviz logo
+```
+[Layout]
+show_logo = 0
+```
+Will remove the Sweetviz logo from the top of the page. 
+
+
+# Troubleshooting / FAQ
+- **Installation issues**
+
+Please see the "Installation issues & fixes" section at the top of this document
+- **Asian characters, "RuntimeWarning: Glyph ### missing from current font"**
+
+See section above regarding CJK characters support. If you find the need for additional character types, definitely [post a request in the issue tracking system.](https://github.com/fbdesignpro/sweetviz/issues)
+
+- **...any other issues**
+
+Development is ongoing so absolutely feel free to report any issues and/or suggestions [in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues) or [in our forum (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com)
+
 # Contribute
 This is my first open-source project! I built it to be the most useful tool possible and help as many people as possible with their data science work. If it is useful to you, your contribution is more than welcome and can take many forms:
 ### 1. Spread the word!
@@ -124,3 +183,4 @@ As such, I want to point some of those great resources that were inspiring and i
 - [Shaked Zychlinski: The Search for Categorical Correlation](https://towardsdatascience.com/the-search-for-categorical-correlation-a1cf7f1888c9) is a great article about different types of variable interactions that was the basis of that analysis in Sweetviz.
 - [Drazen Zaric: Better Heatmaps and Correlation Matrix Plots in Python](https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec) was the basis for our association graphs.
 
+**And of course, very special thanks to everyone who have contributed on Github, through reports, feedback and commits!**
