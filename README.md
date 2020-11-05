@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-1.1.1-blue) ![v](https://img.shields.io/badge/updated-18%20Oct%202020-green)
+![v](https://img.shields.io/badge/version-1.1.2-blue) ![v](https://img.shields.io/badge/updated-05%20Nov%202020-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
@@ -10,22 +10,24 @@ Usage and parameters are described below, [you can also find an article describi
 
 **October 2020 update: Sweetviz is out of beta and development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our forum (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
 
-## Example
-[Example report from the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
+## Examples
+[**Example report** using the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
 
+[**Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34).
 
 
 # Features
 ![Features](http://cooltiming.com/SV/features.png)
-- Target analysis
-  - How target values (boolean or numerical) relate to other features
-- Visualize and compare
+- **Target analysis**
+  - Shows how a target value (e.g. "Survived" in the Titanic dataset) relates to other features
+- **Visualize and compare**
   - Distinct datasets (e.g. training vs test data)
   - Intra-set characteristics (e.g. male versus female)
-- Mixed-type associations
+- **Mixed-type associations**
   - Sweetviz integrates associations for numerical (Pearson's correlation), categorical (uncertainty coefficient) and categorical-numerical (correlation ratio) datatypes seamlessly, to provide maximum information for all data types.
-- Type inference: automatically detects numerical, categorical and text features, with optional manual overrides 
-- Summary information: 
+- **Type inference**
+  - Automatically detects numerical, categorical and text features, with optional manual overrides 
+- **Summary information** 
   - Type, unique values, missing values, duplicate rows, most frequent values
   - Numerical analysis: 
     - min/max/range, quartiles, mean, mode, standard deviation, sum, median absolute deviation, coefficient of variation, kurtosis, skewness

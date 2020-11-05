@@ -14,7 +14,7 @@ class GraphNumeric(sweetviz.graph.Graph):
             styles = ["graph_base.mplstyle", "graph_target.mplstyle"]
         else:
             styles = ["graph_base.mplstyle"]
-        self.set_style(styles)
+        self.set_style(styles, False)
 
         is_detail = which_graph.find("detail") != -1
         if which_graph == "mini":

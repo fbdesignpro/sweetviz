@@ -105,11 +105,15 @@ class DataframeReport:
                             + number_features + (0 if target_feature_name is not None else 0)
 
         self.progress_bar = tqdm(total=progress_chunks, bar_format= \
-                '{desc:35}|{bar}| [{percentage:3.0f}%]   {elapsed}  -> ({remaining} left)', \
-                ascii=False, ncols=90)
+                '{desc:42}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
+                ascii=False, dynamic_ncols=True)
 
+        # self.progress_bar = tqdm(total=progress_chunks, bar_format= \
+        #         '{desc:35}|{bar}| [{percentage:3.0f}%]   {elapsed}  -> ({remaining} left)', \
+        #         ascii=False, ncols=90)
+        #
         # Summarize dataframe
-        self.progress_bar.set_description("Summarizing dataframe")
+        self.progress_bar.set_description_str("[Summarizing dataframe]")
         self.summary_source = dict()
         self.summarize_dataframe(source_df, self.source_name, self.summary_source, fc.skip)
         if target_feature_name:
@@ -140,11 +144,11 @@ class DataframeReport:
             self.progress_bar.close()
             return
 
-        # Validate and process TARGETT
+        # Validate and process TARGET
         target_to_process = None
         target_type = None
         if target_feature_name:
-            self.progress_bar.set_description(":TARGET:")
+            self.progress_bar.set_description_str(f"Feature: {target_feature_name} (TARGET)")
             targets_found = [item for item in filtered_series_names_in_source
                              if item == target_feature_name]
             if len(targets_found) == 0:
@@ -215,13 +219,13 @@ class DataframeReport:
 
         for f in features_to_process:
             # start = time.perf_counter()
-            self.progress_bar.set_description(':' + f.source.name + '')
+            self.progress_bar.set_description_str(f"Feature: {f.source.name}")
             self._features[f.source.name] = sa.analyze_feature_to_dictionary(f)
             self.progress_bar.update(1)
             # print(f"DONE FEATURE------> {f.source.name}"
             #       f" {(time.perf_counter() - start):.2f}   {self._features[f.source.name]['type']}")
-        self.progress_bar.set_description(':FEATURES DONE')
-        self.progress_bar.close()
+        # self.progress_bar.set_description_str('[FEATURES DONE]')
+        # self.progress_bar.close()
 
         # Wrap up summary
         self.summarize_category_types(source_df, self.summary_source, fc.skip)
@@ -238,23 +242,17 @@ class DataframeReport:
             features_to_process.insert(0,target_to_process)
 
         if pairwise_analysis.lower() != 'off':
-            self.progress_bar = tqdm(total=len(features_to_process), \
-                bar_format='{desc:35}|{bar}| [{percentage:3.0f}%]   {elapsed}  -> ({remaining} left)', \
-                ascii=False, ncols=90)
-            self.progress_bar.set_description(":Processing Pairwise Features")
+            self.progress_bar.reset(total=len(features_to_process))
+            self.progress_bar.set_description_str("[Step 2/3] Processing Pairwise Features")
             self.process_associations(features_to_process, source_target_series, compare_target_series)
-            self.progress_bar.set_description(':PAIRWISE DONE')
-            self.progress_bar.close()
 
-            self.progress_bar = tqdm(total=1, \
-                bar_format='{desc:35}|{bar}| [{percentage:3.0f}%]   {elapsed}', \
-                ascii=False, ncols=73)
-            self.progress_bar.set_description(":Generating associations graph")
+            self.progress_bar.reset(total=1)
+            self.progress_bar.set_description_str("[Step 3/3] Generating associations graph")
             self._association_graphs["all"] = GraphAssoc(self, "all", self._associations)
             self._association_graphs_compare["all"] = GraphAssoc(self, "all", self._associations_compare)
             self.associations_html_source = sv_html.generate_html_associations(self, "source")
             self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
-            self.progress_bar.set_description(":ASSOCIATIONS GRAPH DONE")
+            self.progress_bar.set_description_str("Done! Use 'show' commands to display/save")
             self.progress_bar.update(1)
             self.progress_bar.close()
         else:

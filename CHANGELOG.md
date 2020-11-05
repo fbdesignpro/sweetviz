@@ -1,10 +1,15 @@
 # Changelog
 
+#### 1.1.2 - 2020-11-05 (progress bar fixes)
+
+- **Fixed:** fixed major display issues with progress bar in notebooks
+- **Updated:** improved progress bar configuration/display
+
 #### 1.1.1 - 2020-10-18
 
 - **Updated:** restored compact font as default
 
-#### 1.1 - 2020-10-18 - Initial release
+#### 1.1 - 2020-10-18 - Initial Official Release
 
 - **Added:** CJK font support
 - **Added:** color-coding for % of missing values

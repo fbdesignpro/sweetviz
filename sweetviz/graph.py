@@ -35,7 +35,8 @@ class Graph:
         return base64.b64encode(as_raw_bytes.read())
 
     @staticmethod
-    def set_style(style_filename_list):
+    # ADDED can_use_cjk, because the tighter default font is better for numeric graphs
+    def set_style(style_filename_list, can_use_cjk = True):
         # graph_font_filename = resource_filename(__name__, os.path.join("fonts", "Roboto-Medium.ttf"))
 
          # WORKAROUND: createFontList deprecation in mpl >=3.2
@@ -61,7 +62,7 @@ class Graph:
         matplotlib.style.use(styles_in_final_location)
 
         # NEW: support for CJK characters, apply override after setting the style
-        if config["General"].getint("use_cjk_font") != 0:
+        if config["General"].getint("use_cjk_font") != 0 and can_use_cjk:
             plt.rcParams['font.family'] = 'Noto Sans CJK JP'
 
 
