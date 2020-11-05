@@ -190,7 +190,7 @@ DETAILS
 .pos-detail-num-graph                 { position: absolute; left: 50px; top: 78px; }
 .pos-detail-num-buttons               { position: absolute; left: 400px; top: 46px; width: 212px; }
 
-.pos-detail-assoc-graph               { position: absolute; left: 28px; top: 104px; }
+.pos-detail-assoc-graph               { position: absolute; left: 28px; top: 84px; }
 .pos-detail-assoc-desc-text           { position: absolute; left: 37px; top: 41px;     width: 800px;     line-height: 11px;}
 
 .pos-detail-text                   { position: absolute; left: 45px; top: 75px; }
