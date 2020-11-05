@@ -108,10 +108,33 @@ $(".selector").click(function(event) {
         $("#" + $(this).data("rollover-span")).css("display","inline");
         g_snapped = $(this).parent().attr('id');
     }
+/*
+    if (g_snapped != "")
+    {
+        $('html,body').animate(
+            {scrollTop: $("#" + g_snapped).offset().top},
+            'fast');
+
+    }
+
+ */
 }
 );
-        
+/*
+$(window).scroll(function(e){
+  var $el = $('.container-feature-detail');
+    $el.css({'position': 'fixed', 'top': '0px'});
 
+});
+function fix_scroll() {
+  var s = parseFloat($(window).scrollTop()) / 0.6;
+  var fixedTitle = $('.container-feature-detail');
+  fixedTitle.css('position','absolute');
+  fixedTitle.css('top',s + 'px');
+}fix_scroll();
+
+$(window).on('scroll',fix_scroll);
+*/
 
 // SPECIFIC BUTTONS
 // ---------------------------------------------------------------------------------------------------------------------------
@@ -162,6 +185,7 @@ $("#button-summary-associations-source, #button-summary-associations-compare").c
         g_snapped = this.id;
         $("#" + $(this).data("detail-div")).show();
     }
+
 });
 
 

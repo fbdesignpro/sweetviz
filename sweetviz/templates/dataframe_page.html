@@ -9,19 +9,18 @@
         {% else %}
             <script> {% include 'js/sweetviz_vertical.js' %}  </script>
         {% endif %}
-        <style> {% include 'sweetviz.css' %} </style>
         <style> {% include 'sv_assets.css' %} </style>
     {% else %}
         <!-- TEST MODE -->
-        <script src="../sweetviz/templates/js/jquery-3.4.1.min.js"></script>
+        <script src="./sweetviz/templates/js/jquery-3.4.1.min.js"></script>
         {% if dataframe.page_layout == 'widescreen': %}
-            <script src="../sweetviz/templates/js/sweetviz.js"></script>
+            <script src="./sweetviz/templates/js/sweetviz.js"></script>
         {% else %}
-            <script src="../sweetviz/templates/js/sweetviz_vertical.js"></script>
+            <script src="./sweetviz/templates/js/sweetviz_vertical.js"></script>
         {% endif %}
-        <link href="../sweetviz/templates/sweetviz.css" rel="stylesheet">
-        <link href="../sweetviz/templates/sv_assets.css" rel="stylesheet">
+        <link href="./sweetviz/templates/sv_assets.css" rel="stylesheet">
     {% endif %}
+        <style> {% include 'sweetviz.css' %} </style>
 
     <style>
         {% if dataframe._target is not none: %}
@@ -60,7 +59,7 @@
 <div class="page-root">
     <!-- TOP HEADER -->
     <!-- ALL SUMMARY TABS -->
-    <div class="page-column-main" id="col1">
+    <div class="page-column-main" id="col1" style="transform: scale({{ dataframe.scale }});transform-origin: 0 0;">
         <!-- DF Summary -->
         {% if layout.show_logo %}
             <div class="pos-logo-group">

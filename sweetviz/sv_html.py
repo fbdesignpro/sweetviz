@@ -73,6 +73,9 @@ def generate_html_dataframe_page(dataframe_report):
     dataframe_report.page_height = 160 + (dataframe_report.num_summaries * (config["Layout"].getint("summary_height_per_element")))
     padding = 100 # max(50, (dataframe_report.num_summaries * (config["Layout"].getint("summary_vertical_padding"))))
     dataframe_report.page_height += padding
+    # scaling = dict()
+    # scaling["main_column"] = scale
+    # scaling= scale
     output = template.render(dataframe=dataframe_report, version=sweetviz.__version__)
     return output
 

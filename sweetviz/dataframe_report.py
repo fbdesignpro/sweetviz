@@ -276,9 +276,10 @@ class DataframeReport:
 
     # OUTPUT
     # ----------------------------------------------------------------------------------------------
-    def show_html(self, filepath='SWEETVIZ_REPORT.html', open_browser=True, layout='widescreen'):
+    def show_html(self, filepath='SWEETVIZ_REPORT.html', open_browser=True, layout='widescreen', scale=1.0):
         sv_html.load_layout_globals_from_config()
         self.page_layout = layout
+        self.scale = scale
         sv_html.set_summary_positions(self)
         sv_html.generate_html_detail(self)
         self._page_html = sv_html.generate_html_dataframe_page(self)
@@ -294,6 +295,23 @@ class DataframeReport:
             webbrowser.open('file://' + os.path.realpath(filepath))
         else:
             print(f"Report {filepath} was generated!")
+
+    def show_jup(self, w, h, filepath_no_ext=None, file_open_browser=True, layout='widescreen', scale=1.0):
+        sv_html.load_layout_globals_from_config()
+        self.page_layout = layout
+        self.scale = scale
+        sv_html.set_summary_positions(self)
+        sv_html.generate_html_detail(self)
+        self._page_html = sv_html.generate_html_dataframe_page(self)
+
+        width=w
+        height=h
+        import html
+        self._page_html = html.escape(self._page_html)
+        iframe = f'<iframe width="{width}" height="{height}" srcdoc="{self._page_html}" frameborder="0" allowfullscreen></iframe>'
+        from IPython.core.display import display
+        from IPython.core.display import HTML
+        display(HTML(iframe))
 
     @staticmethod
     def get_predetermined_type(name: str,

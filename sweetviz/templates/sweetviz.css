@@ -34,7 +34,7 @@ body
     position: relative;
 }
 .page-column-main { width: 930px; position: absolute;}
-.page-column-detail { position: absolute; left: 1005px; }
+.page-column-detail { position: absolute; left: {{ dataframe.scale * 1005 }}px; }
 .page-all-summaries { position: absolute; top:160px; left: -12px; width: 960px; }
 
 .pos-feature-summary
@@ -59,6 +59,7 @@ body
 .container-feature-detail
 {
     height:900px;position:sticky;top:0;
+    transform: scale({{ dataframe.scale }});transform-origin: 0 0;
 }
 .container-feature-detail-vertical
 {
