@@ -56,7 +56,7 @@
 </head>
 
 <body>
-<div class="page-root">
+<div class="{{ 'page-root' if dataframe.page_layout == "widescreen" else 'page-root-vertical'}}">
     <!-- TOP HEADER -->
     <!-- ALL SUMMARY TABS -->
     <div class="page-column-main" id="col1" style="transform: scale({{ dataframe.scale }});transform-origin: 0 0;">
@@ -72,7 +72,19 @@
                 </div>
             </div>
         {% endif %}
-        {{ dataframe.dataframe_summary_html }}
+
+        <!-- ASSOCIATIONS (VERTICAL ONLY) -->
+        {% if dataframe.page_layout == 'vertical': %}
+            {% if dataframe.associations_html_source is not none: %}
+                {{ dataframe.associations_html_source }}
+            {% endif %}
+            {% if dataframe.associations_html_compare is not none: %}
+                {{ dataframe.associations_html_compare }}
+            {% endif %}
+        {% endif %}
+
+        <!-- ALL SUMMARIES -->
+       {{ dataframe.dataframe_summary_html }}
         <div class="page-all-summaries">
             <span class="graph-legend" style="left: 391px;position: absolute;top: 5px;"></span>
             <!-- TARGET Summary -->
@@ -85,6 +97,7 @@
             {% for item in dataframe._features.values() %}
                 <div class="pos-feature-summary" style="top: {{ item.summary_pos }}px">
                     {{ item.html_summary }}
+                    <!-- This DETAIL WINDOW (VERTICAL ONLY) -->
                     {% if dataframe.page_layout == 'vertical': %}
                         {{ item.html_detail }}
                     {% endif %}
@@ -93,7 +106,7 @@
         </div>
     </div>
 
-    <!-- ALL DETAIL WINDOWS -->
+    <!-- ALL DETAIL WINDOWS (WIDESCREEN ONLY) -->
     {% if dataframe.page_layout == 'widescreen': %}
         <div class="page-column-detail" id="col2">
             {% if dataframe._target is not none: %}

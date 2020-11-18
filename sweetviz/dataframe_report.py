@@ -105,7 +105,7 @@ class DataframeReport:
                             + number_features + (0 if target_feature_name is not None else 0)
 
         self.progress_bar = tqdm(total=progress_chunks, bar_format= \
-                '{desc:42}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
+                '{desc:45}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
                 ascii=False, dynamic_ncols=True)
 
         # self.progress_bar = tqdm(total=progress_chunks, bar_format= \
@@ -248,11 +248,11 @@ class DataframeReport:
 
             self.progress_bar.reset(total=1)
             self.progress_bar.set_description_str("[Step 3/3] Generating associations graph")
+            self.associations_html_source = True # Generated later in the process
+            self.associations_html_compare = True # Generated later in the process
             self._association_graphs["all"] = GraphAssoc(self, "all", self._associations)
             self._association_graphs_compare["all"] = GraphAssoc(self, "all", self._associations_compare)
-            self.associations_html_source = sv_html.generate_html_associations(self, "source")
-            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
-            self.progress_bar.set_description_str("Done! Use 'show' commands to display/save")
+            self.progress_bar.set_description_str("Done! Use 'show' commands to display/save. ")
             self.progress_bar.update(1)
             self.progress_bar.close()
         else:
@@ -282,6 +282,10 @@ class DataframeReport:
         self.scale = scale
         sv_html.set_summary_positions(self)
         sv_html.generate_html_detail(self)
+        if self.associations_html_source:
+            self.associations_html_source = sv_html.generate_html_associations(self, "source")
+        if self.associations_html_compare:
+            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
         self._page_html = sv_html.generate_html_dataframe_page(self)
 
         f = open(filepath, 'w', encoding="utf-8")
@@ -302,6 +306,10 @@ class DataframeReport:
         self.scale = scale
         sv_html.set_summary_positions(self)
         sv_html.generate_html_detail(self)
+        if self.associations_html_source:
+            self.associations_html_source = sv_html.generate_html_associations(self, "source")
+        if self.associations_html_compare:
+            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
         self._page_html = sv_html.generate_html_dataframe_page(self)
 
         width=w

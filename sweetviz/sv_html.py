@@ -460,7 +460,7 @@ def generate_html_detail_text(feature_dict: dict, compare_dict: dict, dataframe_
             detail_list.append(row)
 
     output = template.render(feature_dict = feature_dict, compare_dict = compare_dict, \
-                             cols=cols)
+                             dataframe = dataframe_report, cols=cols)
     return output
 
 

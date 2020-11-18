@@ -1,19 +1,24 @@
-<div class="isHidden container-feature-detail" id="detail-f{{ feature_dict.order_index }}">
+<div class="isHidden {{ 'container-feature-detail' if dataframe.page_layout == "widescreen" else 'container-feature-detail-vertical'}}"
+      {% if dataframe.page_layout == "vertical" %}
+        style="top: {{ layout.summary_vertical_detail_pos + layout.summary_spacing * (feature_dict.order_index ) }}px"
+     {% endif %}
+     id="detail-f{{ feature_dict.order_index }}">
 <div class="container-feature-detail__offset">
-    <span class="bg-tab-detail-med"></span>
-    <div class="pos-detail-tab-icon-text__offset">
-        <div class="pos-tab-image ic-cat"></div>
-        <span class="text-title-tab">{{ feature_dict.name }}</span>
-    </div>
+    {% if dataframe.page_layout == "widescreen" %}
+        <span class="bg-tab-detail-med"></span>
+        <div class="pos-detail-tab-icon-text__offset">
+            <div class="pos-tab-image ic-cat"></div>
+            <span class="text-title-tab">{{ feature_dict.name }}</span>
+        </div>
+        {% include 'include_missing.html' %}
+    {% endif %}
 
     <span class="detail_graph-f{{ feature_dict.order_index }}-{{ feature_dict.detail_graphs[0].index_for_css }}
                 pos-detail-cat-graph" id="detail_graph-f{{ feature_dict.order_index }}"
     style="top: {{ detail_layout.graph_y }}px;"></span>
 
-    {% include 'include_missing.html' %}
-
     <div class="pos-detail-cat-breakdown" id="detail_breakdown-f{{ feature_dict.order_index }}"
-        style="top: {{ detail_layout.breakdown_y }}px; height: {{ detail_layout.breakdown_height }}px;">
+        style="top: {{ detail_layout.breakdown_y }}px;"> <!-- height: {{ detail_layout.breakdown_height }}px;"> WHY was this needed? Causes issue in vertical layout. -->
         <!-- HEADER ROW -->
         <div class="{{ detail_layout.breakdown_header_class }} text-value" style="width:553px">
             <div class="text-med-bold" style="position: absolute; left:10px">TOP CATEGORIES</div>
@@ -96,6 +101,7 @@
                 {% endif %}
             </div>
         {% endfor %}
+        <div id="detail_cat_end-{{ feature_dict.order_index }}"></div>
     </div>
 
     <!-- ASSOCIATIONS -->

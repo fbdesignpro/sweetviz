@@ -1,8 +1,8 @@
 <div class="isHidden {{ 'container-feature-detail' if dataframe.page_layout == "widescreen" else 'container-feature-detail-vertical'}}"
- {% if dataframe.page_layout == "vertical" %}
-    style="top: {{ layout.summary_vertical_detail_pos + layout.summary_spacing * (feature_dict.order_index ) }}px"
- {% endif %}
-id="detail-f{{ feature_dict.order_index }}" >
+     {% if dataframe.page_layout == "vertical" %}
+        style="top: {{ layout.summary_vertical_detail_pos + layout.summary_spacing * (feature_dict.order_index ) }}px"
+     {% endif %}
+    id="detail-f{{ feature_dict.order_index }}" >
 <div class="container-feature-detail__offset">
     {% if dataframe.page_layout == "widescreen" %}
         <span class="bg-tab-detail-med"></span>
@@ -10,9 +10,8 @@ id="detail-f{{ feature_dict.order_index }}" >
             <div class="pos-tab-image ic-numeric"></div>
             <span class="text-title-tab">{{ feature_dict.name }}</span>
         </div>
+        {% include 'include_missing.html' %}
     {% endif %}
-
-    {% include 'include_missing.html' %}
 
     <!-- BUTTONS -->
     <div class="pos-detail-num-buttons">

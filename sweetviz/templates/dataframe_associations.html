@@ -1,5 +1,13 @@
-<div class="isHidden container-feature-detail" id="df-assoc-{{ which }}">
-<div class="container-feature-detail__offset">
+<div class="isHidden container-feature-detail" id="df-assoc-{{ which }}"Yellow
+{% if dataframe.page_layout == 'vertical': %}
+    style="display: contents; "
+{% endif %}
+>
+<div class="container-feature-detail__offset"
+{% if dataframe.page_layout == 'vertical': %}
+    style="position: absolute; top: 137px"
+{% endif %}
+>
     <span class="bg-tab-detail-wide"></span>
     <span class="text-title-tab pos-text-title-tab__no-icon">Associations</span>
     <div class="text-med  pos-detail-assoc-desc-text" style="font-size: 11px;">

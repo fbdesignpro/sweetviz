@@ -1,14 +1,19 @@
-<div class="isHidden container-feature-detail" id="detail-f{{ feature_dict.order_index }}">
+<div class="isHidden {{ 'container-feature-detail' if dataframe.page_layout == "widescreen" else 'container-feature-detail-vertical'}}"
+     {% if dataframe.page_layout == "vertical" %}
+        style="top: {{ layout.summary_vertical_detail_pos + layout.summary_spacing * (feature_dict.order_index ) }}px"
+     {% endif %}
+     id="detail-f{{ feature_dict.order_index }}">
 <div class="container-feature-detail__offset">
-    <span class="bg-tab-detail-wide" style="left: 12px"></span>
-    <div class="pos-detail-tab-icon-text__offset">
-        <div class="pos-tab-image ic-text"></div>
-        <span class="text-title-tab">{{ feature_dict.name }}</span>
-    </div>
+    {% if dataframe.page_layout == "widescreen" %}
+        <span class="bg-tab-detail-wide" style="left: 12px"></span>
+        <div class="pos-detail-tab-icon-text__offset">
+            <div class="pos-tab-image ic-text"></div>
+            <span class="text-title-tab">{{ feature_dict.name }}</span>
+        </div>
+        {% include 'include_missing.html' %}
+    {% endif %}
 
-    {% include 'include_missing.html' %}
-
-    <div class="pos-detail-text">
+    <div class="pos-detail-text" {{ 'style="top: 29px"Him' if dataframe.page_layout == "vertical" }} >
         {% for rowdata in feature_dict.detail.detail_count %}
         <div class="breakdown-row text-value {{ loop.cycle('', 'row-colored') }}" style="width: {{ cols.full_text_width }}px;">
             <div class="pair__col color-source">

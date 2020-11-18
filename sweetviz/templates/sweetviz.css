@@ -18,8 +18,9 @@ body
 {
 /* Re-adding horizontal scrollbar
     overflow-x: hidden;
-*/
     background-color: #f7f7f7;
+*/
+    background-color: #f3f3f0;
     color: #58544f;
     margin-top: 0px;
 }
@@ -29,6 +30,13 @@ body
 .page-root
 {
 	width: 1880px;
+	overflow: visible;
+	  margin: 0 auto;
+    position: relative;
+}
+.page-root-vertical
+{
+	width: 1056px;
 	overflow: visible;
 	  margin: 0 auto;
     position: relative;
@@ -63,7 +71,7 @@ body
 }
 .container-feature-detail-vertical
 {
-    width: 900px;height:900px;position:absolute; top: 151px; left:63px
+    width: 900px;height:900px;position:absolute; top: 151px; left:93px
 }
 .container-feature-detail__offset
 {

@@ -27,7 +27,7 @@ function hideAllDetails()
 // });
 
 $("span.bg-tab-summary-rollover").hide();
-hideAllDetails();
+// hideAllDetails();
 
 $(document).ready(function() {
 // INITIALIZATION
@@ -52,14 +52,14 @@ function(event) {
     // $(".container-feature-detail").hide();
     $("span.bg-tab-summary-rollover").hide();
     $("#" + $(this).data("rollover-span")).removeClass("bg-tab-summary-rollover-locked");
-    $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover");
+    $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover-vertical");
     $("#" + $(this).data("rollover-span")).show();
     g_lastHovered = "#" + $(this).data("detail-div");
     },
 // EXIT function
 function(event) {
     // Rollover end!
-    hideAllDetails();
+    // hideAllDetails();
     //FBFB        $("#" + $(this).data("detail-div")).hide();
     }
 );
@@ -69,16 +69,50 @@ function(event) {
 $(".selector").click(function(event) {
     if ($(this).parent().parent().data('expanded') != 'true')
     {
+        // EXPAND
+        // --------------------------------------------------------
         $("#" + $(this).data("detail-div")).show();
+
         $(this).parent().parent().data('expanded', 'true');
-        $(this).parent().parent().css('height', '1061px');
+
+        // var $el = $('#detail_breakdown-f4');  //record the elem so you don't crawl the DOM everytime
+        // var bottom = $el.position().top + $el.outerHeight(true); // passing "true" will also include the top and bottom margin
+
+        $(this).parent().parent().css('height', '1030px');
+        if ($(this).parent().attr('id') == "summary-target")
+        {
+            $("#summary-target-bg").addClass("bg-tab-summary-target-full");
+            $("#summary-target-bg").removeClass("bg-tab-summary-target");
+        }
+
+        // HACK: For SOME reason, a selection gets made when we change what is hidden, unselect it
+        let sel = document.getSelection();
+        sel.removeAllRanges();
     }
     else
     {
+        // CONTRACT
+        // --------------------------------------------------------
         $("#" + $(this).data("detail-div")).hide();
+
+        // HACK: For SOME reason, a selection gets made when we change what is hidden, unselect it
+        let sel = document.getSelection();
+        sel.removeAllRanges();
+
         $(this).parent().parent().data('expanded', 'false');
         $(this).parent().parent().css('height', '161px');
+
+        if ($(this).parent().attr('id') == "summary-target")
+        {
+            $("#summary-target-bg").removeClass("bg-tab-summary-target-full");
+            $("#summary-target-bg").addClass("bg-tab-summary-target");
+        }
     }
+    $('html,body').animate(
+        {scrollTop: $("#" + $(this).parent().attr('id')).offset().top},
+        'fast');
+    // var offTop = $("#" + $(this).parent().attr('id')).offset().top;
+  //  $('html,body').scrollTop(offTop);
     // let thisIndex = $(this).parent().parent().data('order-index');
     //alert(thisIndex);
     // for (let i = parseInt(thisIndex) + 1; i < 10; i++) {
@@ -107,38 +141,54 @@ $(".selector").click(function(event) {
 // SPECIFIC BUTTONS
 // ---------------------------------------------------------------------------------------------------------------------------
 // SUMMARY: ASSOCIATIONS
-$("#button-summary-associations").hover(
-    // ENTER function
-    function()
-    {
-        if(g_snapped=="")
-        {
-            hideAllDetails();
-            $("#df-assoc").show();
-            //$("#df-assoc").show();
-        }
-        g_lastHovered = "#df-assoc";
-    },
-    // EXIT function
-    function()
-    {
-        if(g_snapped=="")
-        {
-            hideAllDetails();
-        }
-    });
+// $("#button-summary-associations-source, #button-summary-associations-compare").hover(
+//     // ENTER function
+//     function()
+//     {
+//         if(g_snapped=="")
+//         {
+//             hideAllDetails();
+//             $("#df-assoc").show();
+//             //$("#df-assoc").show();
+//         }
+//         g_lastHovered = "#df-assoc";
+//     },
+//     // EXIT function
+//     function()
+//     {
+//         if(g_snapped=="")
+//         {
+//             hideAllDetails();
+//         }
+//     });
+// );
+
 // ASSOCIATIONS CLICK
-$("#button-summary-associations").click(function(event) {
-    if(g_snapped == this.id)
+$("#button-summary-associations-source, #button-summary-associations-compare").click(function(event) {
+    let actual_div = "#" + $(this).data("detail-div");
+    if(g_snapped == actual_div)
     {
+        // DESELECT/HIDE ASSOC
+        // --------------------------------------------------------
         g_snapped = "";
+        $(actual_div).hide();
+        $(".page-all-summaries").css({top: "160px"});
+    }
+    else if(g_snapped == "")
+    {
+        // SELECT/SHOW ASSOC (Hide other one if already shown)
+        // --------------------------------------------------------
+        g_snapped =  actual_div;
+        $(actual_div).show();
+        $(".page-all-summaries").css({top: "993px"});
     }
     else
     {
-        //$(".container-feature-detail").hide();
-        //alert("#" + this.id+" GS:"+g_snapped);
-        //$("#df-assoc").show();
-        g_snapped = this.id;
+        // DESELECT old, select new
+        // --------------------------------------------------------
+        $(g_snapped).hide();
+        g_snapped =  actual_div;
+        $(actual_div).show();
     }
 });
 
