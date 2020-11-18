@@ -36,17 +36,23 @@ def do_detail_numeric(series: pd.Series, counts: dict, counts_compare: dict, upd
     detail["frequent_values"] = list()
     detail["min_values"] = list()
     detail["max_values"] = list()
-    frequent_values = pd.DataFrame(counts["value_counts_without_nan"].head(num_to_show))
-    min_values = pd.DataFrame(counts["value_counts_without_nan"].sort_index( \
-            ascending=True).head(num_to_show))
-    max_values = pd.DataFrame(counts["value_counts_without_nan"].sort_index( \
-            ascending=False)).head(num_to_show)
-
     if counts_compare is not None:
         this_compare_count = counts_compare["value_counts_without_nan"]
         compare_total_num = float(updated_dict["compare"]["base_stats"]["num_values"])
+        total_counts = counts["value_counts_without_nan"].add(this_compare_count, fill_value=0)
+        frequent_values = pd.DataFrame(total_counts.head(num_to_show))
+        min_values = pd.DataFrame(total_counts.sort_index( \
+                ascending=True).head(num_to_show))
+        max_values = pd.DataFrame(total_counts.sort_index( \
+                ascending=False)).head(num_to_show)
     else:
         this_compare_count = None
+        frequent_values = pd.DataFrame(counts["value_counts_without_nan"].head(num_to_show))
+        min_values = pd.DataFrame(counts["value_counts_without_nan"].sort_index( \
+                ascending=True).head(num_to_show))
+        max_values = pd.DataFrame(counts["value_counts_without_nan"].sort_index( \
+                ascending=False)).head(num_to_show)
+
     for frequent, min_value, max_value in zip(frequent_values.itertuples(), \
                                               min_values.itertuples(), max_values.itertuples()):
         def get_comparison_num(feature_name):
@@ -69,11 +75,18 @@ def do_detail_numeric(series: pd.Series, counts: dict, counts_compare: dict, upd
                     # ("none" is the absence of value)
                     this_comparison = NumWithPercent(0, compare_total_num)
             return this_comparison
-        detail["frequent_values"].append((frequent[0], NumWithPercent(frequent[1], total_num),
+
+        def get_num(feature_name): 
+            if feature_name in counts["value_counts_without_nan"]:
+                return NumWithPercent(counts["value_counts_without_nan"][feature_name], total_num)
+            else:
+                return NumWithPercent(0, total_num)
+
+        detail["frequent_values"].append((frequent[0], get_num(frequent[0]),
                                           get_comparison_num(frequent[0])))
-        detail["min_values"].append((min_value[0], NumWithPercent(min_value[1], total_num),
+        detail["min_values"].append((min_value[0], get_num(min_value[0]),
                                      get_comparison_num(min_value[0])))
-        detail["max_values"].append((max_value[0], NumWithPercent(max_value[1], total_num),
+        detail["max_values"].append((max_value[0], get_num(max_value[0]),
                                      get_comparison_num(max_value[0])))
         # detail["min_values"] = pd.DataFrame(counts["value_counts_without_nan"].sort_index( \
         #     ascending=True).tail(num_to_show))
