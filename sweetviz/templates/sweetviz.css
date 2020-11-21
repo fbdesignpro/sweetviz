@@ -100,6 +100,7 @@ a { color: #58544f; }
 .text-label { font-family: RobotoReg; font-size: 11px;}
 .text-value { font-family: RobotoMed; font-size: 11px; }
 .text-distinct { font-family: RobotoMed; font-size: 12px; font-weight: bold;}
+.text-version { font-family: RobotoReg; font-size: 14px; font-weight: bold; }
 .text-credits { font-family: RobotoReg; font-size: 9px;}
 
 .pos-logo-group         { position: absolute; top:0px; left:0px; width: 380px; height: 200px; text-align: center;}

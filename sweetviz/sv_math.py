@@ -4,7 +4,7 @@ import pandas as pd
 
 def count_fraction_of_true(series: pd.Series):
     # We are assuming this is called by a Boolean series
-    if series.dtype != np.bool:
+    if series.dtype != np.bool and series.dtype != "Int64":
         raise ValueError
     num_true = series.sum()
     total = float(series.count())

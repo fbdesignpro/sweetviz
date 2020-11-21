@@ -108,10 +108,6 @@ class DataframeReport:
                 '{desc:45}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
                 ascii=False, dynamic_ncols=True)
 
-        # self.progress_bar = tqdm(total=progress_chunks, bar_format= \
-        #         '{desc:35}|{bar}| [{percentage:3.0f}%]   {elapsed}  -> ({remaining} left)', \
-        #         ascii=False, ncols=90)
-        #
         # Summarize dataframe
         self.progress_bar.set_description_str("[Summarizing dataframe]")
         self.summary_source = dict()
@@ -148,16 +144,33 @@ class DataframeReport:
         target_to_process = None
         target_type = None
         if target_feature_name:
+            # Make sure target exists
             self.progress_bar.set_description_str(f"Feature: {target_feature_name} (TARGET)")
             targets_found = [item for item in filtered_series_names_in_source
                              if item == target_feature_name]
             if len(targets_found) == 0:
+                self.progress_bar.close()
                 raise KeyError(f"Feature '{target_feature_name}' was "
                                f"specified as TARGET, but is NOT FOUND in "
                                f"the dataframe (watch case-sensitivity?).")
+
+            # Make sure target has no nan's
+            if source_df[targets_found[0]].isnull().values.any():
+                self.progress_bar.close()
+                raise ValueError(f"\nTarget feature '{targets_found[0]}' contains NaN (missing) values.\n"
+                               f"To avoid confusion in interpreting target distribution,\n"
+                               f"target features MUST NOT have any MISSING VALUES at this time.\n")
+
+            # Find Target in compared, if present
             compare_target_series = None
             if compare_df is not None:
                 if target_feature_name in compare_df.columns:
+                    if compare_df[target_feature_name].isnull().values.any():
+                        self.progress_bar.close()
+                        raise ValueError(
+                            f"\nTarget feature '{target_feature_name}' in COMPARED data contains NaN (missing) values.\n"
+                            f"To avoid confusion in interpreting target distribution,\n"
+                            f"target features MUST NOT have any MISSING VALUES at this time.\n")
                     compare_target_series = compare_df[target_feature_name]
 
             # TARGET processed HERE with COMPARE if present
@@ -274,53 +287,6 @@ class DataframeReport:
     def __setitem__(self, key, value):
         self._features[key] = value
 
-    # OUTPUT
-    # ----------------------------------------------------------------------------------------------
-    def show_html(self, filepath='SWEETVIZ_REPORT.html', open_browser=True, layout='widescreen', scale=1.0):
-        sv_html.load_layout_globals_from_config()
-        self.page_layout = layout
-        self.scale = scale
-        sv_html.set_summary_positions(self)
-        sv_html.generate_html_detail(self)
-        if self.associations_html_source:
-            self.associations_html_source = sv_html.generate_html_associations(self, "source")
-        if self.associations_html_compare:
-            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
-        self._page_html = sv_html.generate_html_dataframe_page(self)
-
-        f = open(filepath, 'w', encoding="utf-8")
-        f.write(self._page_html)
-        f.close()
-
-        if open_browser:
-            print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: the web browser MAY not pop up, regardless, the report IS saved in your notebook/colab files.")
-            # Not sure how to work around this: not fatal but annoying...Notebook/colab
-            # https://bugs.python.org/issue5993
-            webbrowser.open('file://' + os.path.realpath(filepath))
-        else:
-            print(f"Report {filepath} was generated!")
-
-    def show_jup(self, w, h, filepath_no_ext=None, file_open_browser=True, layout='widescreen', scale=1.0):
-        sv_html.load_layout_globals_from_config()
-        self.page_layout = layout
-        self.scale = scale
-        sv_html.set_summary_positions(self)
-        sv_html.generate_html_detail(self)
-        if self.associations_html_source:
-            self.associations_html_source = sv_html.generate_html_associations(self, "source")
-        if self.associations_html_compare:
-            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
-        self._page_html = sv_html.generate_html_dataframe_page(self)
-
-        width=w
-        height=h
-        import html
-        self._page_html = html.escape(self._page_html)
-        iframe = f'<iframe width="{width}" height="{height}" srcdoc="{self._page_html}" frameborder="0" allowfullscreen></iframe>'
-        from IPython.core.display import display
-        from IPython.core.display import HTML
-        display(HTML(iframe))
-
     @staticmethod
     def get_predetermined_type(name: str,
                                feature_predetermined_types: dict):
@@ -340,7 +306,9 @@ class DataframeReport:
 
     @staticmethod
     def get_sanitized_bool_series(source: pd.Series) -> pd.Series:
-        return source.map(DataframeReport.sanitize_bool, na_action='ignore')
+        # This casting due to nan's causing crashes
+        series_only_with_booleans =  source.map(DataframeReport.sanitize_bool, na_action='ignore')
+        return (series_only_with_booleans * 1).astype('Int64')
 
     def get_target_type(self) -> FeatureType:
         if self._target is None:
@@ -389,6 +357,9 @@ class DataframeReport:
                 influenced[cur_name] = influence
         return influenced
 
+    # ----------------------------------------------------------------------------------------------
+    # ASSOCIATIONS
+    # ----------------------------------------------------------------------------------------------
     def process_associations(self, features_to_process: List[FeatureToProcess], source_target_series,
             compare_target_series):
 
@@ -481,3 +452,71 @@ class DataframeReport:
                             mirror_association(self._associations_compare, feature_name, other.source.name, \
                                                cur_associations_compare[other.source.name])
             self.progress_bar.update(1)
+
+    # ----------------------------------------------------------------------------------------------
+    # OUTPUT
+    # ----------------------------------------------------------------------------------------------
+    def use_config_if_none(self, passed_value, config_name):
+        if passed_value is None:
+            return config["Output_Defaults"][config_name]
+        return passed_value
+
+    def show_html(self, filepath='SWEETVIZ_REPORT.html', open_browser=True, layout='widescreen', scale=None):
+        scale = float(self.use_config_if_none(scale, "html_scale"))
+        layout = self.use_config_if_none(layout, "html_layout")
+        if layout not in ['widescreen', 'vertical']:
+            raise ValueError(f"'layout' parameter must be either 'widescreen' or 'vertical'")
+        sv_html.load_layout_globals_from_config()
+        self.page_layout = layout
+        self.scale = scale
+        sv_html.set_summary_positions(self)
+        sv_html.generate_html_detail(self)
+        if self.associations_html_source:
+            self.associations_html_source = sv_html.generate_html_associations(self, "source")
+        if self.associations_html_compare:
+            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
+        self._page_html = sv_html.generate_html_dataframe_page(self)
+
+        f = open(filepath, 'w', encoding="utf-8")
+        f.write(self._page_html)
+        f.close()
+
+        if open_browser:
+            print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: the web browser MAY not pop up, regardless, the report IS saved in your notebook/colab files.")
+            # Not sure how to work around this: not fatal but annoying...Notebook/colab
+            # https://bugs.python.org/issue5993
+            webbrowser.open('file://' + os.path.realpath(filepath))
+        else:
+            print(f"Report {filepath} was generated!")
+
+    def show_notebook(self, w=None, h=None, scale=None, layout='widescreen', filepath='SWEETVIZ_REPORT.html', file_open_browser=True):
+        w = self.use_config_if_none(w, "notebook_width")
+        h = self.use_config_if_none(h, "notebook_height")
+        scale = float(self.use_config_if_none(scale, "notebook_scale"))
+        layout = self.use_config_if_none(layout, "notebook_layout")
+        if layout not in ['widescreen', 'vertical']:
+            raise ValueError(f"'layout' parameter must be either 'widescreen' or 'vertical'")
+
+        sv_html.load_layout_globals_from_config()
+        self.page_layout = layout
+        self.scale = scale
+        sv_html.set_summary_positions(self)
+        sv_html.generate_html_detail(self)
+        if self.associations_html_source:
+            self.associations_html_source = sv_html.generate_html_associations(self, "source")
+        if self.associations_html_compare:
+            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
+        self._page_html = sv_html.generate_html_dataframe_page(self)
+
+        width=w
+        height=h
+        import html
+        self._page_html = html.escape(self._page_html)
+        from IPython.display import IFrame
+        from IPython.core.display import display
+        # display(IFrame(src=self._page_html, width=w, height=h))
+        iframe = f'<iframe width="{width}" height="{height}" srcdoc="{self._page_html}" frameborder="0" allowfullscreen></iframe>'
+        # from IPython.core.display import display
+        # from IPython.core.display import HTML
+        display(HTML(iframe))
+
