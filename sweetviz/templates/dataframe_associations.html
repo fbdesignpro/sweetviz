@@ -14,7 +14,7 @@
         <span class="color-{{ which }}">[Only including dataset "{{ dataframe.source_name if which == 'source' else dataframe.compare_name }}"]</span>
          <b>Squares</b> are categorical associations (uncertainty coefficient & correlation ratio) from 0 to 1. The uncertainty coefficient is <b>assymmetrical</b>,
         (approximating how much the elements on the left PROVIDE INFORMATION on elements in the row).
-        <b>Circles</b> are numerical correlations (Pearson's) from -1 to 1. The <b>trivial diagonal</b> is intentionally left blank for clarity.
+        <b>Circles</b> are the symmetrical numerical correlations (Pearson's) from -1 to 1. The <b>trivial diagonal</b> is intentionally left blank for clarity.
     </div>
     <span class="association-graph-{{ which }} pos-detail-assoc-graph"></span>
 </div>

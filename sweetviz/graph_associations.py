@@ -7,6 +7,7 @@ import sweetviz.graph
 from sweetviz.config import config
 import itertools
 import matplotlib.patches as patches
+from textwrap import wrap
 
 # Portions of this file contain code from the following repository:
 # https://github.com/dylan-profiler/heatmaps
@@ -258,16 +259,25 @@ def heatmap(y, x, figure_size, **kwargs):
             # return int(size_scale)
             # return val_position * int(size_scale)
 
+    def do_wrapping(label):
+        return '\n'.join(wrap(label, 15))
+
     if 'x_order' in kwargs:
         x_names = [t for t in kwargs['x_order']]
     else:
         x_names = [t for t in sorted(set([v for v in x]))]
+    # Wrap to help avoid overflow
+    x_names = [do_wrapping(label) for label in x_names]
+
     x_to_num = {p[1]:p[0] for p in enumerate(x_names)}
 
     if 'y_order' in kwargs:
         y_names = [t for t in kwargs['y_order']]
     else:
         y_names = [t for t in sorted(set([v for v in y]))]
+    # Wrap to help avoid overflow
+    y_names = [do_wrapping(label) for label in y_names]
+
     y_to_num = {p[1]:p[0] for p in enumerate(y_names)}
 
     figure, axs = plt.subplots(1, 1, figsize=figure_size)
@@ -284,9 +294,9 @@ def heatmap(y, x, figure_size, **kwargs):
 
     ax.tick_params(labelbottom='on', labeltop='on')
     ax.set_xticks([v for k,v in x_to_num.items()])
-    ax.set_xticklabels([k for k in x_to_num], rotation=90, horizontalalignment='center')
+    ax.set_xticklabels([k for k in x_to_num], rotation=90, horizontalalignment='center', linespacing=0.8)
     ax.set_yticks([v for k,v in y_to_num.items()])
-    ax.set_yticklabels([k for k in y_to_num])
+    ax.set_yticklabels([k for k in y_to_num], linespacing=0.8)
 
     ax.grid(False, 'major')
     ax.grid(True, 'minor')
@@ -302,8 +312,10 @@ def heatmap(y, x, figure_size, **kwargs):
 
     index = 0
     for cur_x, cur_y in zip(x,y):
-        before_coordinate = np.array(ax.transData.transform((x_to_num[cur_x]-0.5, y_to_num[cur_y] -0.5)))
-        after_coordinate = np.array(ax.transData.transform((x_to_num[cur_x]+0.5, y_to_num[cur_y] +0.5)))
+        wrapped_x_name = do_wrapping(cur_x)
+        wrapped_y_name = do_wrapping(cur_y)
+        before_coordinate = np.array(ax.transData.transform((x_to_num[wrapped_x_name]-0.5, y_to_num[wrapped_y_name] -0.5)))
+        after_coordinate = np.array(ax.transData.transform((x_to_num[wrapped_x_name]+0.5, y_to_num[wrapped_y_name] +0.5)))
         before_pixels = np.round(before_coordinate, 0)
         after_pixels = np.round(after_coordinate, 0)
         desired_fraction = value_to_size(size[index])
@@ -354,7 +366,7 @@ def heatmap(y, x, figure_size, **kwargs):
 
         col_x = [0]*len(palette) # Fixed x coordinate for the bars
         bar_y=np.linspace(color_min, color_max, n_colors) # y coordinates for each of the n_colors bars
-
+        ax.set_ylim(-1, 1)
         bar_height = bar_y[1] - bar_y[0]
         ax.barh(
             y=bar_y,
