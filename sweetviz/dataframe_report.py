@@ -159,7 +159,7 @@ class DataframeReport:
                 self.progress_bar.close()
                 raise ValueError(f"\nTarget feature '{targets_found[0]}' contains NaN (missing) values.\n"
                                f"To avoid confusion in interpreting target distribution,\n"
-                               f"target features MUST NOT have any MISSING VALUES at this time.\n")
+                               f"target features MUST NOT have any missing values at this time.\n")
 
             # Find Target in compared, if present
             compare_target_series = None
@@ -170,7 +170,7 @@ class DataframeReport:
                         raise ValueError(
                             f"\nTarget feature '{target_feature_name}' in COMPARED data contains NaN (missing) values.\n"
                             f"To avoid confusion in interpreting target distribution,\n"
-                            f"target features MUST NOT have any MISSING VALUES at this time.\n")
+                            f"target features MUST NOT have any missing values at this time.\n")
                     compare_target_series = compare_df[target_feature_name]
 
             # TARGET processed HERE with COMPARE if present

@@ -65,8 +65,8 @@
             <div class="pos-logo-group">
                 <div class="pos-logo im-logo"></div>
                 <div class="pos-credits text-credits">
-                    {{ version }}<br>
-                    <a href="https://github.com/fbdesignpro/sweetviz">Click here for docs & updates</a> <br>
+                    <span class="text-version">{{ version }}<br>
+                    <a href="https://github.com/fbdesignpro/sweetviz">Click here for docs & updates</a></span><br>
                     Created & maintained by <a href="https://www.fbdesignpro.com">Francois Bertrand</a> <br>
                     Graphic design by <a href="https://www.fbdesignpro.com" data-reach="Jeff is working on his contact info :)">Jean-Francois Hains</a>
                 </div>
@@ -91,6 +91,10 @@
             {% if dataframe._target is not none: %}
                 <div class="pos-feature-summary" style="top: {{ dataframe._target.summary_pos }}px">
                     {{ dataframe._target.html_summary }}
+                    <!-- This DETAIL WINDOW (VERTICAL ONLY) -->
+                    {% if dataframe.page_layout == 'vertical': %}
+                        {{ dataframe._target.html_detail }}
+                    {% endif %}
                 </div>
             {% endif %}
             <!-- FEATURE Summaries -->

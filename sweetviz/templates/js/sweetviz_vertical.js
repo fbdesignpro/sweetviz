@@ -72,13 +72,40 @@ $(".selector").click(function(event) {
         // EXPAND
         // --------------------------------------------------------
         $("#" + $(this).data("detail-div")).show();
-
         $(this).parent().parent().data('expanded', 'true');
+        //alert($(this).parent().attr('id').substring(8) );
 
-        // var $el = $('#detail_breakdown-f4');  //record the elem so you don't crawl the DOM everytime
-        // var bottom = $el.position().top + $el.outerHeight(true); // passing "true" will also include the top and bottom margin
+        var feature_index_str = $(this).parent().attr('id').substring(8);
+        if ($(this).parent().attr('id') == "summary-target") {
+            // Special feature name for target, so use common index notation for the following tasks
+            feature_index_str = "f-1";
+        }
+        if ($('#cat-assoc-window-'+feature_index_str).length) {
+            // CATEGORICAL feature: use variable-height window
+            var $el = $('#detail_breakdown-' + feature_index_str);  //record the elem so you don't crawl the DOM everytime
+            var bottom = $el.position().top + $el.outerHeight(true); // passing "true" will also include the top and bottom margin
+            var desiredBottomBreakdown = bottom + 157;
 
-        $(this).parent().parent().css('height', '1030px');
+            $el = $('#cat-assoc-window-' + feature_index_str);  //record the elem so you don't crawl the DOM everytime
+            var bottomAssoc = $el.position().top + $el.outerHeight(true); // passing "true" will also include the top and bottom margin
+            var desiredBottomAssoc = bottomAssoc + 166;
+
+            var finalHeight = Math.max(desiredBottomBreakdown, desiredBottomAssoc);
+            if ($(this).parent().attr('id') == "summary-target")
+            {
+                // More special processing for the target: change its background and limit its height (so it doesn't show through others below)
+                // (Here, make the Height a bit taller so the black background shows through)
+               $(this).parent().css('height', String((finalHeight + 50))+ 'px');
+               $("#summary-target").css("overflow", "hidden");
+            }
+            $(this).parent().parent().css('height', String(finalHeight) + 'px');
+        }
+        else
+        {
+            // NON-CATEGORICAL feature: use fixed height window
+            $(this).parent().parent().css('height', '1030px');
+        }
+        // Use the "big" background image for the target
         if ($(this).parent().attr('id') == "summary-target")
         {
             $("#summary-target-bg").addClass("bg-tab-summary-target-full");
@@ -88,6 +115,10 @@ $(".selector").click(function(event) {
         // HACK: For SOME reason, a selection gets made when we change what is hidden, unselect it
         let sel = document.getSelection();
         sel.removeAllRanges();
+
+        // Animate to the top of the screen when expanding, so we can see the whole thing immediately
+        $('html,body').animate(
+            {scrollTop: $("#" + $(this).parent().attr('id')).offset().top}, 'fast');
     }
     else
     {
@@ -108,9 +139,6 @@ $(".selector").click(function(event) {
             $("#summary-target-bg").addClass("bg-tab-summary-target");
         }
     }
-    $('html,body').animate(
-        {scrollTop: $("#" + $(this).parent().attr('id')).offset().top},
-        'fast');
     // var offTop = $("#" + $(this).parent().attr('id')).offset().top;
   //  $('html,body').scrollTop(offTop);
     // let thisIndex = $(this).parent().parent().data('order-index');
@@ -166,6 +194,9 @@ $(".selector").click(function(event) {
 // ASSOCIATIONS CLICK
 $("#button-summary-associations-source, #button-summary-associations-compare").click(function(event) {
     let actual_div = "#" + $(this).data("detail-div");
+    // Quick hack: just remove the selected state to both buttons and restore if needed
+    $("#button-summary-associations-source, #button-summary-associations-compare").removeClass("button-assoc-selected");
+    $("#button-summary-associations-source, #button-summary-associations-compare").addClass("button-assoc");
     if(g_snapped == actual_div)
     {
         // DESELECT/HIDE ASSOC
@@ -173,6 +204,8 @@ $("#button-summary-associations-source, #button-summary-associations-compare").c
         g_snapped = "";
         $(actual_div).hide();
         $(".page-all-summaries").css({top: "160px"});
+        // $(this).removeClass("button-assoc-selected");
+        // $(this).addClass("button-assoc");
     }
     else if(g_snapped == "")
     {
@@ -181,13 +214,17 @@ $("#button-summary-associations-source, #button-summary-associations-compare").c
         g_snapped =  actual_div;
         $(actual_div).show();
         $(".page-all-summaries").css({top: "993px"});
+        $(this).addClass("button-assoc-selected");
     }
     else
     {
-        // DESELECT old, select new
+        // SWAP to OTHER ASSOC: DESELECT old, select new
         // --------------------------------------------------------
+        $(g_snapped).removeClass("button-assoc-selected");
+        $(g_snapped).addClass("button-assoc");
         $(g_snapped).hide();
         g_snapped =  actual_div;
+        $(this).addClass("button-assoc-selected");
         $(actual_div).show();
     }
 });

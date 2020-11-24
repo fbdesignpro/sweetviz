@@ -57,10 +57,10 @@
                 <div class="pos-df-summary-center">TEXT</div>
                 <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_text if dataframe.summary_compare is not none  }}</div>
             </div>
-            <button class="button-bins size-df-summary-button pos-df-summary-button-assoc-source" id="button-summary-associations-source"
+            <button class="button-assoc size-df-summary-button pos-df-summary-button-assoc-source" id="button-summary-associations-source"
                 data-detail-div="df-assoc-source">Associations</button >
             {% if dataframe.summary_compare is not none %}
-                <button class="button-bins size-df-summary-button pos-df-summary-button-assoc-compare" id="button-summary-associations-compare"
+                <button class="button-assoc size-df-summary-button pos-df-summary-button-assoc-compare" id="button-summary-associations-compare"
                     data-detail-div="df-assoc-compare">Associations</button >
             {% endif %}
         </div>

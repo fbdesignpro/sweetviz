@@ -185,6 +185,7 @@ $("#button-summary-associations-source, #button-summary-associations-compare").c
         g_snapped = this.id;
         $("#" + $(this).data("detail-div")).show();
     }
+//    $(this).addClass("assoc_active");
 
 });
 

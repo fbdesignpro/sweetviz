@@ -17,7 +17,7 @@
                 pos-detail-cat-graph" id="detail_graph-f{{ feature_dict.order_index }}"
     style="top: {{ detail_layout.graph_y }}px;"></span>
 
-    <div class="pos-detail-cat-breakdown" id="detail_breakdown-f{{ feature_dict.order_index }}"
+    <div class="pos-detail-cat-breakdown {{ "color-target-summary" if (dataframe.page_layout == "vertical" and feature_dict.is_target) }}" id="detail_breakdown-f{{ feature_dict.order_index }}"
         style="top: {{ detail_layout.breakdown_y }}px;"> <!-- height: {{ detail_layout.breakdown_height }}px;"> WHY was this needed? Causes issue in vertical layout. -->
         <!-- HEADER ROW -->
         <div class="{{ detail_layout.breakdown_header_class }} text-value" style="width:553px">
@@ -62,7 +62,7 @@
             {% endif %}
             <div class="breakdown-row text-value {{ loop.cycle('', 'row-colored') }}" style="width:553px">
                 <!-- Name -->
-                <div class="text-label color-normal" style="position: absolute; left:10px;
+                <div class="text-label color-normal {{ "color-target-summary" if (dataframe.page_layout == "vertical" and feature_dict.is_target) }}" style="position: absolute; left:10px;
                 width: {{ cols.name_max_len }}px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ rowdata.name }}</div>
 
                 <!-- Freq -->
@@ -107,8 +107,11 @@
     <!-- ASSOCIATIONS -->
 {% if influencing is not none %}
     <div class="pos-detail-cat-assoc-1" id="cat-assoc-CC-f{{ feature_dict.order_index }}">
+        <!-- no background for target in vertical mode -->
+      {% if not (dataframe.page_layout == "vertical" and feature_dict.is_target): %}
         <span class="bg-extra-column"></span>
-        <div class="container-detail-assoc">
+     {% endif %}
+        <div class="container-detail-assoc {{ "color-target-summary" if (dataframe.page_layout == "vertical" and feature_dict.is_target) }}" id="cat-assoc-window-f{{ feature_dict.order_index }}">
             <!-- CAT-CAT -->
             <div class="text-small-bold color-light" style="text-align:right; line-height: 10px">
                 CATEGORICAL ASSOCIATIONS<br>
