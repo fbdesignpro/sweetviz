@@ -71,7 +71,11 @@ def generate_html_dataframe_page(dataframe_report):
     # Add in total page size (160 is hardcoded from the top of page-all-summaries in CSS)
     # This could be programmatically set
     dataframe_report.page_height = 160 + (dataframe_report.num_summaries * (config["Layout"].getint("summary_height_per_element")))
-    padding = 100 # max(50, (dataframe_report.num_summaries * (config["Layout"].getint("summary_vertical_padding"))))
+    if dataframe_report.page_layout == "widescreen":
+        padding_type = "full_page_padding_widescreen"
+    else:
+        padding_type = "full_page_padding_vertical"
+    padding = config["Layout"].getint(padding_type)
     dataframe_report.page_height += padding
     # scaling = dict()
     # scaling["main_column"] = scale

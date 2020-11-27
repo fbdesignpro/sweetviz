@@ -6,6 +6,8 @@ function hideAllDetails()
     $(".container-feature-detail").hide();
     $(".container-df-associations").hide();
     $("span.bg-tab-summary-rollover").hide();
+    $("#button-summary-associations-source, #button-summary-associations-compare").removeClass("button-assoc-selected");
+    $("#button-summary-associations-source, #button-summary-associations-compare").addClass("button-assoc");
 }
 
 
@@ -73,6 +75,10 @@ function(event) {
 // EVENT: SUMMARY CLICK
 // $(".container-feature-summary, .container-feature-summary-target").click(function(event) {
 $(".selector").click(function(event) {
+    // No matter what, we should deselect the associations buttons
+    $("#button-summary-associations-source, #button-summary-associations-compare").removeClass("button-assoc-selected");
+    $("#button-summary-associations-source, #button-summary-associations-compare").addClass("button-assoc");
+
     // alert($(this).parent().attr('id'));
     let this_to_snap=$(this).parent().attr('id');
 
@@ -136,9 +142,11 @@ function fix_scroll() {
 $(window).on('scroll',fix_scroll);
 */
 
+// ---------------------------------------------------------------------------------------------------------------------------
 // SPECIFIC BUTTONS
 // ---------------------------------------------------------------------------------------------------------------------------
-// SUMMARY: ASSOCIATIONS
+// SUMMARY: ASSOCIATIONS -> HOVER
+// --------------------------------------------------------
 $("#button-summary-associations-source, #button-summary-associations-compare").hover(
     // ENTER function
     function()
@@ -160,33 +168,42 @@ $("#button-summary-associations-source, #button-summary-associations-compare").h
             hideAllDetails();
         }
     });
-// ASSOCIATIONS CLICK
+
+// SUMMARY: ASSOCIATIONS -> CLICK
+// --------------------------------------------------------
 $("#button-summary-associations-source, #button-summary-associations-compare").click(function(event) {
+    // Quick hack: just remove the selected state to both buttons and restore if needed
+    $("#button-summary-associations-source, #button-summary-associations-compare").removeClass("button-assoc-selected");
+    $("#button-summary-associations-source, #button-summary-associations-compare").addClass("button-assoc");
     let this_to_snap=this.id;
     if(g_snapped == this_to_snap)
     {
-        // "Unselect"
+        // DESELECT/HIDE ASSOC
+        // --------------------------------------------------------
         g_snapped = "";
     }
     else if(g_snapped=="")
     {
-        // "Select"
+        // SELECT/SHOW ASSOC (Hide other one if already shown)
+        // --------------------------------------------------------
         //$(".container-feature-detail").hide();
         //alert("#" + this.id+" GS:"+g_snapped);
         //$("#df-assoc").show();
         g_snapped = this.id;
+        $(this).addClass("button-assoc-selected");
     }
     else
     {
-        // "Select" while another was previously selected
+        // SWAP to OTHER ASSOC: DESELECT old, select new
+        // --------------------------------------------------------
         $("#" + $("#"+g_snapped).children().data("rollover-span")).removeClass("bg-tab-summary-rollover-locked");
         $("#" + $("#"+g_snapped).children().data("rollover-span")).addClass("bg-tab-summary-rollover");
         hideAllDetails();
+        $(this).addClass("button-assoc-selected");
         g_snapped = this.id;
         $("#" + $(this).data("detail-div")).show();
     }
 //    $(this).addClass("assoc_active");
-
 });
 
 

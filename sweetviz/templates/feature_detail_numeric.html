@@ -28,7 +28,8 @@
     <!-- ASSOCIATIONS -->
 {% if numerical is not none %}
     <div class="pos-detail-cat-assoc-1" id="cat-assoc-CN-f{{ feature_dict.order_index }}">
-        <span class="bg-extra-column"></span>
+        <span class="bg-extra-column" {{ 'style="height: 588px"' if feature_dict.order_index == -1 and dataframe.page_layout == "vertical" }} <!-- expand if target in vertical layout -->
+            ></span>
         <div class="container-detail-assoc">
             <div class="text-large-bold">NUMERICAL ASSOCIATIONS</div>
             <div class="text-small-bold color-light" style="line-height: 10px">
@@ -41,8 +42,7 @@
             {% for item in numerical %}
                 <div class="{{ 'assoc-row-target' if item[2] else 'assoc-row' }} {{ loop.cycle('', 'row-colored') }}" {{ 'style="font-weight: bold;"' if (item[1] > general.association_min_to_bold) or (item[1] < -general.association_min_to_bold) }}>
                     <div class="pos-assoc-row__label text-label">{{ item[0] }}</div>
-                    <div class="pos-assoc-row__source text-label
-                        {{ "color-red" if item[1] < 0.0 else "color-source" }}">{{ item[1]|fmt_assoc }}</div>
+                    <div class="pos-assoc-row__source text-label {{ "color-red" if item[1] < 0.0 else "color-source" }}">{{ item[1]|fmt_assoc }}</div>
                 </div>
             {% endfor %}
             <br>
@@ -68,7 +68,7 @@
             <hr>
             {% for item in feature_dict.detail.frequent_values[:layout.num_detail_max_listed_values] %}
                 <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
-                    <div class="pos-assoc-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
+                    <div class="pos-num-detail-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
                     <div class="pos-detail-num-source-pair color-source text-value">
                         <div class="pos-detail-num-pair-pos__num dim">{{ item[1].number|fmt_int_limit }}</div>
                         <div class="pos-detail-num-pair-pos__perc">{{ item[1].perc|fmt_percent1d }}</div>
@@ -92,7 +92,7 @@
             <hr>
             {% for item in feature_dict.detail.min_values[:layout.num_detail_max_listed_values] %}
                 <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
-                    <div class="pos-assoc-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
+                    <div class="pos-num-detail-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
                     <div class="pos-detail-num-source-pair color-source text-value">
                         <div class="pos-detail-num-pair-pos__num dim">{{ item[1].number|fmt_int_limit }}</div>
                         <div class="pos-detail-num-pair-pos__perc">{{ item[1].perc|fmt_percent1d }}</div>
@@ -116,7 +116,7 @@
             <hr>
             {% for item in feature_dict.detail.max_values[:layout.num_detail_max_listed_values] %}
                 <div class="assoc-row {{ loop.cycle('', 'row-colored') }}">
-                    <div class="pos-assoc-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
+                    <div class="pos-num-detail-row__label text-label pos-detail-num-label">{{ item[0] }}</div>
                     <div class="pos-detail-num-source-pair color-source text-value">
                         <div class="pos-detail-num-pair-pos__num dim">{{ item[1].number|fmt_int_limit }}</div>
                         <div class="pos-detail-num-pair-pos__perc">{{ item[1].perc|fmt_percent1d }}</div>

@@ -29,9 +29,11 @@ body
 
 .page-root
 {
-	width: 1880px;
+	/*width: 1880px;*/
+    /* Made this bigger to better match actual width and avoid flickering due to the horizontal Scrollbar showing up */
+	width: 1903px;
 	overflow: visible;
-	  margin: 0 auto;
+	 margin: 0 auto;
     position: relative;
 }
 .page-root-vertical
@@ -224,10 +226,12 @@ DETAILS
 /* DETAIL-ASSOC */
 .pos-detail-cat-assoc-1              { position: absolute; left: 618px; top: 28px; width: 275px;}
 .pos-detail-cat-assoc-CN              { position: absolute; left: 618px; top: 565px; width: 275px;}
-.pos-assoc-row__label             { position: absolute; left: 0px; overflow: hidden; text-overflow: ellipsis;
-                                    white-space: nowrap;}
+.pos-assoc-row__label             { position: absolute; left: 0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 156px;}
 .pos-assoc-row__source            { position: absolute; left: 150px; text-align: right; width: 30px; }
 .pos-assoc-row__compare           { position: absolute; left: 120px; text-align: right; width: 30px; }
+
+/* NUM-DETAIL COLS */
+.pos-num-detail-row__label        { position: absolute; left: 0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 62px;}
 
 hr { background-color: #58544f; height: 1px; border-width: 0px; }
 
@@ -257,8 +261,11 @@ button
 .button-assoc:focus {
     outline: none;
 }
+.button-assoc-selected {
+	border:2px solid #ff0000;
+}
 .button-assoc-selected:hover {
-	border:3px solid #ff0000;
+	border:2px solid #ff0000;
 }
 .button-assoc-selected:focus {
 	border:2px solid #ff0000;

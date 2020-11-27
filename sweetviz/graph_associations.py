@@ -52,6 +52,39 @@ UNIQUE_INDEX_NAME = 'indexZZ8vr$#RVwadfaFASDFSA'
 CORRELATION_ERROR = 83572398457329.0
 CORRELATION_IDENTICAL = 1357239845732.0
 
+def wrap_custom(source_text, separator_chars, width=70, keep_separators = True):
+    current_length = 0
+    latest_separator = -1
+    current_chunk_start = 0
+    output = ""
+    char_index = 0
+    while char_index < len(source_text):
+        if source_text[char_index] in separator_chars:
+            latest_separator = char_index
+        output += source_text[char_index]
+        current_length += 1
+        if current_length == width:
+            if latest_separator >= current_chunk_start:
+                # Valid earlier separator, cut there
+                cutting_length = char_index - latest_separator
+                if not keep_separators:
+                    cutting_length += 1
+                if cutting_length:
+                    output = output[:-cutting_length]
+                output += "\n"
+                current_chunk_start = latest_separator + 1
+                char_index = current_chunk_start
+            else:
+                # No separator found, hard cut
+                output += "\n"
+                current_chunk_start = char_index + 1
+                latest_separator = current_chunk_start - 1
+                char_index += 1
+            current_length = 0
+        else:
+            char_index += 1
+    return output
+
 class GraphAssoc(sweetviz.graph.Graph):
     def __init__(self, dataframe_report, which_graph: str, association_data):
         self.set_style(["graph_base.mplstyle"])
@@ -259,15 +292,17 @@ def heatmap(y, x, figure_size, **kwargs):
             # return int(size_scale)
             # return val_position * int(size_scale)
 
-    def do_wrapping(label):
-        return '\n'.join(wrap(label, 15))
-
+    def do_wrapping(label, length):
+        return wrap_custom(label, ["_", "-"], length)
+        # return '\n'.join(wrap(label, 15))
+    wrap_x = 12 # at top/bottom
+    wrap_y = 13
     if 'x_order' in kwargs:
         x_names = [t for t in kwargs['x_order']]
     else:
         x_names = [t for t in sorted(set([v for v in x]))]
     # Wrap to help avoid overflow
-    x_names = [do_wrapping(label) for label in x_names]
+    x_names = [do_wrapping(label, wrap_x) for label in x_names]
 
     x_to_num = {p[1]:p[0] for p in enumerate(x_names)}
 
@@ -276,7 +311,7 @@ def heatmap(y, x, figure_size, **kwargs):
     else:
         y_names = [t for t in sorted(set([v for v in y]))]
     # Wrap to help avoid overflow
-    y_names = [do_wrapping(label) for label in y_names]
+    y_names = [do_wrapping(label, wrap_y) for label in y_names]
 
     y_to_num = {p[1]:p[0] for p in enumerate(y_names)}
 
@@ -312,8 +347,8 @@ def heatmap(y, x, figure_size, **kwargs):
 
     index = 0
     for cur_x, cur_y in zip(x,y):
-        wrapped_x_name = do_wrapping(cur_x)
-        wrapped_y_name = do_wrapping(cur_y)
+        wrapped_x_name = do_wrapping(cur_x, wrap_x)
+        wrapped_y_name = do_wrapping(cur_y, wrap_y)
         before_coordinate = np.array(ax.transData.transform((x_to_num[wrapped_x_name]-0.5, y_to_num[wrapped_y_name] -0.5)))
         after_coordinate = np.array(ax.transData.transform((x_to_num[wrapped_x_name]+0.5, y_to_num[wrapped_y_name] +0.5)))
         before_pixels = np.round(before_coordinate, 0)

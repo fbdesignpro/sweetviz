@@ -209,7 +209,7 @@ $("#button-summary-associations-source, #button-summary-associations-compare").c
     }
     else if(g_snapped == "")
     {
-        // SELECT/SHOW ASSOC (Hide other one if already shown)
+        // SELECT/SHOW ASSOC
         // --------------------------------------------------------
         g_snapped =  actual_div;
         $(actual_div).show();
@@ -220,8 +220,6 @@ $("#button-summary-associations-source, #button-summary-associations-compare").c
     {
         // SWAP to OTHER ASSOC: DESELECT old, select new
         // --------------------------------------------------------
-        $(g_snapped).removeClass("button-assoc-selected");
-        $(g_snapped).addClass("button-assoc");
         $(g_snapped).hide();
         g_snapped =  actual_div;
         $(this).addClass("button-assoc-selected");

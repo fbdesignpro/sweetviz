@@ -487,9 +487,9 @@ class DataframeReport:
             # https://bugs.python.org/issue5993
             webbrowser.open('file://' + os.path.realpath(filepath))
         else:
-            print(f"Report {filepath} was generated!")
+            print(f"Report {filepath} was generated.")
 
-    def show_notebook(self, w=None, h=None, scale=None, layout='widescreen', filepath='SWEETVIZ_REPORT.html', file_open_browser=True):
+    def show_notebook(self, w=None, h=None, scale=None, layout='widescreen', filepath=None):
         w = self.use_config_if_none(w, "notebook_width")
         h = self.use_config_if_none(h, "notebook_height")
         scale = float(self.use_config_if_none(scale, "notebook_scale"))
@@ -510,13 +510,19 @@ class DataframeReport:
 
         width=w
         height=h
+        if str(height).lower() == "full":
+            height = self.page_height
+
+        # Output to iFrame
         import html
         self._page_html = html.escape(self._page_html)
-        from IPython.display import IFrame
+        iframe = f' <iframe width="{width}" height="{height}" srcdoc="{self._page_html}" frameborder="0" allowfullscreen></iframe>'
         from IPython.core.display import display
-        # display(IFrame(src=self._page_html, width=w, height=h))
-        iframe = f'<iframe width="{width}" height="{height}" srcdoc="{self._page_html}" frameborder="0" allowfullscreen></iframe>'
-        # from IPython.core.display import display
-        # from IPython.core.display import HTML
+        from IPython.core.display import HTML
         display(HTML(iframe))
 
+        if filepath is not None:
+            f = open(filepath, 'w', encoding="utf-8")
+            f.write(self._page_html)
+            f.close()
+            print(f"Report '{filepath}' was saved to storage.")
