@@ -54,7 +54,7 @@ In those cases, we suggest the following:
 # Basic Usage
 Creating a report is a quick 2-line process:
 1. Create a `DataframeReport` object using one of: `analyze()`, `compare()` or `compare_intra()`
-2. Use a `show_xxx()` function to render the report. You can now use either **html** or **notebook** report options, as well as scaling: ([more info on these options below](#step-2-show-the-report))
+2. Use a `show_xxx()` function to render the report. You can now use either **html** or **notebook** report options, as well as scaling: ([more info on these options below](#-step-2-show-the-report))
 
 ![Report_Show_Options](http://cooltiming.com/SV/Layout-Anim3.gif) 
 
