@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-2.0.0b1-blue) ![v](https://img.shields.io/badge/updated-30%20Nov%202020-green)
+![v](https://img.shields.io/badge/version-2.0.2-blue) ![v](https://img.shields.io/badge/updated-30%20Nov%202020-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
@@ -152,13 +152,15 @@ You can look into the file `sweetviz_defaults.ini` for what can be overriden (wa
 
 #### Default report layout, size
 Override any of these (by putting them in your own INI, again do not forget the header), to avoid having to set them every time you do a "show" command:
+
+**Important**: note the double '%' if specifying a percentage
 ```
 [Output_Defaults]
 html_layout = widescreen
 html_scale = 1.0
 notebook_layout = vertical
 notebook_scale = 0.9
-notebook_width = 100%
+notebook_width = 100%%
 notebook_height = 700
 ```
 

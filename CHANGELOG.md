@@ -1,6 +1,10 @@
 # Changelog
 
-## 2.0beta1 - 2020-11-30 (initial 2.0 beta release)
+#### 2.0.2 - 2020-10-18
+
+- **Fixed:** issue with width "%" in default value INI
+
+## 2.0.1 - 2020-11-30 (initial 2.0 release)
 
 - **Added:** `show_notebook(...)` for embedded notebook support (Jupyter, Colab, etc.)
 - **Added:** report size scaling
