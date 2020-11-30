@@ -105,7 +105,7 @@ Support for this is built in through the `compare_intra()` function. This functi
 ```
 my_report = sv.compare_intra(my_dataframe, my_dataframe["Sex"] == "male", ["Male", "Female"], feature_config)
 ```
-##Step 2: Show the report
+## Step 2: Show the report
 Once you have created your report object (e.g. `my_report` in the examples above), simply pass it into one of the two `show' functions:
 
 ### show_html()
@@ -184,7 +184,7 @@ A major source of insight and unique feature of Sweetviz' associations graph and
 
  Squares represent categorical-featured-related variables and circles represent numerical-numerical correlations. Note that the trivial diagonal is left empty, for clarity.
  
-IMPORTANT: categorical-categorical associations (provided by the SQUARES showing the uncertainty coefficient) are ASSYMMETRICAL, meaning that each row represents **how much the row title (on the left) gives information on each column**. _For example, “Sex”, “Pclass” and “Fare” are the elements that give the most information on “Survived”._ 
+IMPORTANT: categorical-categorical associations (provided by the SQUARES showing the uncertainty coefficient) are ASSYMMETRICAL, meaning that each row represents **how much the row title (on the left) gives information on each column**. _For example, "Sex", "Pclass" and "Fare" are the elements that give the most information on "Survived"._ 
 
 For the Titanic dataset, this information is rather symmetrical but it is not always the case!
 
