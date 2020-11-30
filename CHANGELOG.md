@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0beta1 - 2020-11-30 (initial 2.0 beta release)
+
+- **Added:** `show_notebook(...)` for embedded notebook support (Jupyter, Colab, etc.)
+- **Added:** report size scaling
+- **Added:** vertical report layout
+- **Added:** INI defaults for all show_xxx function parameters
+- **Updated:** disallowed NaN values for target features (resolves many interpretation & reporting issues)
+- **Fixed:** boolean issues with NaN/missing data
+- **Fixed:** association graph label issues
+- **Fixed:** association detail display issues
+- **Fixed:** numerous miscellaneous issues
+
 #### 1.1.2 - 2020-11-05 (progress bar fixes)
 
 - **Fixed:** fixed major display issues with progress bar in notebooks
@@ -9,7 +21,7 @@
 
 - **Updated:** restored compact font as default
 
-#### 1.1 - 2020-10-18 - Initial Official Release
+## 1.1 - 2020-10-18 (Initial Official Release)
 
 - **Added:** CJK font support
 - **Added:** color-coding for % of missing values
@@ -39,7 +51,7 @@
 - **Fixed:** error for coercion of boolean series to categorical
 - **Enhanced:** error reporting output for type coercions
 
-#### 1.0beta3 - 2020-07-19 - BETA START
+#### 1.0beta3 - 2020-07-19 (BETA START)
 - **Added:** post-report-generation descriptive text for Jupyter/Colab
 - **Re-added:** horizontal scrollbar
 - **Added:** link to check for updates in header
@@ -56,7 +68,7 @@
 #### 1.0alpha7 - 2020-06-09
 - **Fixed:** "ValueError: index must be monotonic..." crash with some datasets (#10)
 
-#### 1.0alpha6 - 2020-06-08 - ALPHA START
+#### 1.0alpha6 - 2020-06-08 (ALPHA START)
 - **Fixed:** forcing feature names to be strings, to avoid crashing if numerical (#9)
 - **Improved:** error message in case of mixed type feature (#3)
 - **Added:** CHANGELOG.md!

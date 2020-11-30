@@ -1,24 +1,26 @@
-![v](https://img.shields.io/badge/version-1.1.2-blue) ![v](https://img.shields.io/badge/updated-05%20Nov%202020-green)
+![v](https://img.shields.io/badge/version-2.0.0b1-blue) ![v](https://img.shields.io/badge/updated-30%20Nov%202020-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
-Sweetviz is an open source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with a single line of code. Output is a fully self-contained HTML application.
+_In-depth EDA **(target analysis, comparison, feature analysis, correlation)** in two lines of code!_
+![Features](http://cooltiming.com/SV/features.png)
+
+Sweetviz is an open source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with just two lines of code. Output is a fully self-contained HTML application.
 
 The system is built around quickly **visualizing target values** and **comparing datasets**. Its goal is to help quick analysis of target characteristics, training vs testing data, and other such data characterization tasks. 
 
 Usage and parameters are described below, [you can also find an article describing its features in depth and see examples in action HERE](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34).
 
-**October 2020 update: Sweetviz is out of beta and development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our forum (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
+**Sweetviz development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our forum (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
 
 ## Examples
 [**Example report** using the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
 
-[**Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34).
+[**Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
 
 
 # Features
-![Features](http://cooltiming.com/SV/features.png)
-- **Target analysis**
+- **Target analysis** 
   - Shows how a target value (e.g. "Survived" in the Titanic dataset) relates to other features
 - **Visualize and compare**
   - Distinct datasets (e.g. training vs test data)
@@ -52,9 +54,9 @@ In those cases, we suggest the following:
 # Basic Usage
 Creating a report is a quick 2-line process:
 1. Create a `DataframeReport` object using one of: `analyze()`, `compare()` or `compare_intra()`
-2. Use a `show_xxx()` function to render the report. 
+2. Use a `show_xxx()` function to render the report. You can now use either **html** or **notebook** report options, as well as scaling: ([more info on these options below](#step-2-show-the-report))
 
-**Note: Currently the only rendering supported is to a standalone HTML file, using a "widescreen" aspect ratio (i.e. 1080p resolution or wider).** Please let me know of formats/resolutions you would like to be supported in our [ forum](https://sweetviz.fbdesignpro.com).
+![Report_Show_Options](http://cooltiming.com/SV/Layout-Anim3.gif) 
 
 ## Step 1: Create the report
 There are 3 main functions for creating reports:
@@ -103,19 +105,40 @@ Support for this is built in through the `compare_intra()` function. This functi
 ```
 my_report = sv.compare_intra(my_dataframe, my_dataframe["Sex"] == "male", ["Male", "Female"], feature_config)
 ```
-## Step 2: Show the report
-Once you have created your report object (e.g. `my_report` in the examples above), simply pass it into a `show_xxx()` function.
+##Step 2: Show the report
+Once you have created your report object (e.g. `my_report` in the examples above), simply pass it into one of the two `show' functions:
 
-Currently the only rendering supported is to a standalone HTML file, using a "widescreen" aspect ratio (i.e. 1080p resolution or wider). 
-Please let me know of formats/resolutions you would like to be supported in our [forum](https://sweetviz.fbdesignpro.com).
+### show_html()
+```
+show_html(  filepath='SWEETVIZ_REPORT.html', 
+            open_browser=True, 
+            layout='widescreen', 
+            scale=None)
+```            
+**show_html(...)** will create and save an HTML report at the given file path. There are options for:
+- **layout**: Either `'widescreen'` or `'vertical'`. The widescreen layout displays details on the right side of the screen, as the mouse goes over each feature. The new (as of 2.0) vertical layout is more compact horizontally and enables expanding each detail area upon clicking.
+- **scale**: Use a floating-point number (`scale= 0.8` or `None`) to scale the entire report. This is very useful to fit reports to any output.
+- **open_browser**: Enables the automatic opening of a web browser to show the report. Since under some circumstances this is not desired (or causes issues with some IDE's), you can disable it here.
 
-So currently, simply call the following function with the desired parameters:
+### show_notebook()
+```
+show_notebook(  w=None, 
+                h=None, 
+                scale=None,
+                layout='widescreen',
+                filepath=None)
+```            
+**show_notebook(...)** is new as of 2.0 and will embed an IFRAME element showing the report right inside a notebook (e.g. Jupyter, Google Colab, etc.). 
 
-`my_report.show_html(filepath='SWEETVIZ_REPORT.html', open_browser=True)`
+Note that since notebooks are generally a more constrained visual environment, it is probably a good idea to use custom width/height/scale values (`w`, `h`, `scale`) and even **set custom default values in an INI override** (see below). The options are:
+- **w** (width): Sets the width of the output _window_ for the report (the full report may not fit; use `layout` and/or `scale` for the report itself). Can be as a percentage string (`w="100%"`) or number of pixels (`w=900`).
+- **h** (height): Sets the height of the output _window_ for the report. Can be as a number of pixels (`h=700`) or "Full" to stretch the window to be as tall as all the features (`h="Full"`).
+- **scale**: Same as for show_html, above.
+- **layout**: Same as for show_html, above.
+- **scale**: Same as for show_html, above.
+- **filepath**: An optional output HTML report.
 
-The `open_browser` parameter is a new addition in 1.1 to give the option to avoid opening a browser window once the HTML file is generated.
-
-# Config file
+# Customizing defaults: the Config file
 The package contains an INI file for configuration. You can override any setting by providing your own then calling this before creating a report:
 ```
 sv.config_parser.read("Override.ini")
@@ -125,14 +148,20 @@ sv.config_parser.read("Override.ini")
 **IMPORTANT #2:** always set the header (e.g. `[General]` before the value, otherwise there will be an error).  
 
 ### Most useful config overrides
- You can look into the file `sweetviz_defaults.ini` for what can be overriden (warning: much of it is a work in progress and not well documented), but the most useful overrides are:
-```
-[General]
-use_cjk_font = 1
+You can look into the file `sweetviz_defaults.ini` for what can be overriden (warning: much of it is a work in progress and not well documented), but the most useful overrides are as follows.
 
-[Layout]
-show_logo = 0
-``` 
+#### Default report layout, size
+Override any of these (by putting them in your own INI, again do not forget the header), to avoid having to set them every time you do a "show" command:
+```
+[Output_Defaults]
+html_layout = widescreen
+html_scale = 1.0
+notebook_layout = vertical
+notebook_scale = 0.9
+notebook_width = 100%
+notebook_height = 700
+```
+
 ##### New: Chinese, Japanse, Korean (CJK) character support
 ```
 [General]
@@ -146,6 +175,24 @@ show_logo = 0
 ```
 Will remove the Sweetviz logo from the top of the page. 
 
+# Correlation/Association analysis
+A major source of insight and unique feature of Sweetviz' associations graph and analysis is that **it unifies in a single graph** (and detail views):
+ - Numerical correlation (between numerical features)
+ - Uncertainty coefficient (for categorical-categorical)
+ - Correlation ratio (for categorical-numerical)
+![Pairwise sample](http://cooltiming.com/SV/pairwise.png)
+
+ Squares represent categorical-featured-related variables and circles represent numerical-numerical correlations. Note that the trivial diagonal is left empty, for clarity.
+ 
+IMPORTANT: categorical-categorical associations (provided by the SQUARES showing the uncertainty coefficient) are ASSYMMETRICAL, meaning that each row represents **how much the row title (on the left) gives information on each column**. _For example, “Sex”, “Pclass” and “Fare” are the elements that give the most information on “Survived”._ 
+
+For the Titanic dataset, this information is rather symmetrical but it is not always the case!
+
+Correlations are also displayed in the detail section of each feature, with the target value highlighted when applicable. e.g.:
+
+![Associations detail](http://cooltiming.com/SV/associations_detail.PNG)
+
+Finally, it is worth noting these correlation/association methods shouldn’t be taken as gospel as they make some assumptions on the underlying distribution of data and relationships. However they can be a _very_ useful starting point.
 
 # Troubleshooting / FAQ
 - **Installation issues**
