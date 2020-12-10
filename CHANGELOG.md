@@ -1,6 +1,12 @@
 # Changelog
 
-#### 2.0.2 - 2020-10-18
+#### 2.0.3 - 2020-12-10
+
+- **Fixed:** problem with overlap in some categorical values in vertical layout when scaling is applied
+- **Fixed:** default layout value ignored in show_notebooks()
+- **Fixed:** unclickable buttons in some circumstances
+
+#### 2.0.2 - 2020-11-30
 
 - **Fixed:** issue with width "%" in default value INI
 

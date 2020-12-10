@@ -1,8 +1,9 @@
-![v](https://img.shields.io/badge/version-2.0.2-blue) ![v](https://img.shields.io/badge/updated-30%20Nov%202020-green)
+![v](https://img.shields.io/badge/version-2.0.3-blue) ![v](https://img.shields.io/badge/updated-December%2010th,%20%202020-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
 _In-depth EDA **(target analysis, comparison, feature analysis, correlation)** in two lines of code!_
+
 ![Features](http://cooltiming.com/SV/features.png)
 
 Sweetviz is an open source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with just two lines of code. Output is a fully self-contained HTML application.
@@ -11,7 +12,7 @@ The system is built around quickly **visualizing target values** and **comparing
 
 Usage and parameters are described below, [you can also find an article describing its features in depth and see examples in action HERE](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34).
 
-**Sweetviz development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in our forum (you should be able to log in with your Github account!)](https://sweetviz.fbdesignpro.com).
+**Sweetviz development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in the brand-new GitHub "Discussions" tab right here!](https://github.com/fbdesignpro/sweetviz/discussions).
 
 ## Examples
 [**Example report** using the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
@@ -54,7 +55,7 @@ In those cases, we suggest the following:
 # Basic Usage
 Creating a report is a quick 2-line process:
 1. Create a `DataframeReport` object using one of: `analyze()`, `compare()` or `compare_intra()`
-2. Use a `show_xxx()` function to render the report. You can now use either **html** or **notebook** report options, as well as scaling: ([more info on these options below](#-step-2-show-the-report))
+2. Use a `show_xxx()` function to render the report. You can now use either **html** or **notebook** report options, as well as scaling: (more info on these options below)
 
 ![Report_Show_Options](http://cooltiming.com/SV/Layout-Anim3.gif) 
 
