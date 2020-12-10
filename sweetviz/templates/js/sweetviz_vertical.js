@@ -83,7 +83,8 @@ $(".selector").click(function(event) {
         if ($('#cat-assoc-window-'+feature_index_str).length) {
             // CATEGORICAL feature: use variable-height window
             var $el = $('#detail_breakdown-' + feature_index_str);  //record the elem so you don't crawl the DOM everytime
-            var bottom = $el.position().top + $el.outerHeight(true); // passing "true" will also include the top and bottom margin
+            // HACK: BUG IN BROWSERS? DIVING BY SCALE HERE...
+            var bottom = ($el.position().top / g_scale) + $el.outerHeight(true); // passing "true" will also include the top and bottom margin
             var desiredBottomBreakdown = bottom + 157;
 
             $el = $('#cat-assoc-window-' + feature_index_str);  //record the elem so you don't crawl the DOM everytime
