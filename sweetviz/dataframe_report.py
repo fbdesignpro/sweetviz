@@ -489,7 +489,7 @@ class DataframeReport:
         else:
             print(f"Report {filepath} was generated.")
 
-    def show_notebook(self, w=None, h=None, scale=None, layout='widescreen', filepath=None):
+    def show_notebook(self, w=None, h=None, scale=None, layout=None, filepath=None):
         w = self.use_config_if_none(w, "notebook_width")
         h = self.use_config_if_none(h, "notebook_height")
         scale = float(self.use_config_if_none(scale, "notebook_scale"))
