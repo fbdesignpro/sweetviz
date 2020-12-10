@@ -63,17 +63,6 @@
     <!-- ALL SUMMARY TABS -->
     <div class="page-column-main" id="col1" style="transform: scale({{ dataframe.scale }});transform-origin: 0 0;">
         <!-- DF Summary -->
-        {% if layout.show_logo %}
-            <div class="pos-logo-group">
-                <div class="pos-logo im-logo"></div>
-                <div class="pos-credits text-credits">
-                    <span class="text-version">{{ version }}<br>
-                    <a href="https://github.com/fbdesignpro/sweetviz">Get updates, docs & report issues here</a></span><br>
-                    Created & maintained by <a href="https://www.fbdesignpro.com">Francois Bertrand</a> <br>
-                    Graphic design by <a href="https://www.fbdesignpro.com" data-reach="Jeff is working on his contact info :)">Jean-Francois Hains</a>
-                </div>
-            </div>
-        {% endif %}
 
         <!-- ASSOCIATIONS (VERTICAL ONLY) -->
         {% if dataframe.page_layout == 'vertical': %}
@@ -87,6 +76,17 @@
 
         <!-- ALL SUMMARIES -->
        {{ dataframe.dataframe_summary_html }}
+        {% if layout.show_logo %}
+            <div class="pos-logo-group">
+                <div class="pos-logo im-logo"></div>
+                <div class="pos-credits text-credits">
+                    <span class="text-version">{{ version }}<br>
+                    <a href="https://github.com/fbdesignpro/sweetviz">Get updates, docs & report issues here</a></span><br>
+                    Created & maintained by <a href="https://www.fbdesignpro.com">Francois Bertrand</a> <br>
+                    Graphic design by <a href="https://www.fbdesignpro.com" data-reach="Jeff is working on his contact info :)">Jean-Francois Hains</a>
+                </div>
+            </div>
+        {% endif %}
         <div class="page-all-summaries">
             <span class="graph-legend" style="left: 391px;position: absolute;top: 5px;"></span>
             <!-- TARGET Summary -->

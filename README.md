@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-2.0.3-blue) ![v](https://img.shields.io/badge/updated-December%2010th,%20%202020-green)
+![v](https://img.shields.io/badge/version-2.0.4-blue) ![v](https://img.shields.io/badge/updated-December%2010th,%20%202020-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 

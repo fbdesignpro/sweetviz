@@ -1,5 +1,10 @@
 # Changelog
 
+#### 2.0.4 - 2020-12-10
+
+- **Fixed:** re-fixed unclickable buttons in some circumstances
+- **Tweaked:** changed default notebook scale factor to 1.0
+
 #### 2.0.3 - 2020-12-10
 
 - **Fixed:** problem with overlap in some categorical values in vertical layout when scaling is applied
