@@ -97,11 +97,6 @@ class GraphCat(sweetviz.graph.Graph):
         self.size_in_inches = f.get_size_inches()
         tick_names = list(plot_data_series.index)
 
-        # Escape LaTeX
-        if len(tick_names):
-            if type(tick_names[0]) == str:
-                tick_names = [str(x).replace("$",r"\$") for x in tick_names]
-
         # To show percentages
         sum_source = sum(plot_data_series)
         plot_data_series = plot_data_series / sum_source if sum_source != 0.0 else plot_data_series * 0.0
@@ -140,9 +135,15 @@ class GraphCat(sweetviz.graph.Graph):
         except:
             pass
 
+
+        # Escape LaTeX
+        tick_names_for_labels_only = tick_names
+        if len(tick_names):
+            if type(tick_names[0]) == str:
+                tick_names_for_labels_only = [str(x).replace("$",r"\$") for x in tick_names]
         # colors = ("r", "b")
         category_centers, bar_width = \
-            plot_grouped_bars(tick_names, height_lists, cycle_colors, gap_percent,
+            plot_grouped_bars(tick_names_for_labels_only, height_lists, cycle_colors, gap_percent,
                               orientation = 'horizontal', axis_obj = axs)
 
         # TARGET
