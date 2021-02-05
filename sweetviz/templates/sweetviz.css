@@ -81,8 +81,10 @@ body
 }
 
 .color-source { color: #0088ed; }
+.button-border-source { border:1px solid #0088ed; }
 .color-source-target { color: #004bd1; }
 .color-compare { color: #f77721; }
+.button-border-compare { border:1px solid #f77721; }
 .color-compare-target { color: #e54600; }
 .color-normal { color: #58544f; }
 .color-target-summary { color: #CFC8BC; }
@@ -143,9 +145,9 @@ a { color: #58544f; }
 .pos-df-summary-source      { position: absolute; left: 0px; width: 231px; text-align: right;}
 .pos-df-summary-center     { position: absolute; left: 231px; width: 100px; text-align: center;}
 .pos-df-summary-compare      { position: absolute; left: 331px; width: 200px; text-align: left;}
-.size-df-summary-button     { width: 120px; height: 28px; }
-.pos-df-summary-button-assoc-source { position: absolute; top: 63px; left: 10px; }
-.pos-df-summary-button-assoc-compare { position: absolute; top: 63px; left: 433px; }
+.size-df-summary-button     { width: 156px; height: 36px; }
+.pos-df-summary-button-assoc-source { position: absolute; top: 50px; left: 10px; }
+.pos-df-summary-button-assoc-compare { position: absolute; top: 50px; left: 397px; }
 
 /*
  FEATURE SUMMARY
