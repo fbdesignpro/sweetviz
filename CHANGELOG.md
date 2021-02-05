@@ -1,4 +1,11 @@
-# Changelog
+# Change log
+
+#### 2.0.5 - 2021-02-04
+
+- **Fixed:** crashes due to LaTeX escape codes in feature names that were causing "Font family ['STIXGeneral'] not found" errors
+- **Fixed:** better handling of features named "index"
+- **Updated:** made feature count more consistent and clear: taking "target" into account as well as explicitly calling out when features are not present in the comparison data frame
+- **Enhanced:** made "Association" buttons more obvious and color-coded (they were a bit too hard to see given their importance)
 
 #### 2.0.4 - 2020-12-10
 

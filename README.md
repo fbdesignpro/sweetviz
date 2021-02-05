@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-2.0.4-blue) ![v](https://img.shields.io/badge/updated-December%2010th,%20%202020-green)
+![v](https://img.shields.io/badge/version-2.0.5-blue) ![v](https://img.shields.io/badge/updated-February%204th,%20%202021-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
@@ -6,7 +6,7 @@ _In-depth EDA **(target analysis, comparison, feature analysis, correlation)** i
 
 ![Features](http://cooltiming.com/SV/features.png)
 
-Sweetviz is an open source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with just two lines of code. Output is a fully self-contained HTML application.
+Sweetviz is an open-source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with just two lines of code. Output is a fully self-contained HTML application.
 
 The system is built around quickly **visualizing target values** and **comparing datasets**. Its goal is to help quick analysis of target characteristics, training vs testing data, and other such data characterization tasks. 
 
