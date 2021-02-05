@@ -16,10 +16,14 @@ class FeatureConfig:
                 return list()
             raise ValueError("Invalid value passed in for FeatureConfig")
 
-        self.skip = make_list(skip)
-        self.force_cat = make_list(force_cat)
-        self.force_text = make_list(force_text)
-        self.force_num = make_list(force_num)
+        # NEW (12-14-2020): rename "index" features
+        def rename_index(list_of_feature_names):
+            return [x if x != "index" else "df_index" for x in list_of_feature_names]
+
+        self.skip = rename_index(make_list(skip))
+        self.force_cat = rename_index(make_list(force_cat))
+        self.force_text = rename_index(make_list(force_text))
+        self.force_num = rename_index(make_list(force_num))
 
     def get_predetermined_type(self, feature_name: str):
         if feature_name in self.skip:

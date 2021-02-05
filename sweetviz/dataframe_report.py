@@ -61,6 +61,14 @@ class DataframeReport:
         if len(su.get_duplicate_cols(source_df)) > 0:
             raise ValueError('Duplicate column names detected in "source"; this is not supported.')
 
+        # NEW (12-14-2020): Rename indices that use the reserved name "index"
+        # From pandas-profiling:
+        # If the DataFrame contains a column or index named `index`, this will produce errors. We rename the {index,column} to be `df_index`.
+        if 'index' in source_df.columns:
+            source_df = source_df.rename(columns={"index": "df_index"})
+            if target_feature_name == 'index':
+                target_feature_name = 'df_index'
+
         all_source_names = [cur_name for cur_name, cur_series in source_df.iteritems()]
         if compare is None:
             compare_df = None
@@ -68,12 +76,16 @@ class DataframeReport:
             all_compare_names = list()
         elif type(compare) == pd.DataFrame:
             compare_df = compare
+            if 'index' in compare_df.columns:
+                compare_df = compare_df.rename(columns={"index": "df_index"})
             self.compare_name = "Compared"
             all_compare_names = [cur_name for cur_name, cur_series in compare_df.iteritems()]
         elif type(compare) == list:
             if len(compare) != 2:
                 raise ValueError('"compare" parameter should either be a string or a list of 2 elements: [dataframe, "Name"].')
             compare_df = compare[0]
+            if 'index' in compare_df.columns:
+                compare_df = compare_df.rename(columns={"index": "df_index"})
             self.compare_name = compare[1]
             all_compare_names = [cur_name for cur_name, cur_series in compare_df.iteritems()]
         else:
@@ -82,6 +94,7 @@ class DataframeReport:
         # Validate some params
         if compare_df is not None and len(su.get_duplicate_cols(compare_df)) > 0:
             raise ValueError('Duplicate column names detected in "compare"; this is not supported.')
+
 
         if target_feature_name in fc.skip:
             raise ValueError(f'"{target_feature_name}" was also specified as "skip". Target cannot be skipped.')
@@ -112,14 +125,19 @@ class DataframeReport:
         self.progress_bar.set_description_str("[Summarizing dataframe]")
         self.summary_source = dict()
         self.summarize_dataframe(source_df, self.source_name, self.summary_source, fc.skip)
-        if target_feature_name:
-            self.summary_source["num_columns"] = self.summary_source["num_columns"] - 1
+        # UPDATE 2021-02-05: Count the target has an actual feature!!! It is!!!
+        # if target_feature_name:
+        #     self.summary_source["num_columns"] = self.summary_source["num_columns"] - 1
         if compare_df is not None:
             self.summary_compare = dict()
             self.summarize_dataframe(compare_df, self.compare_name, self.summary_compare, fc.skip)
-            if target_feature_name:
-                if target_feature_name in compare_df.columns:
-                    self.summary_compare["num_columns"] = self.summary_compare["num_columns"] - 1
+            cmp_not_in_src = \
+                [name for name in all_compare_names if name not in all_source_names]
+            self.summary_compare["num_cmp_not_in_source"] = len(cmp_not_in_src)
+            # UPDATE 2021-02-05: Count the target has an actual feature!!! It is!!!
+            # if target_feature_name:
+            #     if target_feature_name in compare_df.columns:
+            #         self.summary_compare["num_columns"] = self.summary_compare["num_columns"] - 1
         else:
             self.summary_compare = None
         self.progress_bar.update(ratio_progress_of_df_summary_vs_feature)
@@ -323,7 +341,7 @@ class DataframeReport:
                 return None
         return self._features[feature_name].get("type")
 
-    def summarize_dataframe(self, source: pd.DataFrame, name: str, target_dict: dict, skip: List[str]):
+    def  summarize_dataframe(self, source: pd.DataFrame, name: str, target_dict: dict, skip: List[str]):
         target_dict["name"] = name
         target_dict["num_rows"] = len(source)
         target_dict["num_columns"] = len(source.columns)
@@ -334,6 +352,7 @@ class DataframeReport:
             float(target_dict["memory_total"]) / target_dict["num_rows"]
 
         target_dict["duplicates"] = NumWithPercent(sum(source.duplicated()), len(source))
+        target_dict["num_cmp_not_in_source"] = 0 # set later, as needed
 
     def summarize_category_types(self, source: pd.DataFrame, target_dict: dict, skip: List[str]):
         target_dict["num_cat"] = len([x for x in self._features.values()
