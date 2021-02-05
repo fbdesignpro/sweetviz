@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.0.6 - 2021-02-04
+
+- **Fixed:** report issue introduced in 2.0.5
+
 #### 2.0.5 - 2021-02-04
 
 - **Fixed:** crashes due to LaTeX escape codes in feature names that were causing "Font family ['STIXGeneral'] not found" errors

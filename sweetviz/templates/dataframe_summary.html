@@ -57,13 +57,15 @@
                 <div class="pos-df-summary-center">TEXT</div>
                 <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_text if dataframe.summary_compare is not none  }}</div>
             </div>
-            {% if dataframe.summary_compare.num_cmp_not_in_source > 0 %}
-                <div class="dataframe-summary-row row-colored">
-                    <div class="pos-df-summary-source color-source"></div>
-                    <div class="pos-df-summary-center"> </div>
-                    <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_cmp_not_in_source }}
-                        <span class="color-normal" style="font-size: 10px;"> (IGNORED: NOT IN SOURCE DATASET)</span></div>
-                </div>
+            {% if dataframe.summary_compare is not none: %}
+                {% if dataframe.summary_compare.num_cmp_not_in_source > 0 %}
+                    <div class="dataframe-summary-row row-colored">
+                        <div class="pos-df-summary-source color-source"></div>
+                        <div class="pos-df-summary-center"> </div>
+                        <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_cmp_not_in_source }}
+                            <span class="color-normal" style="font-size: 10px;"> (IGNORED: NOT IN SOURCE DATASET)</span></div>
+                    </div>
+                {% endif %}
             {% endif %}
             <button class="button-assoc color-source button-border-source size-df-summary-button pos-df-summary-button-assoc-source" id="button-summary-associations-source"
                 data-detail-div="df-assoc-source">ASSOCIATIONS</button >
