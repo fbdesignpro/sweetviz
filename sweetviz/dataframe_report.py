@@ -259,9 +259,9 @@ class DataframeReport:
         # self.progress_bar.close()
 
         # Wrap up summary
-        self.summarize_category_types(source_df, self.summary_source, fc.skip)
+        self.summarize_category_types(source_df, self.summary_source, fc.skip, self._target)
         if compare is not None:
-            self.summarize_category_types(compare_df, self.summary_compare, fc.skip)
+            self.summarize_category_types(compare_df, self.summary_compare, fc.skip, self._target)
         self.dataframe_summary_html = sv_html.generate_html_dataframe_summary(self)
 
         self.graph_legend = GraphLegend(self)
@@ -354,16 +354,22 @@ class DataframeReport:
         target_dict["duplicates"] = NumWithPercent(sum(source.duplicated()), len(source))
         target_dict["num_cmp_not_in_source"] = 0 # set later, as needed
 
-    def summarize_category_types(self, source: pd.DataFrame, target_dict: dict, skip: List[str]):
-        target_dict["num_cat"] = len([x for x in self._features.values()
+    def summarize_category_types(self, this_df: pd.DataFrame, dest_dict: dict, skip: List[str], \
+            source_target_dict):
+        dest_dict["num_cat"] = len([x for x in self._features.values()
                                         if (x["type"] == FeatureType.TYPE_CAT or x["type"] == FeatureType.TYPE_BOOL)
-                                            and x["name"] not in skip and x["name"] in source])
-        target_dict["num_numerical"] = len([x for x in self._features.values()
+                                            and x["name"] not in skip and x["name"] in this_df])
+        dest_dict["num_numerical"] = len([x for x in self._features.values()
                                                     if x["type"] == FeatureType.TYPE_NUM and x["name"] not in skip \
-                                                        and x["name"] in source])
-        target_dict["num_text"] = len([x for x in self._features.values()
+                                                        and x["name"] in this_df])
+        dest_dict["num_text"] = len([x for x in self._features.values()
                                                if x["type"] == FeatureType.TYPE_TEXT and x["name"] not in skip \
-                                                    and x["name"] in source])
+                                                    and x["name"] in this_df])
+        if source_target_dict is not None and source_target_dict["name"] in this_df:
+            if source_target_dict["type"] == FeatureType.TYPE_NUM:
+                dest_dict["num_numerical"] = dest_dict["num_numerical"] + 1
+            elif source_target_dict["type"] == FeatureType.TYPE_CAT or source_target_dict["type"] == FeatureType.TYPE_BOOL:
+                dest_dict["num_cat"] = dest_dict["num_cat"] + 1
         return
 
     def get_what_influences_me(self, feature_name: str) -> dict:
