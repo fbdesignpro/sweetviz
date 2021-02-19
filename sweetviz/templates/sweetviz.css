@@ -145,9 +145,9 @@ a { color: #58544f; }
 .pos-df-summary-source      { position: absolute; left: 0px; width: 231px; text-align: right;}
 .pos-df-summary-center     { position: absolute; left: 231px; width: 100px; text-align: center;}
 .pos-df-summary-compare      { position: absolute; left: 331px; width: 200px; text-align: left;}
-.size-df-summary-button     { width: 156px; height: 36px; }
-.pos-df-summary-button-assoc-source { position: absolute; top: 53px; left: 10px; }
-.pos-df-summary-button-assoc-compare { position: absolute; top: 53px; left: 397px; }
+.size-df-summary-button     { width: 156px; height: 35px; }
+.pos-df-summary-button-assoc-source { position: absolute; top: 54px; left: 10px; }
+.pos-df-summary-button-assoc-compare { position: absolute; top: 54px; left: 397px; }
 
 /*
  FEATURE SUMMARY

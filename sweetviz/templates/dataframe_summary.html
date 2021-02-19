@@ -26,7 +26,7 @@
             <div class="dataframe-summary-row row">
                 <div class="pos-df-summary-source color-source">
                     {% if dataframe.summary_source.num_skipped_columns > 0 %}
-                        ({{ dataframe.summary_source.num_skipped_columns }} SKIPPED)
+                        (INCL. {{ dataframe.summary_source.num_skipped_columns }} SKIPPED)
                     {% endif %}
                     {{ dataframe.summary_source.num_columns }}
                 </div>
@@ -36,7 +36,7 @@
                         {% if dataframe.summary_compare.num_skipped_columns is not none %}
                             {{ dataframe.summary_compare.num_columns }}
                             {% if dataframe.summary_compare.num_skipped_columns > 0 %}
-                                ({{ dataframe.summary_compare.num_skipped_columns }} SKIPPED)
+                                (INCL. {{ dataframe.summary_compare.num_skipped_columns }} SKIPPED)
                             {% endif %}
                         {% endif %}
                     {% endif %}
@@ -59,7 +59,7 @@
             </div>
             {% if dataframe.summary_compare is not none: %}
                 {% if dataframe.summary_compare.num_cmp_not_in_source > 0 %}
-                    <div class="dataframe-summary-row row-colored">
+                    <div class="dataframe-summary-row">
                         <div class="pos-df-summary-source color-source"></div>
                         <div class="pos-df-summary-center"> </div>
                         <div class="pos-df-summary-compare color-compare">{{ dataframe.summary_compare.num_cmp_not_in_source }}
