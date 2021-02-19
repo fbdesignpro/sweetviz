@@ -1,5 +1,14 @@
 # Change log
 
+#### 2.0.7 - 2021-02-19
+
+- **Enhanced:** feature counts near 0% and 100% will now show a more accurate "<1%" and ">99%"
+- **Enhanced:** added more changes to feature counting to make it more consistent
+- **Enhanced:** now allowing tuples (not just lists) as parameters for naming datasets
+- **Fixed:** appearance of feature numbers above 100 (better alignment) and 1000 (now shown vertically)
+- **Fixed:** sorting issue causing feature summaries above 2500 to disappear
+- **Fixed:** progress bar issues causing it to be repeated or cause line ending issues
+
 #### 2.0.6 - 2021-02-04
 
 - **Fixed:** report issue introduced in 2.0.5
@@ -8,7 +17,7 @@
 
 - **Fixed:** crashes due to LaTeX escape codes in feature names that were causing "Font family ['STIXGeneral'] not found" errors
 - **Fixed:** better handling of features named "index"
-- **Updated:** made feature count more consistent and clear: taking "target" into account as well as explicitly calling out when features are not present in the comparison data frame
+- **Enhanced:** made feature count more consistent and clear: taking "target" into account as well as explicitly calling out when features are not present in the comparison data frame
 - **Enhanced:** made "Association" buttons more obvious and color-coded (they were a bit too hard to see given their importance)
 
 #### 2.0.4 - 2020-12-10
