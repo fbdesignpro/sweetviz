@@ -51,7 +51,7 @@ class DataframeReport:
         if type(source) == pd.DataFrame:
             source_df = source
             self.source_name = "DataFrame"
-        elif type(source) == list:
+        elif type(source) == list or type(source) == tuple:
             if len(source) != 2:
                 raise ValueError('"source" parameter should either be a string or a list of 2 elements: [dataframe, "Name"].')
             source_df = source[0]
@@ -80,7 +80,7 @@ class DataframeReport:
                 compare_df = compare_df.rename(columns={"index": "df_index"})
             self.compare_name = "Compared"
             all_compare_names = [cur_name for cur_name, cur_series in compare_df.iteritems()]
-        elif type(compare) == list:
+        elif type(compare) == list or type(compare) == tuple:
             if len(compare) != 2:
                 raise ValueError('"compare" parameter should either be a string or a list of 2 elements: [dataframe, "Name"].')
             compare_df = compare[0]
