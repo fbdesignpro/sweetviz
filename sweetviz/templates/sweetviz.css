@@ -146,8 +146,8 @@ a { color: #58544f; }
 .pos-df-summary-center     { position: absolute; left: 231px; width: 100px; text-align: center;}
 .pos-df-summary-compare      { position: absolute; left: 331px; width: 200px; text-align: left;}
 .size-df-summary-button     { width: 156px; height: 36px; }
-.pos-df-summary-button-assoc-source { position: absolute; top: 50px; left: 10px; }
-.pos-df-summary-button-assoc-compare { position: absolute; top: 50px; left: 397px; }
+.pos-df-summary-button-assoc-source { position: absolute; top: 53px; left: 10px; }
+.pos-df-summary-button-assoc-compare { position: absolute; top: 53px; left: 397px; }
 
 /*
  FEATURE SUMMARY
@@ -157,6 +157,14 @@ a { color: #58544f; }
     position: absolute; top: 17px; left: 0px; width: 34px;
     font-family: RobotoBoldCond; font-size: 26px;
     color: #d9d9d9; text-align: right;
+}
+.summary-number-vertical
+{
+    position: absolute; top: 25px; left: 6px; width: 34px;
+    font-family: RobotoBoldCond; font-size: 26px;
+    color: #d9d9d9; text-align: right;
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
 }
 
 /* BASE STATS */
