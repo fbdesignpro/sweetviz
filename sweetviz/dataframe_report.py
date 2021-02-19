@@ -119,7 +119,7 @@ class DataframeReport:
 
         self.progress_bar = tqdm(total=progress_chunks, bar_format= \
                 '{desc:45}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
-                ascii=False, dynamic_ncols=True)
+                ascii=False, dynamic_ncols=True, position=0, leave= True)
 
         # Summarize dataframe
         self.progress_bar.set_description_str("[Summarizing dataframe]")
@@ -285,12 +285,12 @@ class DataframeReport:
             self._association_graphs_compare["all"] = GraphAssoc(self, "all", self._associations_compare)
             self.progress_bar.set_description_str("Done! Use 'show' commands to display/save. ")
             self.progress_bar.update(1)
-            self.progress_bar.close()
         else:
             self._associations = None
             self._associations_compare = None
             self.associations_html_source = None
             self.associations_html_compare = None
+        self.progress_bar.close()
         return
 
     def __getitem__(self, key):
@@ -505,7 +505,6 @@ class DataframeReport:
         f = open(filepath, 'w', encoding="utf-8")
         f.write(self._page_html)
         f.close()
-
         if open_browser:
             print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: the web browser MAY not pop up, regardless, the report IS saved in your notebook/colab files.")
             # Not sure how to work around this: not fatal but annoying...Notebook/colab
