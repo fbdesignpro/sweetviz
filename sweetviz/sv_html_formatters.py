@@ -28,9 +28,11 @@ def fmt_assoc(value: float) -> str:
 
 def fmt_percent_parentheses(value: float) -> str:
     # This returns the percentage as a rounded number. 100% is only used if truly 100%
+    if value > 99.0 and value < 100.0:
+        return "(>99%)"
+    if  value < 1.0 and value > 0.0:
+        return "(<1%)"
     rounded = round(value)
-    if rounded == 100 and value != 100.0:
-        rounded = 99
     return f"({rounded:.0f}%)"
 
 
@@ -39,15 +41,21 @@ def fmt_percent(value: float) -> str:
     if value is None or np.isnan(value):
         # Support for empty fields
         return "---"
+    if value < 1.0 and value > 0.0:
+        return "<1%"
+    if value > 99.0 and value < 100.0:
+        return ">99%"
     rounded = round(value)
-    if rounded == 100 and value != 100.0:
-        rounded = 99
     return f"{rounded:.0f}%"
 
 
 def fmt_percent1d(value: float) -> str:
     if value is None or np.isnan(value):
         return "---"
+    if value < 0.1 and value > 0.0:
+        return "<0.1%"
+    if value > 99.9 and value < 100.0:
+        return ">99.9%"
     return f"{value:.1f}%"
 
 
