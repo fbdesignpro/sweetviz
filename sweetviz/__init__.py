@@ -1,7 +1,7 @@
 # sweetviz public interface
 # -----------------------------------------------------------------------------------
 __title__ = 'sweetviz'
-__version__ = "2.0.7"
+__version__ = "2.0.8"
 __author__ = "Francois Bertrand"
 __license__ = 'MIT'
 

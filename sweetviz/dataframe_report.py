@@ -38,6 +38,7 @@ class DataframeReport:
         self.compare_name = None
         self._target = None
         self.test_mode = False
+        self.corr_warning = list()
         if fc is None:
             fc = FeatureConfig()
 
@@ -453,8 +454,16 @@ class DataframeReport:
                     # ------------------------------------
                     if self[other.source.name]["type"] == FeatureType.TYPE_NUM:
                         # NUM-NUM
-                        cur_associations[other.source.name] = \
-                            feature.source.corr(other.source, method='pearson')
+                        try:
+                            cur_associations[other.source.name] = \
+                                feature.source.corr(other.source, method='pearson')
+                        except FloatingPointError:
+                            # This usually happens when there is only 1 non-NaN value in each data series
+                            # Assigning the value 1.0 as per
+                            # https://stats.stackexchange.com/questions/94150/why-is-the-pearson-correlation-1-when-only-two-data-values-are-available
+                            # -> Also showing a warning
+                            cur_associations[other.source.name] = 1.0
+                            self.corr_warning.append(feature_name + "/" + other.source.name)
                         # TODO: display correlation error better in graph!
                         if isnan(cur_associations[other.source.name]):
                             if feature.source.equals(other.source):
@@ -512,6 +521,10 @@ class DataframeReport:
             webbrowser.open('file://' + os.path.realpath(filepath))
         else:
             print(f"Report {filepath} was generated.")
+        if len(self.corr_warning):
+            print("---\nWARNING: one or more correlations had an edge-case/error and a 1.0 correlation was assigned\n"
+                  "(likely due to only a single row containing non-NaN values for both correlated features)\n"
+                  "Affected correlations:" + str(self.corr_warning))
 
     def show_notebook(self, w=None, h=None, scale=None, layout=None, filepath=None):
         w = self.use_config_if_none(w, "notebook_width")
@@ -550,3 +563,8 @@ class DataframeReport:
             f.write(self._page_html)
             f.close()
             print(f"Report '{filepath}' was saved to storage.")
+
+        if len(self.corr_warning):
+            print("WARNING: one or more correlations had an edge-case/error and a 1.0 correlation was assigned\n"
+                  "(likely due to only a single row containing non-NaN values for both correlated features)\n"
+                  "Affected correlations:" + str(self.corr_warning))

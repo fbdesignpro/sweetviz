@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.0.8 - 2021-02-23
+
+- **Fixed:** issue causing "FloatingPointError: divide by zero encountered in true_divide" in some edge cases
+
 #### 2.0.7 - 2021-02-19
 
 - **Enhanced:** feature counts near 0% and 100% will now show a more accurate "<1%" and ">99%"

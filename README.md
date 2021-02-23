@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-2.0.7-blue) ![v](https://img.shields.io/badge/updated-February%2019th,%20%202021-green)
+![v](https://img.shields.io/badge/version-2.0.8-blue) ![v](https://img.shields.io/badge/updated-February%2023,%20%202021-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
@@ -15,7 +15,9 @@ Usage and parameters are described below, [you can also find an article describi
 **Sweetviz development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in the brand-new GitHub "Discussions" tab right here!](https://github.com/fbdesignpro/sweetviz/discussions).
 
 ## Examples
-[**Example report** using the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
+[**Example HTML report** using the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
+
+[**Example Notebook w/docs** on Colab (Jupyter/other notebooks should also work)](https://colab.research.google.com/drive/1-md6YEwcVGWVnQWTBirQSYQYgdNoeSWg?usp=sharing)
 
 [**Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
 
