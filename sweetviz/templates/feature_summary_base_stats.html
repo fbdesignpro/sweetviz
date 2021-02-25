@@ -70,5 +70,42 @@
                 </div>
             {% endif %}
         </div>
+        {%  if feature_dict.type == FeatureType.TYPE_NUM %}
+            <div class="base-stats-row">
+            </div>
+            <div class="base-stats-row">
+                <div class="text-label color-normal pos-base-stats__label {{ "color-target-summary" if feature_dict.is_target }}">ZEROES:</div>
+                <div class="text-value color-source pos-base-stats__source">
+                    {% if feature_dict.base_stats.num_zeroes.number > 0: %}
+                        {{ feature_dict.base_stats.num_zeroes.number|fmt_int_commas }}
+                    {% else %}
+                        ---
+                    {% endif %}
+                </div>
+                <div class="text-value color-source pos-base-stats__source-perc">
+                    {% if feature_dict.base_stats.num_zeroes.number > 0: %}
+                        {{ feature_dict.base_stats.num_zeroes.perc|fmt_percent_parentheses }}
+                    {% else %}
+
+                    {% endif %}
+                </div>
+                {% if compare_dict is not none: %}
+                 <div class="text-value color-compare pos-base-stats__compare">
+                    {% if compare_dict.base_stats.num_zeroes.number > 0: %}
+                        {{ compare_dict.base_stats.num_zeroes.number|fmt_int_commas }}
+                    {% else %}
+                        ---
+                    {% endif %}
+                </div>
+                <div class="text-value color-compare pos-base-stats__compare-perc">
+                    {% if compare_dict.base_stats.num_zeroes.number > 0: %}
+                        {{ compare_dict.base_stats.num_zeroes.perc|fmt_percent_parentheses }}
+                    {% else %}
+
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 

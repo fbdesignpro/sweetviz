@@ -59,7 +59,7 @@ def add_series_base_stats_to_dict(series: pd.Series, counts: dict, updated_dict:
     base_stats = updated_dict["base_stats"]
     num_total = counts["num_rows_total"]
     try:
-        num_zeros = series[series == 0].sum()
+        num_zeros = series[series == 0].count()
     except TypeError:
         num_zeros = 0
     non_nan = counts["num_rows_with_data"]
