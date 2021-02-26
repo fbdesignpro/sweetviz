@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.0.9 - 2021-02-26
+
+- **Added:** numerical features now show "ZEROES" count in the summary tab
+
 #### 2.0.8 - 2021-02-23
 
 - **Fixed:** issue causing "FloatingPointError: divide by zero encountered in true_divide" in some edge cases
