@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.1.0 - 2021-04-01
+
+- **Added:** support for Comet.ml
+
 #### 2.0.9 - 2021-02-26
 
 - **Added:** numerical features now show "ZEROES" count in the summary tab

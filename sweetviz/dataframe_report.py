@@ -14,6 +14,7 @@ from sweetviz.graph_associations import CORRELATION_ERROR
 from sweetviz.graph_associations import CORRELATION_IDENTICAL
 from sweetviz.graph_legend import GraphLegend
 from sweetviz.config import config
+import sweetviz.comet_ml_logger as comet_ml_logger
 import sweetviz.sv_html as sv_html
 from sweetviz.feature_config import FeatureConfig
 import webbrowser
@@ -39,6 +40,7 @@ class DataframeReport:
         self._target = None
         self.test_mode = False
         self.corr_warning = list()
+        self._comet_ml_logger = comet_ml_logger.CometLogger()
         if fc is None:
             fc = FeatureConfig()
 
@@ -495,6 +497,18 @@ class DataframeReport:
             return config["Output_Defaults"][config_name]
         return passed_value
 
+    def generate_comet_friendly_html(self):
+        # Enforce comet_ml-friendly layout and re-output report based on INI settings (comet_ml_Defaults)
+        self.page_layout = config["comet_ml_defaults"]["html_layout"]
+        self.scale = float(config["comet_ml_defaults"]["html_scale"])
+        sv_html.set_summary_positions(self)
+        sv_html.generate_html_detail(self)
+        if self.associations_html_source:
+            self.associations_html_source = sv_html.generate_html_associations(self, "source")
+        if self.associations_html_compare:
+            self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
+        self._page_html = sv_html.generate_html_dataframe_page(self)
+
     def show_html(self, filepath='SWEETVIZ_REPORT.html', open_browser=True, layout='widescreen', scale=None):
         scale = float(self.use_config_if_none(scale, "html_scale"))
         layout = self.use_config_if_none(layout, "html_layout")
@@ -525,6 +539,12 @@ class DataframeReport:
             print("---\nWARNING: one or more correlations had an edge-case/error and a 1.0 correlation was assigned\n"
                   "(likely due to only a single row containing non-NaN values for both correlated features)\n"
                   "Affected correlations:" + str(self.corr_warning))
+
+        # Auto-log to comet_ml if desired & present
+        if self._comet_ml_logger._logging:
+            self.generate_comet_friendly_html()
+            self._comet_ml_logger.log_html(self._page_html)
+            self._comet_ml_logger.end()
 
     def show_notebook(self, w=None, h=None, scale=None, layout=None, filepath=None):
         w = self.use_config_if_none(w, "notebook_width")
@@ -568,3 +588,16 @@ class DataframeReport:
             print("WARNING: one or more correlations had an edge-case/error and a 1.0 correlation was assigned\n"
                   "(likely due to only a single row containing non-NaN values for both correlated features)\n"
                   "Affected correlations:" + str(self.corr_warning))
+
+       # Auto-log to comet_ml if desired & present
+        if self._comet_ml_logger._logging:
+            self.generate_comet_friendly_html()
+            self._comet_ml_logger.log_html(self._page_html)
+            self._comet_ml_logger.end()
+
+    def log_comet(self, experiment: 'comet_ml_logger.Experiment'):
+        self.generate_comet_friendly_html()
+        try:
+            experiment.log_html(self._page_html)
+        except:
+            print("log_comet(): error logging HTML report.")

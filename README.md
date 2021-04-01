@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-2.0.9-blue) ![v](https://img.shields.io/badge/updated-February%2026,%20%202021-green)
+![v](https://img.shields.io/badge/version-2.1.0-blue) ![v](https://img.shields.io/badge/updated-April%2001,%20%202021-green)
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
@@ -14,13 +14,14 @@ Usage and parameters are described below, [you can also find an article describi
 
 **Sweetviz development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in the brand-new GitHub "Discussions" tab right here!](https://github.com/fbdesignpro/sweetviz/discussions).
 
-## Examples
+## Examples & mentions
 [**Example HTML report** using the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
 
 [**Example Notebook w/docs** on Colab (Jupyter/other notebooks should also work)](https://colab.research.google.com/drive/1-md6YEwcVGWVnQWTBirQSYQYgdNoeSWg?usp=sharing)
 
-[**Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
+[**Medium Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
 
+[![KDNuggets](https://www.kdnuggets.com/images/tkb-2102-g.png)](https://www.kdnuggets.com/2021/03/know-your-data-much-faster-sweetviz-python-library.html)
 
 # Features
 - **Target analysis** 
@@ -36,6 +37,12 @@ Usage and parameters are described below, [you can also find an article describi
   - Type, unique values, missing values, duplicate rows, most frequent values
   - Numerical analysis: 
     - min/max/range, quartiles, mean, mode, standard deviation, sum, median absolute deviation, coefficient of variation, kurtosis, skewness
+
+## New & notable
+- Version 2.1: **Comet.ml** support
+- Version 2.0: **Jupyter, Colab & other notebook** support, report **scaling & vertical layout**  
+
+_(see below for docs on these features)_
 
 # Upgrading
 Some people have experienced mixed results behavior upgrading through `pip`. To update to the latest from an existing install, it is recommended to `pip uninstall sweetviz` first, then simply install.
@@ -148,7 +155,7 @@ sv.config_parser.read("Override.ini")
 ```
 **IMPORTANT #1:** it is best to load overrides **before any other command**, as many of the INI options are used in the report generation.  
 
-**IMPORTANT #2:** always set the header (e.g. `[General]` before the value, otherwise there will be an error).  
+**IMPORTANT #2:** always **put the header line** (e.g. `[General]`) before a set of values in your override INI file, **otherwise your settings will be ignored**. See examples below.
 
 ### Most useful config overrides
 You can look into the file `sweetviz_defaults.ini` for what can be overriden (warning: much of it is a work in progress and not well documented), but the most useful overrides are as follows.
@@ -198,6 +205,23 @@ Correlations are also displayed in the detail section of each feature, with the 
 ![Associations detail](http://cooltiming.com/SV/associations_detail.PNG)
 
 Finally, it is worth noting these correlation/association methods shouldn’t be taken as gospel as they make some assumptions on the underlying distribution of data and relationships. However they can be a _very_ useful starting point.
+
+# Comet.ml integration
+As of 2.1, Sweetviz now fully integrates [Comet.ml](https://www.comet.ml). This means Sweetviz will **automatically log any reports generated** using `show_html()` and `show_notebook()` to your workspace, as long as your API key is set up correctly in your environment.
+
+Additionally, you can also use the new function `sweetviz.log_comet(experiment_object)` to explicitly upload a report for a given experiment to your workspace.
+
+You can see an example of a report in a [Comet.ml workspace](https://www.comet.ml/fbdesignpro/sweetviz-comet/d005158117c24924b07476887cd5ddfa?experiment-tab=html).
+
+## Comet report parameters
+You can customize how the Sweetviz report looks in your Comet workspace by overriding the `[comet_ml_defaults]` section of configuration file. See above for more information on using the INI override.
+
+You can choose to use either the `widescreen` (horizontal) or `vertical` layouts, as well as set your preferred scale, by putting the following in your override INI file:
+```
+[comet_ml_defaults]
+html_layout = vertical
+html_scale = 0.85
+```
 
 # Troubleshooting / FAQ
 - **Installation issues**
