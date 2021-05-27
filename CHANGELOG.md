@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.1.2 - 2021-05-27
+
+- **Fixed:** issue with comet.ml in a notebook environment
+
 #### 2.1.1 - 2021-05-27
 
 - **Fixed:** division by zero crash in some cases

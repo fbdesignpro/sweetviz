@@ -40,7 +40,6 @@ class DataframeReport:
         self._target = None
         self.test_mode = False
         self.corr_warning = list()
-        self._comet_ml_logger = comet_ml_logger.CometLogger()
         if fc is None:
             fc = FeatureConfig()
 
@@ -544,6 +543,7 @@ class DataframeReport:
                   "Affected correlations:" + str(self.corr_warning))
 
         # Auto-log to comet_ml if desired & present
+        self._comet_ml_logger = comet_ml_logger.CometLogger()
         if self._comet_ml_logger._logging:
             self.generate_comet_friendly_html()
             self._comet_ml_logger.log_html(self._page_html)
@@ -592,7 +592,8 @@ class DataframeReport:
                   "(likely due to only a single row containing non-NaN values for both correlated features)\n"
                   "Affected correlations:" + str(self.corr_warning))
 
-       # Auto-log to comet_ml if desired & present
+        # Auto-log to comet_ml if desired & present
+        self._comet_ml_logger = comet_ml_logger.CometLogger()
         if self._comet_ml_logger._logging:
             self.generate_comet_friendly_html()
             self._comet_ml_logger.log_html(self._page_html)
