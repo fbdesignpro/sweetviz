@@ -351,8 +351,11 @@ class DataframeReport:
         target_dict["num_skipped_columns"] = len(source.columns) - len([x for x in source.columns if x not in skip])
 
         target_dict["memory_total"] = source.memory_usage(index=True, deep=True).sum()
-        target_dict["memory_single_row"] = \
-            float(target_dict["memory_total"]) / target_dict["num_rows"]
+        if target_dict["num_rows"] > 0:
+            target_dict["memory_single_row"] = \
+                float(target_dict["memory_total"]) / target_dict["num_rows"]
+        else:
+            target_dict["memory_single_row"] = 0
 
         target_dict["duplicates"] = NumWithPercent(sum(source.duplicated()), len(source))
         target_dict["num_cmp_not_in_source"] = 0 # set later, as needed
