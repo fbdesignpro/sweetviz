@@ -1,5 +1,11 @@
 # Change log
 
+#### 2.1.1 - 2021-05-27
+
+- **Fixed:** division by zero crash in some cases
+- **Fixed:** association graph description text
+- **Fixed:** ignoring warning due to matplotlib/numpy/pandas version mismatches
+
 #### 2.1.0 - 2021-04-01
 
 - **Added:** support for Comet.ml
