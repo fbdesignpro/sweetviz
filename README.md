@@ -209,9 +209,9 @@ Finally, it is worth noting these correlation/association methods shouldn’t be
 # Comet.ml integration
 As of 2.1, Sweetviz now fully integrates [Comet.ml](https://www.comet.ml). This means Sweetviz will **automatically log any reports generated** using `show_html()` and `show_notebook()` to your workspace, as long as your API key is set up correctly in your environment.
 
-Additionally, you can also use the new function `sweetviz.log_comet(experiment_object)` to explicitly upload a report for a given experiment to your workspace.
+Additionally, you can also use the new function `report.log_comet(experiment_object)` to explicitly upload a report for a given experiment to your workspace.
 
-You can see an example of a report in a [Comet.ml workspace](https://www.comet.ml/fbdesignpro/sweetviz-comet/d005158117c24924b07476887cd5ddfa?experiment-tab=html).
+You can see an example of a [Colab notebook](https://colab.research.google.com/drive/1SK1I-gU6nLchesbMtFD9ZuzJHyzleFAr?usp=sharing) to generate the report, and its corresponding report in a [Comet.ml workspace](https://www.comet.ml/fbdesignpro/sweetviz-comet/d005158117c24924b07476887cd5ddfa?experiment-tab=html).
 
 ## Comet report parameters
 You can customize how the Sweetviz report looks in your Comet workspace by overriding the `[comet_ml_defaults]` section of configuration file. See above for more information on using the INI override.
