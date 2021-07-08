@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.1.3 - 2021-07-08
+
+- **Enhanced:** added info tag for comet.ml-generated reports
+
 #### 2.1.2 - 2021-05-27
 
 - **Fixed:** issue with comet.ml in a notebook environment

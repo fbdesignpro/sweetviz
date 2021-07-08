@@ -14,6 +14,7 @@ class CometLogger():
             try:
                 self._experiment = Experiment(auto_metric_logging=False,
                                               display_summary_level=0)
+                self._experiment.log_other("Created from", "sweetviz!")
                 self._logging = True
             except:
                 print("ERROR: comet_ml is installed, but not configured properly (e.g. check API key setup). HTML reports will not be uploaded.")
