@@ -92,6 +92,7 @@ class GraphNumeric(sweetviz.graph.Graph):
                 source_bins_series = pd.cut(to_process.source,
                                             bins=bin_limits,
                                             labels=False)
+                source_bins_series = source_bins_series.fillna(0)
                 # Create empty bin_averages, then fill in with values
                 bin_averages = [None] * num_bins
                 for b in range(0, num_bins):
@@ -111,6 +112,7 @@ class GraphNumeric(sweetviz.graph.Graph):
                     compare_bins_series = pd.cut(to_process.compare,
                                                 bins=bin_limits,
                                                 labels=False)
+                    compare_bins_series = compare_bins_series.fillna(0)
                     bin_averages = [None] * num_bins
                     for b in range(0, num_bins):
                         bin_averages[b] = \
@@ -123,6 +125,7 @@ class GraphNumeric(sweetviz.graph.Graph):
                 source_bins_series = pd.cut(source_true,
                                             bins=bin_limits,
                                             labels=False)
+                source_bins_series = source_bins_series.fillna(0)
                 total_counts_source = bin_counts[0] if to_process.compare is not None else bin_counts
                 total_counts_source = total_counts_source * len(cleaned_source)
                 bin_true_counts_source = [None] * num_bins
@@ -154,6 +157,7 @@ class GraphNumeric(sweetviz.graph.Graph):
                     compare_bins_series = pd.cut(compare_true,
                                                 bins=bin_limits,
                                                 labels=False)
+                    compare_bins_series = compare_bins_series.fillna(0)
                     total_counts_compare = bin_counts[1] * len(cleaned_compare)
                     bin_true_counts_compare = [None] * num_bins
                     for b in range(0, num_bins):
