@@ -113,7 +113,7 @@ Another way to get great insights is to use the comparison functionality to spli
 
 Support for this is built in through the `compare_intra()` function. This function takes a boolean series as one of the arguments, as well as an explicit "name" tuple for naming the (true, false) resulting datasets. Note that internally, this creates 2 separate dataframes to represent each resulting group. As such, it is more of a shorthand function of doing such processing manually.
 ```
-my_report = sv.compare_intra(my_dataframe, my_dataframe["Sex"] == "male", ["Male", "Female"], feature_config)
+my_report = sv.compare_intra(my_dataframe, my_dataframe["Sex"] == "male", ["Male", "Female"], "Survived", feature_config)
 ```
 ## Step 2: Show the report
 Once you have created your report object (e.g. `my_report` in the examples above), simply pass it into one of the two `show' functions:
