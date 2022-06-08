@@ -31,8 +31,11 @@ def get_clamped_value_counts(value_counts: pd.Series, max_categories_incl_other:
 
         else:
             other_series = pd.Series([total_in_other], index=[OTHERS_GROUPED])
-        clamped_series = clamped_series.append(other_series, ignore_index=False)
 
+        # UPDATE: series.append is deprecated!
+        clamped_series = pd.concat([clamped_series, other_series])
+        # clamped_series = clamped_series.append(other_series, ignore_index=False)
+        # assert(clamped_series.equals(clamped_seriesOLD))
     return clamped_series
 
 

@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.1.4 - 2022-06-08
+
+- **Fixed:** removed deprecation warnings
+
 #### 2.1.3 - 2021-07-08
 
 - **Enhanced:** added info tag for comet.ml-generated reports

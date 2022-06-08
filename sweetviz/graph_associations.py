@@ -214,13 +214,16 @@ class GraphAssoc(sweetviz.graph.Graph):
 def make_zero_square_dataframe(features):
     new_dataframe = pd.DataFrame()
     # Add columns
-    empty_row_dict = dict()
+    # empty_row_dict = dict()
     for feature in features:
         new_dataframe[feature] = pd.Series(dtype=float)
-        empty_row_dict[feature] = 0.0
+        # empty_row_dict[feature] = 0.0
+    new_dataframe = new_dataframe.reindex(list(range(0, len(features)))).reset_index(drop=True).fillna(0.0)
     # Add series
-    for categorical in features:
-        new_dataframe = new_dataframe.append(pd.Series(empty_row_dict, name=feature))
+    # for categorical in features:
+    #     # UPDATE: series.append is deprecated!
+    #     new_dataframe = new_dataframe.append(pd.Series(empty_row_dict, name=feature))
+    #     # new_dataframe = pd.concat([new_dataframe, pd.Series(empty_row_dict, name=feature)], axis=1, join='outer', ignore_index=False)
     # MUST DROP INDEX GRRRR
     return new_dataframe.reset_index(drop=True)
 
