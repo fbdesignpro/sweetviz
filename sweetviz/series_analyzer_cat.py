@@ -25,7 +25,7 @@ def do_detail_categorical(to_process: FeatureToProcess, updated_dict: dict):
     # Iterate through ALL VALUES and get stats
     total_num_compare = 0
     max_abs_value = 0
-    for item in category_counts.iteritems():
+    for item in category_counts.items():
         row = dict()
         row["name"] = item[0]
         row["count"] = NumWithPercent(item[1], num_values)
