@@ -16,7 +16,7 @@ def do_detail_text(to_process: FeatureToProcess, updated_dict: dict):
         num_values_compare = updated_dict["compare"]["base_stats"]["num_values"].number
 
     # Iterate through ALL VALUES and get stats
-    for item in to_process.source_counts["value_counts_without_nan"].iteritems():
+    for item in to_process.source_counts["value_counts_without_nan"].items():
         row = dict()
         row["name"] = html.escape(str(item[0]))
         row["count"] = NumWithPercent(item[1], num_values)
