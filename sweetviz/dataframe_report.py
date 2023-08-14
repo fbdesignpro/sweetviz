@@ -71,7 +71,7 @@ class DataframeReport:
             if target_feature_name == 'index':
                 target_feature_name = 'df_index'
 
-        all_source_names = [cur_name for cur_name, cur_series in source_df.iteritems()]
+        all_source_names = [cur_name for cur_name, cur_series in source_df.items()]
         if compare is None:
             compare_df = None
             self.compare_name = None
@@ -81,7 +81,7 @@ class DataframeReport:
             if 'index' in compare_df.columns:
                 compare_df = compare_df.rename(columns={"index": "df_index"})
             self.compare_name = "Compared"
-            all_compare_names = [cur_name for cur_name, cur_series in compare_df.iteritems()]
+            all_compare_names = [cur_name for cur_name, cur_series in compare_df.items()]
         elif type(compare) == list or type(compare) == tuple:
             if len(compare) != 2:
                 raise ValueError('"compare" parameter should either be a string or a list of 2 elements: [dataframe, "Name"].')
@@ -89,7 +89,7 @@ class DataframeReport:
             if 'index' in compare_df.columns:
                 compare_df = compare_df.rename(columns={"index": "df_index"})
             self.compare_name = compare[1]
-            all_compare_names = [cur_name for cur_name, cur_series in compare_df.iteritems()]
+            all_compare_names = [cur_name for cur_name, cur_series in compare_df.items()]
         else:
             raise ValueError('"compare" parameter should either be a string or a list of 2 elements: [dataframe, "Name"].')
 
@@ -106,7 +106,7 @@ class DataframeReport:
                 raise ValueError(f'"{key}" was specified in "feature_config" but is not found in source dataframe (watch case-sensitivity?).')
 
         # Find Features and Target (FILTER SKIPPED)
-        filtered_series_names_in_source = [cur_name for cur_name, cur_series in source_df.iteritems()
+        filtered_series_names_in_source = [cur_name for cur_name, cur_series in source_df.items()
                                            if cur_name not in fc.skip]
         for skipped in fc.skip:
             if skipped not in all_source_names and skipped not in all_compare_names:
