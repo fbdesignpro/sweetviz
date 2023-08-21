@@ -1,9 +1,9 @@
 # sweetviz public interface
 # -----------------------------------------------------------------------------------
 try:
-    from importlib.metadata import metadata # Python 3.8
+    from importlib.metadata import metadata # Python 3.8+
 except ImportError:
-    import importlib_metadata  as metadata # noqa: F401
+    from importlib_metadata import metadata # Python 3.7
 
 _metadata = metadata("sweetviz")
 __title__ = _metadata["name"]
