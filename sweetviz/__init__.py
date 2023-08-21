@@ -1,9 +1,13 @@
 # sweetviz public interface
 # -----------------------------------------------------------------------------------
-from importlib.metadata import version, metadata
+try:
+    from importlib.metadata import metadata # Python 3.8
+except ImportError:
+    import importlib_metadata  as metadata # noqa: F401
+
 _metadata = metadata("sweetviz")
 __title__ = _metadata["name"]
-__version__ = version("sweetviz")
+__version__ = _metadata["version"]
 __author__ = _metadata["Author-email"]
 __license__ = "MIT"
 
