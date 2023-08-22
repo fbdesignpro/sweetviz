@@ -22,7 +22,7 @@ def do_stats_numeric(series: pd.Series, updated_dict: dict):
     stats["kurtosis"] = series.kurt()
     stats["skewness"] = series.skew()
     stats["sum"] = series.sum()
-    stats["mad"] = series.mad()
+    stats["mad"] = (series - series.mean()).abs().mean() # deprecated: series.mad()
     stats["cv"] = stats["std"] / stats["mean"] if stats["mean"] else np.NaN
     return updated_dict
 
