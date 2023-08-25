@@ -39,6 +39,10 @@ def compare_intra(source_df: pd.DataFrame,
 
     data_true = source_df[condition_series]
     data_false = source_df[condition_series == False]
+    if len(data_false) == 0:
+        raise ValueError('compare_intra(): FALSE dataset is empty, nothing to compare!')
+    if len(data_true) == 0:
+        raise ValueError('compare_intra(): TRUE dataset is empty, nothing to compare!')
     report = sweetviz.DataframeReport([data_true, names[0]], target_feat,
                                       [data_false, names[1]],
                                       pairwise_analysis, feat_cfg)
