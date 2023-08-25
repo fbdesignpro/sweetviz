@@ -5,6 +5,7 @@ import sweetviz.series_analyzer_numeric
 import sweetviz.series_analyzer_cat
 import sweetviz.series_analyzer_text
 
+from distutils.version import LooseVersion
 
 def get_counts(series: pd.Series) -> dict:
     # The value_counts() function is used to get a Series containing counts of unique values.
@@ -17,7 +18,12 @@ def get_counts(series: pd.Series) -> dict:
         else:
             value_counts_without_nan = value_counts_with_nan
     else:
-        value_counts_without_nan = (value_counts_with_nan.reset_index().dropna().set_index("index").iloc[:, 0])
+        reset_value_counts = value_counts_with_nan.reset_index()
+        # Force column naming behavior to be similar for value_counts() being reset between 1.x and 2.x.: make sure col 0 is "index" and 1 is series.name
+        # -> This is a no-op in Pandas 1.x
+        reset_value_counts.rename(columns={reset_value_counts.columns[0]: "index", reset_value_counts.columns[1]:series.name}, inplace=True)
+
+        value_counts_without_nan = (reset_value_counts.dropna().set_index("index").iloc[:, 0])
     # print(value_counts_without_nan.index.dtype.name)
 
     # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]

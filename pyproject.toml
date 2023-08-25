@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["sweetviz"]
+
+[project]
+name = "sweetviz"
+version = "2.2.1"
+authors = [
+  { name = "Francois Bertrand", email = "fb@fbdesignpro.com" },
+]
+description = "A pandas-based library to visualize and compare datasets."
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.7"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords=[
+    "pandas",
+    "data-science",
+    "data-analysis",
+    "python",
+    "eda",
+]
+dependencies = [
+    'pandas>=0.25.3,!=1.0.0,!=1.0.1,!=1.0.2',
+    'numpy>=1.16.0',
+    'matplotlib>=3.1.3',
+    'tqdm>=4.43.0',
+    'scipy>=1.3.2',
+    'jinja2>=2.11.1',
+    'importlib_resources>=1.2.0',
+    'importlib_metadata;python_version<"3.8"',
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest >=6",
+  "pytest-cov >=3",
+]
+dev = [
+  "pytest >=6",
+  "pytest-cov >=3",
+]
+docs = [
+  "sphinx>=4.0",
+  "myst_parser>=0.13",
+  "sphinx_book_theme>=0.1.0",
+  "sphinx_copybutton",
+  "sphinx_autodoc_typehints",
+  "furo",
+]
+
+[project.urls]
+Homepage = "https://github.com/fbdesignpro/sweetviz"
+"Bug Tracker" = "https://github.com/fbdesignpro/sweetviz/issues"
+Discussions = "https://github.com/fbdesignpro/sweetviz/discussions"
+Changelog = "https://github.com/fbdesignpro/sweetviz/releases"

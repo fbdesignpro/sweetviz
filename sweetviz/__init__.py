@@ -1,9 +1,15 @@
 # sweetviz public interface
 # -----------------------------------------------------------------------------------
-__title__ = 'sweetviz'
-__version__ = "2.1.4"
-__author__ = "Francois Bertrand"
-__license__ = 'MIT'
+try:
+    from importlib.metadata import metadata # Python 3.8+
+except ImportError:
+    from importlib_metadata import metadata # Python 3.7
+
+_metadata = metadata("sweetviz")
+__title__ = _metadata["name"]
+__version__ = _metadata["version"]
+__author__ = _metadata["Author-email"]
+__license__ = "MIT"
 
 # These are the main API functions
 from sweetviz.sv_public import analyze, compare, compare_intra

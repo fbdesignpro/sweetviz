@@ -1,4 +1,6 @@
-![v](https://img.shields.io/badge/version-2.1.4-blue) ![v](https://img.shields.io/badge/updated-June%208,%20%202022-green)
+![v](https://img.shields.io/badge/version-2.2.1-blue) ![v](https://img.shields.io/badge/updated-August%2025,%20%202023-green)
+
+## NEWS (August 2023) -  Version 2.2.1: Big compatibility update for python 3.7+ and latest numpy versions!
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
@@ -21,7 +23,7 @@ Usage and parameters are described below, [you can also find an article describi
 
 [**Medium Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
 
-[![KDNuggets](https://www.kdnuggets.com/images/tkb-2102-g.png)](https://www.kdnuggets.com/2021/03/know-your-data-much-faster-sweetviz-python-library.html)
+[![KDNuggets](https://www.kdnuggets.com/images/tkb-2102-g.png)](https://www.kdnuggets.com/2021/03/know-your-data-much-faster-sweetviz-python-library.html) [![KDNuggets](https://www.kdnuggets.com/images/tkb-2103-g.png)](https://www.kdnuggets.com/2021/03/know-your-data-much-faster-sweetviz-python-library.html)
 
 # Features
 - **Target analysis** 
@@ -39,6 +41,7 @@ Usage and parameters are described below, [you can also find an article describi
     - min/max/range, quartiles, mean, mode, standard deviation, sum, median absolute deviation, coefficient of variation, kurtosis, skewness
 
 ## New & notable
+- Version 2.2: Big compatibility update for python 3.7+ and numpy versions
 - Version 2.1: **Comet.ml** support
 - Version 2.0: **Jupyter, Colab & other notebook** support, report **scaling & vertical layout**  
 
@@ -254,6 +257,13 @@ I definitely welcome the help I can get on this project, simply get in touch on 
 Please note that after a hectic development period, the code itself right now needs a bit of cleanup. :)
 
 # Special thanks & related materials
+### Contributors
+**A very special thanks to everyone who have contributed on Github, through reports, feedback and commits!** I want to give a special shout out to **Frank Male** who has been of tremendous help for fixing issues and setting up the new build pipeline for 2.2.0.
+
+[![Contributors](https://contrib.rocks/image?repo=fbdesignpro/sweetviz)](https://github.com/fbdesignpro/sweetviz/graphs/contributors)
+
+Made with [contrib.rocks](https://contrib.rocks).
+### Related materials
 I want Sweetviz to be a hub of the best of what's out there, a way to get the most valuable information and visualization, without reinventing the wheel.
 
 As such, I want to point some of those great resources that were inspiring and integrated into Sweetviz:
@@ -261,4 +271,3 @@ As such, I want to point some of those great resources that were inspiring and i
 - [Shaked Zychlinski: The Search for Categorical Correlation](https://towardsdatascience.com/the-search-for-categorical-correlation-a1cf7f1888c9) is a great article about different types of variable interactions that was the basis of that analysis in Sweetviz.
 - [Drazen Zaric: Better Heatmaps and Correlation Matrix Plots in Python](https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec) was the basis for our association graphs.
 
-**And of course, very special thanks to everyone who have contributed on Github, through reports, feedback and commits!**

@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
+import warnings
 
 from sweetviz.config import config
 from sweetviz import sv_html_formatters
@@ -67,10 +68,10 @@ class GraphNumeric(sweetviz.graph.Graph):
 
         gap_percent = config["Graphs"].getfloat("summary_graph_categorical_gap")
 
-        np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+        warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
         self.hist_specs = axs.hist(plot_data, weights = normalizing_weights, bins=self.num_bins, \
                                    rwidth = (100.0 - gap_percent) / 100.0)
-        np.warnings.filterwarnings('once', category=np.VisibleDeprecationWarning)
+        warnings.filterwarnings('once', category=np.VisibleDeprecationWarning)
 
         bin_limits = self.hist_specs[1]
         num_bins = len(bin_limits) - 1
