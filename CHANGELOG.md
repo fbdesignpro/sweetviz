@@ -1,13 +1,14 @@
 # Change log
 
-#### 2.2.0 - 2023-08-22
+#### 2.2.1 - 2023-08-24 (Major compatibility update)
 
-- **Fixed:** AttributeError: numpy has no attribute 'warning' (for numpy > 1.23)
-- **Fixed:** AttributeError: 'DataFrame' object has no attribute 'iteritems'
+- **Updated:** Updated the project to use the latest build & packaging pipelines (pyproject.toml)
+- **Updated:** Using the "warnings" library directly instead of np.warningS
+- **Fixed:** "KeyError: None of ['index'] are in the columns" (for pandas > 2.0)
+- **Fixed:** "AttributeError: numpy has no attribute 'warning'" (for numpy > 1.23)
+- **Fixed:** "AttributeError: 'DataFrame' object has no attribute 'iteritems'"
 - **Fixed:** np.bool deprecation warning
 - **Fixed:** Pandas 'mad()' function deprecation warning
-- **Updated:** Using the "warnings" library directly instead of np.warningS
-- **Updated:** updated the project to use the latest build & packaging pipelines (pyproject.toml)
 
 #### 2.1.4 - 2022-06-08
 

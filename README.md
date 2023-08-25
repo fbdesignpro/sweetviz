@@ -1,6 +1,6 @@
-![v](https://img.shields.io/badge/version-2.2.0-blue) ![v](https://img.shields.io/badge/updated-August%2022,%20%202023-green)
+![v](https://img.shields.io/badge/version-2.2.1-blue) ![v](https://img.shields.io/badge/updated-August%2025,%20%202023-green)
 
-## NEWS (August 2023) -  Version 2.2: Big compatibility update for python 3.7+ and latest numpy versions!
+## NEWS (August 2023) -  Version 2.2.1: Big compatibility update for python 3.7+ and latest numpy versions!
 
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
