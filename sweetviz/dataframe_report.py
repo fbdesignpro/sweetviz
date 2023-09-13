@@ -577,8 +577,8 @@ class DataframeReport:
         import html
         self._page_html = html.escape(self._page_html)
         iframe = f' <iframe width="{width}" height="{height}" srcdoc="{self._page_html}" frameborder="0" allowfullscreen></iframe>'
-        from IPython.core.display import display
-        from IPython.core.display import HTML
+        from IPython.display import display
+        from IPython.display import HTML
         display(HTML(iframe))
 
         if filepath is not None:
