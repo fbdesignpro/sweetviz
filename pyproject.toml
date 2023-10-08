@@ -7,7 +7,7 @@ include = ["sweetviz"]
 
 [project]
 name = "sweetviz"
-version = "2.2.1"
+version = "2.2.2"
 authors = [
   { name = "Francois Bertrand", email = "fb@fbdesignpro.com" },
 ]
