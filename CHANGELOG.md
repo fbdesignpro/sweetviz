@@ -1,5 +1,9 @@
 # Change log
 
+#### 2.2.2 - 2023-10-09
+
+- **Updated:** jQuery to the latest version 3.7.1.
+
 #### 2.2.1 - 2023-08-24 (Major compatibility update)
 
 - **Updated:** Updated the project to use the latest build & packaging pipelines (pyproject.toml)
