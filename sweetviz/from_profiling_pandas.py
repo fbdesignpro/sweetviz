@@ -60,9 +60,10 @@ def is_boolean(series: pd.Series, counts: dict) -> bool:
 
 
 def is_categorical(series: pd.Series, counts: dict) -> bool:
-    keys = counts["value_counts_without_nan"].keys()
+    # keys = counts["value_counts_without_nan"].keys()
     # TODO: CHECK THIS CASE ACTUALLY WORKS
-    if pd.api.types.is_categorical_dtype(keys):
+    # UPDATE 11-2023: NO IT DIDN'T!!! using series, not... keys (?!)
+    if isinstance(series.dtype, pd.CategoricalDtype): # Deprecated in Pandas 2.1.3: pd.api.types.is_categorical_dtype(keys):
         return True
     elif pd.api.types.is_numeric_dtype(series) and \
             counts["distinct_count_without_nan"] \
