@@ -18,7 +18,7 @@ import sweetviz.comet_ml_logger as comet_ml_logger
 import sweetviz.sv_html as sv_html
 from sweetviz.feature_config import FeatureConfig
 import webbrowser
-
+from sweetviz.config import config
 
 class DataframeReport:
     def __init__(self,
@@ -26,10 +26,19 @@ class DataframeReport:
                  target_feature_name: str = None,
                  compare: Union[pd.DataFrame, Tuple[pd.DataFrame, str]] = None,
                  pairwise_analysis: str = 'auto',
-                 fc: FeatureConfig = None):
+                 fc: FeatureConfig = None,
+                 verbosity_arg: str = 'default'): # verbosity: default (full), full, progress_only, off
+        # Parse analysis parameter
         pairwise_analysis = pairwise_analysis.lower()
         if pairwise_analysis not in ["on", "auto", "off"]:
             raise ValueError('"pairwise_analysis" parameter should be one of: "on", "auto", "off"')
+
+        # Parse verbosity parameter
+        if verbosity_arg == "default":
+            verbosity_arg = config["General"]["default_verbosity"]
+        if verbosity_arg not in ["default", "full", "progress_only", "off"]:
+            raise ValueError('"verbosity" parameter should be one of: "default", "full", "progress_only", "off"')
+        self.verbosity = verbosity_arg
 
         sv_html.load_layout_globals_from_config()
 
@@ -119,15 +128,27 @@ class DataframeReport:
         progress_chunks = ratio_progress_of_df_summary_vs_feature \
                             + number_features + (0 if target_feature_name is not None else 0)
 
-        self.progress_bar = tqdm(total=progress_chunks, bar_format= \
-                '{desc:45}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
-                ascii=False, dynamic_ncols=True, position=0, leave= True)
+        class DummyFile(object):
+            def write(self, x):
+                pass  # Do nothing
+            def flush(self):
+                pass  # Do nothing
+
+        if self.verbosity in ('full', 'progress_only'):
+            self.progress_bar = tqdm(total=progress_chunks, bar_format= \
+                    '{desc:45}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
+                    ascii=False, dynamic_ncols=True, position=0, leave= True)
+        else:
+            # No progress bar, use dummy file
+            self.progress_bar = tqdm(total=progress_chunks, bar_format= \
+                    '{desc:45}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
+                    ascii=False, dynamic_ncols=True, position=0, leave= True, file=DummyFile())
 
         # Summarize dataframe
         self.progress_bar.set_description_str("[Summarizing dataframe]")
         self.summary_source = dict()
         self.summarize_dataframe(source_df, self.source_name, self.summary_source, fc.skip)
-        # UPDATE 2021-02-05: Count the target has an actual feature!!! It is!!!
+        # UPDATE 2021-02-05: Count the target as an actual feature!!! It is!!!
         # if target_feature_name:
         #     self.summary_source["num_columns"] = self.summary_source["num_columns"] - 1
         if compare_df is not None:
@@ -294,6 +315,10 @@ class DataframeReport:
             self.associations_html_compare = None
         self.progress_bar.close()
         return
+
+    def verbose_print(self, *args, **kwargs):
+        if self.verbosity == "full":
+            print(*args, **kwargs)
 
     def __getitem__(self, key):
         # Can also access target
@@ -531,15 +556,15 @@ class DataframeReport:
         f.write(self._page_html)
         f.close()
         if open_browser:
-            print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: the web browser MAY not pop up, regardless, the report IS saved in your notebook/colab files.")
+            self.verbose_print(f"Report {filepath} was generated! NOTEBOOK/COLAB USERS: the web browser MAY not pop up, regardless, the report IS saved in your notebook/colab files.")
             # Not sure how to work around this: not fatal but annoying...Notebook/colab
             # https://bugs.python.org/issue5993
             webbrowser.open('file://' + os.path.realpath(filepath))
         else:
-            print(f"Report {filepath} was generated.")
+            self.verbose_print(f"Report {filepath} was generated.")
         if len(self.corr_warning):
             print("---\nWARNING: one or more correlations had an edge-case/error and a 1.0 correlation was assigned\n"
-                  "(likely due to only a single row containing non-NaN values for both correlated features)\n"
+                  "(likely due to only having a single row, containing non-NaN values for both correlated features)\n"
                   "Affected correlations:" + str(self.corr_warning))
 
         # Auto-log to comet_ml if desired & present
@@ -585,7 +610,7 @@ class DataframeReport:
             f = open(filepath, 'w', encoding="utf-8")
             f.write(self._page_html)
             f.close()
-            print(f"Report '{filepath}' was saved to storage.")
+            self.verbose_print(f"Report '{filepath}' was saved to storage.")
 
         if len(self.corr_warning):
             print("WARNING: one or more correlations had an edge-case/error and a 1.0 correlation was assigned\n"
