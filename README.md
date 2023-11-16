@@ -1,7 +1,8 @@
-![v](https://img.shields.io/badge/version-2.2.1-blue) ![v](https://img.shields.io/badge/updated-August%2025,%20%202023-green)
+![v](https://img.shields.io/badge/version-2.3.0-blue) ![v](https://img.shields.io/badge/updated-November%2016,%20%202023-green)
 
-## NEWS (August 2023) -  Version 2.2.1: Big compatibility update for python 3.7+ and latest numpy versions!
+### UPDATE (November 2023) -  Version 2.3.0: Verbosity parameter added, long-standing issues fixed
 
+---
 ![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
 
 _In-depth EDA **(target analysis, comparison, feature analysis, correlation)** in two lines of code!_
@@ -94,7 +95,8 @@ The `analyze()` function can take multiple other arguments:
 analyze(source: Union[pd.DataFrame, Tuple[pd.DataFrame, str]],
             target_feat: str = None,
             feat_cfg: FeatureConfig = None,
-            pairwise_analysis: str = 'auto'):
+            pairwise_analysis: str = 'auto',
+            verbosity: str = 'default'):
 ```
 - **source:** Either the data frame (as in the example) or a tuple containing the data frame and a name to show in the report. 
 e.g. `my_df` or `[my_df, "Training"]`
@@ -103,6 +105,7 @@ e.g. `my_df` or `[my_df, "Training"]`
 ```
 feature_config = sv.FeatureConfig(skip="PassengerId", force_text=["Age"])
 ```
+- **verbosity:** **[NEW]** Can be set to `full`, `progress_only` (to only display the progress bar but not report generation messages) and `off` (fully quiet, except for errors or warnings). Default  verbosity can also be set in the INI override, under the "General" heading (see "The Config file" section below for details).
 - **pairwise_analysis:** Correlations and other associations can take quadratic time (n^2) to complete. The default setting ("auto") will run without warning until a data set contains "association_auto_threshold" features. Past that threshold, you need to explicitly pass the parameter `pairwise_analysis="on"` (or `="off"`) since processing that many features would take a long time. This parameter also covers the generation of the association graphs (based on [Drazen Zaric's concept](https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec)):
 
 ![Pairwise sample](http://cooltiming.com/SV/pairwise.png)
@@ -159,7 +162,8 @@ sv.config_parser.read("Override.ini")
 ```
 **IMPORTANT #1:** it is best to load overrides **before any other command**, as many of the INI options are used in the report generation.  
 
-**IMPORTANT #2:** always **put the header line** (e.g. `[General]`) before a set of values in your override INI file, **otherwise your settings will be ignored**. See examples below.
+**IMPORTANT #2:** always **put the header line** (e.g. `[General]`) before a set of values in your override INI file, **otherwise your settings will be ignored**. See examples below. If setting multiple values, only include the `[General]` line once.
+
 
 ### Most useful config overrides
 You can look into the file `sweetviz_defaults.ini` for what can be overriden (warning: much of it is a work in progress and not well documented), but the most useful overrides are as follows.
@@ -178,11 +182,13 @@ notebook_width = 100%%
 notebook_height = 700
 ```
 
-##### New: Chinese, Japanse, Korean (CJK) character support
+##### Chinese, Japanse, Korean (CJK) character support
 ```
 [General]
 use_cjk_font = 1 
 ```
+*\*If setting multiple values for `[general]` only include the `[General]` line once*.
+
 Will switch the font in the graphs to use a CJK-compatible font. Although this font is not as compact, it will get rid of any warnings and "unknown character" symbols for these languages.
 ##### Remove Sweetviz logo
 ```
@@ -190,6 +196,15 @@ Will switch the font in the graphs to use a CJK-compatible font. Although this f
 show_logo = 0
 ```
 Will remove the Sweetviz logo from the top of the page. 
+
+##### Set default verbosity level
+```
+[General]
+default_verbosity = off 
+```
+*\*If setting multiple values for `[general]` only include the `[General]` line once*.
+
+Can be set to `full`, `progress_only` (to only display the progress bar but not report generation messages) and `off` (fully quiet, except for errors or warnings).
 
 # Correlation/Association analysis
 A major source of insight and unique feature of Sweetviz' associations graph and analysis is that **it unifies in a single graph** (and detail views):

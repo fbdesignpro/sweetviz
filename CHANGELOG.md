@@ -1,8 +1,15 @@
 # Change log
 
+#### 2.3.0 - 2023-11-16 (Verbosity added, many long-standing fixes)
+
+- **Added:** Parameter for **verbosity** (full, progress_only, off)
+- **Fixed:** Histogram inaccuracies due to incorrect binning (thanks @troy46), fixes #116, #127
+- **Fixed:** Incorrect detection of categorical series in some cases
+- **Fixed:** Deprecation warnings for *is_categorical_dtype* (thanks @GegznaV), fixes #162
+
 #### 2.2.2 - 2023-10-09
 
-- **Updated:** jQuery to the latest version 3.7.1.
+- **Updated:** jQuery to the latest version 3.7.1 (thanks @hedsnz)
 
 #### 2.2.1 - 2023-08-24 (Major compatibility update)
 
