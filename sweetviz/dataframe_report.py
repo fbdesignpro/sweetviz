@@ -27,18 +27,18 @@ class DataframeReport:
                  compare: Union[pd.DataFrame, Tuple[pd.DataFrame, str]] = None,
                  pairwise_analysis: str = 'auto',
                  fc: FeatureConfig = None,
-                 verbosity_arg: str = 'default'): # verbosity: default (full), full, progress_only, off
+                 verbosity: str = 'default'): # verbosity: default (full), full, progress_only, off
         # Parse analysis parameter
         pairwise_analysis = pairwise_analysis.lower()
         if pairwise_analysis not in ["on", "auto", "off"]:
             raise ValueError('"pairwise_analysis" parameter should be one of: "on", "auto", "off"')
 
         # Parse verbosity parameter
-        if verbosity_arg == "default":
-            verbosity_arg = config["General"]["default_verbosity"]
-        if verbosity_arg not in ["default", "full", "progress_only", "off"]:
+        if verbosity == "default":
+            verbosity = config["General"]["default_verbosity"]
+        if verbosity not in ["default", "full", "progress_only", "off"]:
             raise ValueError('"verbosity" parameter should be one of: "default", "full", "progress_only", "off"')
-        self.verbosity = verbosity_arg
+        self.verbosity_level = verbosity
 
         sv_html.load_layout_globals_from_config()
 
@@ -134,7 +134,7 @@ class DataframeReport:
             def flush(self):
                 pass  # Do nothing
 
-        if self.verbosity in ('full', 'progress_only'):
+        if self.verbosity_level in ('full', 'progress_only'):
             self.progress_bar = tqdm(total=progress_chunks, bar_format= \
                     '{desc:45}|{bar}| [{percentage:3.0f}%]   {elapsed} -> ({remaining} left)', \
                     ascii=False, dynamic_ncols=True, position=0, leave= True)
@@ -317,7 +317,7 @@ class DataframeReport:
         return
 
     def verbose_print(self, *args, **kwargs):
-        if self.verbosity == "full":
+        if self.verbosity_level == "full":
             print(*args, **kwargs)
 
     def __getitem__(self, key):
