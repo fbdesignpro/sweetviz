@@ -1,5 +1,10 @@
 # Change log
 
+
+#### 2.3.1 - 2023-11-29
+
+- **Enhanced/Fixed:** show_notebook() now outputs a better HTML file, and has added for it (thanks @tvdboom)
+
 #### 2.3.0 - 2023-11-16 (Verbosity added, many long-standing fixes)
 
 - **Added:** Parameter for **verbosity** (full, progress_only, off)

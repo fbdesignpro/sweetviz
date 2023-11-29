@@ -1,4 +1,4 @@
-![v](https://img.shields.io/badge/version-2.3.0-blue) ![v](https://img.shields.io/badge/updated-November%2016,%20%202023-green)
+![v](https://img.shields.io/badge/version-2.3.1-blue) ![v](https://img.shields.io/badge/updated-November%2029,%20%202023-green)
 
 ### UPDATE (November 2023) -  Version 2.3.0: Verbosity parameter added, long-standing issues fixed
 
@@ -134,7 +134,7 @@ show_html(  filepath='SWEETVIZ_REPORT.html',
 ```            
 **show_html(...)** will create and save an HTML report at the given file path. There are options for:
 - **layout**: Either `'widescreen'` or `'vertical'`. The widescreen layout displays details on the right side of the screen, as the mouse goes over each feature. The new (as of 2.0) vertical layout is more compact horizontally and enables expanding each detail area upon clicking.
-- **scale**: Use a floating-point number (`scale= 0.8` or `None`) to scale the entire report. This is very useful to fit reports to any output.
+- **scale**: Use a floating-point number (e.g. `scale = 0.8` or `None`) to scale the entire report. This is very useful to fit reports to any output.
 - **open_browser**: Enables the automatic opening of a web browser to show the report. Since under some circumstances this is not desired (or causes issues with some IDE's), you can disable it here.
 
 ### show_notebook()
@@ -143,18 +143,20 @@ show_notebook(  w=None,
                 h=None, 
                 scale=None,
                 layout='widescreen',
-                filepath=None)
+                filepath=None,
+                file_layout=None,
+                file_scale=None)
 ```            
 **show_notebook(...)** is new as of 2.0 and will embed an IFRAME element showing the report right inside a notebook (e.g. Jupyter, Google Colab, etc.). 
 
 Note that since notebooks are generally a more constrained visual environment, it is probably a good idea to use custom width/height/scale values (`w`, `h`, `scale`) and even **set custom default values in an INI override** (see below). The options are:
 - **w** (width): Sets the width of the output _window_ for the report (the full report may not fit; use `layout` and/or `scale` for the report itself). Can be as a percentage string (`w="100%"`) or number of pixels (`w=900`).
 - **h** (height): Sets the height of the output _window_ for the report. Can be as a number of pixels (`h=700`) or "Full" to stretch the window to be as tall as all the features (`h="Full"`).
-- **scale**: Same as for show_html, above.
-- **layout**: Same as for show_html, above.
-- **scale**: Same as for show_html, above.
-- **filepath**: An optional output HTML report.
-
+- **scale**: Same as for `show_html()`, above.
+- **layout**: Same as for `show_html()`, above.
+- **filepath**: An OPTIONAL output HTML report.
+- **file_layout**: Layout for the OPTIONAL file output ONLY (same as `layout` for `show_html()`, above)
+- **file_scale**: Scale for the OPTIONAL file output ONLY (same as `scale` for `show_html()`, above)
 # Customizing defaults: the Config file
 The package contains an INI file for configuration. You can override any setting by providing your own then calling this before creating a report:
 ```

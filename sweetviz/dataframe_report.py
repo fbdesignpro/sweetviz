@@ -574,7 +574,7 @@ class DataframeReport:
             self._comet_ml_logger.log_html(self._page_html)
             self._comet_ml_logger.end()
 
-    def show_notebook(self, w=None, h=None, scale=None, layout=None, filepath=None):
+    def show_notebook(self, w=None, h=None, scale=None, layout=None, filepath=None, file_layout=None, file_scale=None):
         w = self.use_config_if_none(w, "notebook_width")
         h = self.use_config_if_none(h, "notebook_height")
         scale = float(self.use_config_if_none(scale, "notebook_scale"))
@@ -607,6 +607,27 @@ class DataframeReport:
         display(HTML(iframe))
 
         if filepath is not None:
+            # We cannot just write out the same HTML as the notebook, as that one has been processed so as to
+            # remove extraneous headings so it is nicely inserted into the notebook.
+            # Instead, just do something similar to the "show_html()" code, but without its less-relevant printouts etc.
+            # f = open(filepath, 'w', encoding="utf-8")
+            # f.write(self._page_html)
+            # f.close()
+            scale = float(self.use_config_if_none(file_scale, "html_scale"))
+            layout = self.use_config_if_none(file_layout, "html_layout")
+            if layout not in ['widescreen', 'vertical']:
+                raise ValueError(f"'layout' parameter for file output must be either 'widescreen' or 'vertical'")
+            sv_html.load_layout_globals_from_config()
+            self.page_layout = layout
+            self.scale = scale
+            sv_html.set_summary_positions(self)
+            sv_html.generate_html_detail(self)
+            if self.associations_html_source:
+                self.associations_html_source = sv_html.generate_html_associations(self, "source")
+            if self.associations_html_compare:
+                self.associations_html_compare = sv_html.generate_html_associations(self, "compare")
+            self._page_html = sv_html.generate_html_dataframe_page(self)
+
             f = open(filepath, 'w', encoding="utf-8")
             f.write(self._page_html)
             f.close()
