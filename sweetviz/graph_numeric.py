@@ -68,10 +68,10 @@ class GraphNumeric(sweetviz.graph.Graph):
 
         gap_percent = config["Graphs"].getfloat("summary_graph_categorical_gap")
 
-        warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+        warnings.filterwarnings('ignore', category=np.exceptions.VisibleDeprecationWarning)
         self.hist_specs = axs.hist(plot_data, weights = normalizing_weights, bins=self.num_bins, \
                                    rwidth = (100.0 - gap_percent) / 100.0)
-        warnings.filterwarnings('once', category=np.VisibleDeprecationWarning)
+        warnings.filterwarnings('once', category=np.exceptions.VisibleDeprecationWarning)
 
         bin_limits = self.hist_specs[1]
         num_bins = len(bin_limits) - 1
