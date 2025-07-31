@@ -478,4 +478,3 @@ def corrplot(correlation_dataframe, dataframe_report, size_scale=100, marker='s'
         size_scale=config["Associations"].getfloat("association_graph_size_scale"),
         dataframe_report = dataframe_report
     )
-

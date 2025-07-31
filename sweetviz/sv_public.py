@@ -30,15 +30,15 @@ def compare_intra(source_df: pd.DataFrame,
                   target_feat: str = None,
                   feat_cfg: FeatureConfig = None,
                   pairwise_analysis: str = 'auto'):
-    if len(source_df) != len(condition_series):
+    if not source_df.index.equals(condition_series.index):
         raise ValueError('compare_intra() expects source_df and '
-                         'condition_series to be the same length')
+                         'condition_series to have aligned indices')
     if condition_series.dtypes != bool:
         raise ValueError('compare_intra() requires condition_series '
                          'to be boolean length')
 
     data_true = source_df[condition_series]
-    data_false = source_df[condition_series == False]
+    data_false = source_df[~condition_series]
     if len(data_false) == 0:
         raise ValueError('compare_intra(): FALSE dataset is empty, nothing to compare!')
     if len(data_true) == 0:
@@ -47,4 +47,3 @@ def compare_intra(source_df: pd.DataFrame,
                                       [data_false, names[1]],
                                       pairwise_analysis, feat_cfg)
     return report
-

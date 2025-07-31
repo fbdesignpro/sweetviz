@@ -46,7 +46,7 @@ def fill_out_missing_counts_in_other_series(my_counts:dict, other_counts:dict):
     # to_fill_list = ["value_counts_with_nan", "value_counts_without_nan"]
     to_fill_list = ["value_counts_without_nan"]
     for to_fill in to_fill_list:
-        fill_using_strings = True if my_counts[to_fill].index.dtype.name in ('category', 'object') else False
+        fill_using_strings = True if my_counts[to_fill].index.dtype.name in ('category', 'object', 'bool') else False
         for key, value in other_counts[to_fill].items():
             if key not in my_counts[to_fill]:
                 # If categorical, must do this hack to add new value

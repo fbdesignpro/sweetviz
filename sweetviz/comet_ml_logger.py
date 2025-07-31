@@ -36,4 +36,3 @@ class CometLogger():
                 print("comet_ml.end(): error occurred during call to end().")
         else:
             print("comet_ml.end(): comet_ml is not installed or otherwise ready.")
-

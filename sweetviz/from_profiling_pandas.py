@@ -138,5 +138,3 @@ def is_path(series, counts) -> bool:
 def is_date(series) -> bool:
     is_date_value = pd.api.types.is_datetime64_dtype(series)
     return is_date_value
-
-

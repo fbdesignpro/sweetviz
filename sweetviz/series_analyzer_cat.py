@@ -152,5 +152,3 @@ def analyze(to_process: FeatureToProcess, feature_dict: dict):
         feature_dict["html_summary"] = sv_html.generate_html_summary_cat(feature_dict, compare_dict)
 
     return
-
-
