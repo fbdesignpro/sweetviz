@@ -1,9 +1,10 @@
 from enum import Enum, unique
-import pandas as pd
 
+import pandas as pd
 
 # Adding spaces to avoid collisions: this should NEVER be in a dataset :)
 OTHERS_GROUPED = "     (Other)"
+
 
 @unique
 class FeatureType(Enum):
@@ -15,8 +16,10 @@ class FeatureType(Enum):
     TYPE_ALL_NAN = "ALL_NAN"
     TYPE_UNKNOWN = "UNKNOWN"
     TYPE_SKIPPED = "SKIPPED"
+
     def __str__(self):
         return "TYPE_" + str(self.value)
+
 
 class NumWithPercent:
     def __init__(self, number, total_for_percentage):
@@ -41,10 +44,18 @@ class NumWithPercent:
         else:
             return "[INVALID]"
 
+
 class FeatureToProcess:
-    def __init__(self, order: int, source: pd.Series, compare=None, source_target=None,
-                 compare_target=None, predetermined_type: FeatureType = None,
-                 predetermined_type_target: FeatureType = None):
+    def __init__(
+        self,
+        order: int,
+        source: pd.Series,
+        compare=None,
+        source_target=None,
+        compare_target=None,
+        predetermined_type: FeatureType = None,
+        predetermined_type_target: FeatureType = None,
+    ):
         self.order = order
 
         # Cleanup names
@@ -58,7 +69,7 @@ class FeatureToProcess:
 
         self.source = source
         self.source_counts = None
-        self.source_target  = source_target
+        self.source_target = source_target
 
         self.compare = compare
         self.compare_counts = None
@@ -71,14 +82,20 @@ class FeatureToProcess:
 
         # Validate TARGET type
         if predetermined_type_target:
-            if predetermined_type_target not in (FeatureType.TYPE_BOOL,
-                                                 FeatureType.TYPE_NUM):
+            if predetermined_type_target not in (
+                FeatureType.TYPE_BOOL,
+                FeatureType.TYPE_NUM,
+            ):
                 if predetermined_type_target == FeatureType.TYPE_CAT:
-                    raise ValueError("TARGET values can only be of NUMERICAL or BOOLEAN type for now.\n"
-                                     "CATEGORICAL type was detected; if you meant the target to be\n"
-                                     "NUMERICAL, use a FeatureConfig(force_num=...) object.")
+                    raise ValueError(
+                        "TARGET values can only be of NUMERICAL or BOOLEAN type for now.\n"
+                        "CATEGORICAL type was detected; if you meant the target to be\n"
+                        "NUMERICAL, use a FeatureConfig(force_num=...) object."
+                    )
                 else:
-                    raise ValueError("TARGET values can only be of NUMERICAL or BOOLEAN type for now.")
+                    raise ValueError(
+                        "TARGET values can only be of NUMERICAL or BOOLEAN type for now."
+                    )
             self.predetermined_type_target = predetermined_type_target
         else:
             self.predetermined_type_target = FeatureType.TYPE_UNKNOWN
@@ -87,7 +104,7 @@ class FeatureToProcess:
         return self.order == -1
 
     def __repr__(self):
-        out = str()
+        out = ''
         if self.source is not None:
             out = out + f"Src: {self.source.name} "
             if self.source_target is not None:

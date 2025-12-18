@@ -1,11 +1,13 @@
-import pandas as pd
-from sweetviz.sv_types import NumWithPercent, FeatureType, FeatureToProcess
-from sweetviz.type_detection import determine_feature_type
-import sweetviz.series_analyzer_numeric
-import sweetviz.series_analyzer_cat
-import sweetviz.series_analyzer_text
-
 from distutils.version import LooseVersion
+
+import pandas as pd
+
+import sweetviz.series_analyzer_cat
+import sweetviz.series_analyzer_numeric
+import sweetviz.series_analyzer_text
+from sweetviz.sv_types import FeatureToProcess, FeatureType, NumWithPercent
+from sweetviz.type_detection import determine_feature_type
+
 
 def get_counts(series: pd.Series) -> dict:
     # The value_counts() function is used to get a Series containing counts of unique values.
@@ -21,9 +23,17 @@ def get_counts(series: pd.Series) -> dict:
         reset_value_counts = value_counts_with_nan.reset_index()
         # Force column naming behavior to be similar for value_counts() being reset between 1.x and 2.x.: make sure col 0 is "index" and 1 is series.name
         # -> This is a no-op in Pandas 1.x
-        reset_value_counts.rename(columns={reset_value_counts.columns[0]: "index", reset_value_counts.columns[1]:series.name}, inplace=True)
+        reset_value_counts.rename(
+            columns={
+                reset_value_counts.columns[0]: "index",
+                reset_value_counts.columns[1]: series.name,
+            },
+            inplace=True,
+        )
 
-        value_counts_without_nan = (reset_value_counts.dropna().set_index("index").iloc[:, 0])
+        value_counts_without_nan = (
+            reset_value_counts.dropna().set_index("index").iloc[:, 0]
+        )
     # print(value_counts_without_nan.index.dtype.name)
 
     # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
@@ -41,17 +51,23 @@ def get_counts(series: pd.Series) -> dict:
     }
 
 
-def fill_out_missing_counts_in_other_series(my_counts:dict, other_counts:dict):
+def fill_out_missing_counts_in_other_series(my_counts: dict, other_counts: dict):
     # IGNORING NAN FOR NOW AS IT CAUSES ISSUES [FIX]
     # to_fill_list = ["value_counts_with_nan", "value_counts_without_nan"]
     to_fill_list = ["value_counts_without_nan"]
     for to_fill in to_fill_list:
-        fill_using_strings = True if my_counts[to_fill].index.dtype.name in ('category', 'object') else False
+        fill_using_strings = (
+            True
+            if my_counts[to_fill].index.dtype.name in ("category", "object")
+            else False
+        )
         for key, value in other_counts[to_fill].items():
             if key not in my_counts[to_fill]:
                 # If categorical, must do this hack to add new value
-                if my_counts[to_fill].index.dtype.name == 'category':
-                    my_counts[to_fill] = my_counts[to_fill].reindex(my_counts[to_fill].index.add_categories(key))
+                if my_counts[to_fill].index.dtype.name == "category":
+                    my_counts[to_fill] = my_counts[to_fill].reindex(
+                        my_counts[to_fill].index.add_categories(key)
+                    )
 
                 # Add empty value at new index, but make sure we are using the right index type
                 if fill_using_strings:
@@ -59,7 +75,10 @@ def fill_out_missing_counts_in_other_series(my_counts:dict, other_counts:dict):
                 else:
                     my_counts[to_fill].at[key] = 0
 
-def add_series_base_stats_to_dict(series: pd.Series, counts: dict, updated_dict: dict) -> dict:
+
+def add_series_base_stats_to_dict(
+    series: pd.Series, counts: dict, updated_dict: dict
+) -> dict:
     updated_dict["stats"] = dict()
     updated_dict["base_stats"] = dict()
     base_stats = updated_dict["base_stats"]
@@ -73,7 +92,9 @@ def add_series_base_stats_to_dict(series: pd.Series, counts: dict, updated_dict:
     base_stats["num_values"] = NumWithPercent(non_nan, num_total)
     base_stats["num_missing"] = NumWithPercent(num_total - non_nan, num_total)
     base_stats["num_zeroes"] = NumWithPercent(num_zeros, num_total)
-    base_stats["num_distinct"] = NumWithPercent(counts["distinct_count_without_nan"], num_total)
+    base_stats["num_distinct"] = NumWithPercent(
+        counts["distinct_count_without_nan"], num_total
+    )
 
 
 # This generates everything EXCEPT the "detail pane"
@@ -96,23 +117,39 @@ def analyze_feature_to_dictionary(to_process: FeatureToProcess) -> dict:
 
     # Determine SOURCE feature type
     to_process.source_counts = get_counts(to_process.source)
-    returned_feature_dict["type"] = determine_feature_type(to_process.source, to_process.source_counts,
-                                                           to_process.predetermined_type, "SOURCE")
+    returned_feature_dict["type"] = determine_feature_type(
+        to_process.source,
+        to_process.source_counts,
+        to_process.predetermined_type,
+        "SOURCE",
+    )
     source_type = returned_feature_dict["type"]
 
     # Determine COMPARED feature type & initialize
     compare_dict = None
     if to_process.compare is not None:
         to_process.compare_counts = get_counts(to_process.compare)
-        compare_type = determine_feature_type(to_process.compare,
-                                              to_process.compare_counts,
-                                              returned_feature_dict["type"], "COMPARED")
-        if compare_type != FeatureType.TYPE_ALL_NAN and \
-            source_type != FeatureType.TYPE_ALL_NAN:
+        compare_type = determine_feature_type(
+            to_process.compare,
+            to_process.compare_counts,
+            returned_feature_dict["type"],
+            "COMPARED",
+        )
+        if (
+            compare_type != FeatureType.TYPE_ALL_NAN
+            and source_type != FeatureType.TYPE_ALL_NAN
+        ):
             # Explicitly show missing categories on each set
-            if compare_type == FeatureType.TYPE_CAT or compare_type == FeatureType.TYPE_BOOL:
-                fill_out_missing_counts_in_other_series(to_process.compare_counts, to_process.source_counts)
-                fill_out_missing_counts_in_other_series(to_process.source_counts, to_process.compare_counts)
+            if (
+                compare_type == FeatureType.TYPE_CAT
+                or compare_type == FeatureType.TYPE_BOOL
+            ):
+                fill_out_missing_counts_in_other_series(
+                    to_process.compare_counts, to_process.source_counts
+                )
+                fill_out_missing_counts_in_other_series(
+                    to_process.source_counts, to_process.compare_counts
+                )
         returned_feature_dict["compare"] = dict()
         compare_dict = returned_feature_dict["compare"]
         compare_dict["type"] = compare_type
@@ -120,7 +157,10 @@ def analyze_feature_to_dictionary(to_process: FeatureToProcess) -> dict:
     # Settle all-NaN series, depending on source versus compared
     if to_process.compare is not None:
         # Settle all-Nan WITH COMPARE: Must consider all cases between source and compare
-        if compare_type == FeatureType.TYPE_ALL_NAN and source_type == FeatureType.TYPE_ALL_NAN:
+        if (
+            compare_type == FeatureType.TYPE_ALL_NAN
+            and source_type == FeatureType.TYPE_ALL_NAN
+        ):
             returned_feature_dict["type"] = FeatureType.TYPE_TEXT
             compare_dict["type"] = FeatureType.TYPE_TEXT
         elif compare_type == FeatureType.TYPE_ALL_NAN:
@@ -133,9 +173,13 @@ def analyze_feature_to_dictionary(to_process: FeatureToProcess) -> dict:
             returned_feature_dict["type"] = FeatureType.TYPE_TEXT
 
     # Establish base stats
-    add_series_base_stats_to_dict(to_process.source, to_process.source_counts, returned_feature_dict)
+    add_series_base_stats_to_dict(
+        to_process.source, to_process.source_counts, returned_feature_dict
+    )
     if to_process.compare is not None:
-        add_series_base_stats_to_dict(to_process.compare, to_process.compare_counts, compare_dict)
+        add_series_base_stats_to_dict(
+            to_process.compare, to_process.compare_counts, compare_dict
+        )
 
     # Perform full analysis on source/compare/target
     if returned_feature_dict["type"] == FeatureType.TYPE_NUM:

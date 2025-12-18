@@ -1,6 +1,7 @@
 import html
+
 import sweetviz.sv_html as sv_html
-from sweetviz.sv_types import NumWithPercent, FeatureToProcess
+from sweetviz.sv_types import FeatureToProcess, NumWithPercent
 
 
 def do_detail_text(to_process: FeatureToProcess, updated_dict: dict):
@@ -26,9 +27,14 @@ def do_detail_text(to_process: FeatureToProcess, updated_dict: dict):
         row["target_stats_compare"] = None
         if to_process.compare_counts is not None:
             # HAS COMPARE...
-            if row["name"] in to_process.compare_counts["value_counts_without_nan"].index:
+            if (
+                row["name"]
+                in to_process.compare_counts["value_counts_without_nan"].index
+            ):
                 # ...and value exists in COMPARE
-                matching = to_process.compare_counts["value_counts_without_nan"][row["name"]]
+                matching = to_process.compare_counts["value_counts_without_nan"][
+                    row["name"]
+                ]
                 row["count_compare"] = NumWithPercent(matching, num_values_compare)
 
         detail["full_count"].append(row)
@@ -47,4 +53,6 @@ def analyze(to_process: FeatureToProcess, feature_dict: dict):
     if to_process.is_target():
         raise ValueError
     else:
-        feature_dict["html_summary"] = sv_html.generate_html_summary_text(feature_dict, compare_dict)
+        feature_dict["html_summary"] = sv_html.generate_html_summary_text(
+            feature_dict, compare_dict
+        )

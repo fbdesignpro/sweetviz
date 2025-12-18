@@ -3,7 +3,9 @@ import pandas as pd
 from sweetviz.sv_types import OTHERS_GROUPED
 
 
-def get_clamped_value_counts(value_counts: pd.Series, max_categories_incl_other: int) -> pd.Series:
+def get_clamped_value_counts(
+    value_counts: pd.Series, max_categories_incl_other: int
+) -> pd.Series:
     # Returns a Series of a maximum length, where overflowing rows are
     # put into a "Others" category (index = OTHERS_GROUPED)
     # IMPORTANT: assuming value_counts is ALREADY SORTED
@@ -23,11 +25,15 @@ def get_clamped_value_counts(value_counts: pd.Series, max_categories_incl_other:
 
     if len(categories_in_other) > 0:
         total_in_other = sum(categories_in_other)
-        if clamped_series.index.dtype.name == 'category':
+        if clamped_series.index.dtype.name == "category":
             # need to create categorical index
             clamped_series.index = clamped_series.index.add_categories([OTHERS_GROUPED])
-            other_series = pd.Series([total_in_other],
-                                     index=pd.CategoricalIndex([OTHERS_GROUPED], categories=clamped_series.index))
+            other_series = pd.Series(
+                [total_in_other],
+                index=pd.CategoricalIndex(
+                    [OTHERS_GROUPED], categories=clamped_series.index
+                ),
+            )
 
         else:
             other_series = pd.Series([total_in_other], index=[OTHERS_GROUPED])
@@ -39,7 +45,9 @@ def get_clamped_value_counts(value_counts: pd.Series, max_categories_incl_other:
     return clamped_series
 
 
-def get_matched_value_counts(value_counts: pd.Series, other_to_match: pd.Series) -> pd.Series:
+def get_matched_value_counts(
+    value_counts: pd.Series, other_to_match: pd.Series
+) -> pd.Series:
     # Returns a "Value count" Series of another series ONLY for the values in
     # the original value_count
 
@@ -59,6 +67,8 @@ def get_matched_value_counts(value_counts: pd.Series, other_to_match: pd.Series)
     #     matched_series = matched_series.append(other_series, ignore_index=False)
 
     return matched_series
+
+
 # Thank you https://hackersandslackers.com/remove-duplicate-columns-in-pandas/
 
 

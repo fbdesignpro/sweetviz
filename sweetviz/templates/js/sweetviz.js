@@ -108,7 +108,7 @@ $(".selector").click(function(event) {
         $(".container-feature-detail").hide();
         $("span.bg-tab-summary-rollover").hide();
         $("#" + $(this).data("detail-div")).show();
-        
+
         $("#" + $(this).data("rollover-span")).removeClass("bg-tab-summary-rollover");
         $("#" + $(this).data("rollover-span")).addClass("bg-tab-summary-rollover-locked");
         $("#" + $(this).data("rollover-span")).css("display","inline");

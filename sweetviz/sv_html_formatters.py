@@ -1,7 +1,8 @@
 from decimal import Decimal
+
 import numpy as np
-from sweetviz.graph_associations import CORRELATION_ERROR
-from sweetviz.graph_associations import CORRELATION_IDENTICAL
+
+from sweetviz.graph_associations import CORRELATION_ERROR, CORRELATION_IDENTICAL
 
 
 def fmt_int_commas(value: float) -> str:
@@ -30,7 +31,7 @@ def fmt_percent_parentheses(value: float) -> str:
     # This returns the percentage as a rounded number. 100% is only used if truly 100%
     if value > 99.0 and value < 100.0:
         return "(>99%)"
-    if  value < 1.0 and value > 0.0:
+    if value < 1.0 and value > 0.0:
         return "(<1%)"
     rounded = round(value)
     return f"({rounded:.0f}%)"
@@ -88,6 +89,7 @@ def fmt_smart(value: float) -> str:
     else:
         return f"{value/1000000000000.0:.1f}T"
 
+
 def fmt_RAM(value: float) -> str:
     # Keep to ~5 display digits based on scale of input number
     absolute = abs(value)
@@ -99,6 +101,7 @@ def fmt_RAM(value: float) -> str:
         return f"{value/1000000.0:,.1f} MB"
     else:
         return f"{value/1000000000.0:.1f} GB"
+
 
 def fmt_smart_range(value: float, range: float) -> str:
     # Keep to ~5 display digits based on scale given by range number
@@ -125,8 +128,9 @@ def fmt_smart_range(value: float, range: float) -> str:
         return f"{value / 1000000.0:.1f}M"
     elif absolute_range < 999999999999:
         return f"{value / 1000000000.0:.1f}B"
-    else :
+    else:
         return f"{value / 1000000000000.0:.1f}T"
+
 
 def fmt_smart_range_tight(value: float, range: float) -> str:
     # Used for graph labels
@@ -156,17 +160,19 @@ def fmt_smart_range_tight(value: float, range: float) -> str:
         return f"{value / 1000000000.0:.1f}B"
     elif absolute_range < 999999999999:
         return f"{value / 1000000000.0:.0f}B"
-    else :
+    else:
         return f"{value / 1000000000000.0:.1f}T"
+
 
 def fmt_div_color_override_missing(value: float) -> str:
     if value is None or np.isnan(value) or value <= 0:
-        return ''
+        return ""
     return 'style="color:#202020"'
+
 
 def fmt_div_icon_missing(value: float) -> str:
     if value is None or np.isnan(value) or value <= 0:
-        return ''
+        return ""
 
     returned = '<div class="'
     if value <= 15:

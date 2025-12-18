@@ -9,6 +9,20 @@ Override.ini
 GENERATE.bat
 UPLOAD.bat
 
+# Development and CI
+.envrc
+uv.lock
+.coverage
+htmlcov/
+.coverage.*
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,6 +1,5 @@
 # Change log
 
-
 #### 2.3.1 - 2023-11-29
 
 - **Enhanced/Fixed:** show_notebook() now outputs a better HTML file, and has added for it (thanks @tvdboom)
@@ -10,7 +9,7 @@
 - **Added:** Parameter for **verbosity** (full, progress_only, off)
 - **Fixed:** Histogram inaccuracies due to incorrect binning (thanks @troy46), fixes #116, #127
 - **Fixed:** Incorrect detection of categorical series in some cases
-- **Fixed:** Deprecation warnings for *is_categorical_dtype* (thanks @GegznaV), fixes #162
+- **Fixed:** Deprecation warnings for _is_categorical_dtype_ (thanks @GegznaV), fixes #162
 
 #### 2.2.2 - 2023-10-09
 
@@ -128,21 +127,24 @@
 - **Fixed:** sorting issue when >500 features
 - **Fixed:** multiple minor report generation issues
 
-
 #### 1.0beta6 - 2020-08-12
+
 - **Fixed:** numerical summary showing 0.00 for small values or ranges
 
 #### 1.0beta5 - 2020-07-27
+
 - **Fixed:** indexing issues that were causing warnings and report inconsistencies
 - **Fixed:** selection issues in the reports
 
 #### 1.0beta4 - 2020-07-23
-- **Added:** __version__and other metadata
+
+- **Added:** **version**and other metadata
 - **Fixed:** "KeyError" crash
 - **Fixed:** error for coercion of boolean series to categorical
 - **Enhanced:** error reporting output for type coercions
 
 #### 1.0beta3 - 2020-07-19 (BETA START)
+
 - **Added:** post-report-generation descriptive text for Jupyter/Colab
 - **Re-added:** horizontal scrollbar
 - **Added:** link to check for updates in header
@@ -153,13 +155,16 @@
 - **Updated:** README
 
 #### 1.0alpha8 - 2020-07-18
+
 - **Added:** Support for categorical Pandas data type
 - **Fixed:** MANY crash and general stability/compatibility issues! The library is now much more robust with regard to supporting different data and conditions.
 
 #### 1.0alpha7 - 2020-06-09
+
 - **Fixed:** "ValueError: index must be monotonic..." crash with some datasets (#10)
 
 #### 1.0alpha6 - 2020-06-08 (ALPHA START)
+
 - **Fixed:** forcing feature names to be strings, to avoid crashing if numerical (#9)
 - **Improved:** error message in case of mixed type feature (#3)
 - **Added:** CHANGELOG.md!

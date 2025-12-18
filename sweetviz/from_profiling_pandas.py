@@ -1,6 +1,8 @@
-from urllib.parse import urlparse
 from pathlib import Path
+from urllib.parse import urlparse
+
 import pandas as pd
+
 from sweetviz.config import config
 
 # This file contains modified functions from the profiling-pandas library,
@@ -37,13 +39,13 @@ def is_boolean(series: pd.Series, counts: dict) -> bool:
     if pd.api.types.is_bool_dtype(keys):
         return True
     elif (
-            1 <= counts["distinct_count_without_nan"] <= 2
-            and pd.api.types.is_numeric_dtype(series)
-            and series[~series.isnull()].between(0, 1).all()
+        1 <= counts["distinct_count_without_nan"] <= 2
+        and pd.api.types.is_numeric_dtype(series)
+        and series[~series.isnull()].between(0, 1).all()
     ):
         return True
     elif 1 <= counts["distinct_count_without_nan"] <= 4:
-        unique_values = set([str(value).lower() for value in keys.values])
+        unique_values = {str(value).lower() for value in keys.values}
         accepted_combinations = [
             ["y", "n"],
             ["yes", "no"],
@@ -52,8 +54,7 @@ def is_boolean(series: pd.Series, counts: dict) -> bool:
         ]
 
         if len(unique_values) == 2 and any(
-                [unique_values == set(bools) for bools in
-                 accepted_combinations]
+            [unique_values == set(bools) for bools in accepted_combinations]
         ):
             return True
     return False
@@ -63,29 +64,35 @@ def is_categorical(series: pd.Series, counts: dict) -> bool:
     # keys = counts["value_counts_without_nan"].keys()
     # TODO: CHECK THIS CASE ACTUALLY WORKS
     # UPDATE 11-2023: NO IT DIDN'T!!! using series, not... keys (?!)
-    if isinstance(series.dtype, pd.CategoricalDtype): # Deprecated in Pandas 2.1.3: pd.api.types.is_categorical_dtype(keys):
+    if isinstance(
+        series.dtype, pd.CategoricalDtype
+    ):  # Deprecated in Pandas 2.1.3: pd.api.types.is_categorical_dtype(keys):
         return True
-    elif pd.api.types.is_numeric_dtype(series) and \
-            counts["distinct_count_without_nan"] \
-            <= config["Type_Detection"].getint("max_numeric_distinct_to_be_categorical"):
+    elif pd.api.types.is_numeric_dtype(series) and counts[
+        "distinct_count_without_nan"
+    ] <= config["Type_Detection"].getint("max_numeric_distinct_to_be_categorical"):
         return True
     else:
         if counts["num_rows_with_data"] == 0:
             return False
         num_distinct = counts["distinct_count_without_nan"]
         fraction_distinct = num_distinct / float(counts["num_rows_with_data"])
-        if fraction_distinct \
-             > config["Type_Detection"].getfloat("max_text_fraction_distinct_to_be_categorical"):
+        if fraction_distinct > config["Type_Detection"].getfloat(
+            "max_text_fraction_distinct_to_be_categorical"
+        ):
             return False
-        if num_distinct <= config["Type_Detection"].getint("max_text_distinct_to_be_categorical"):
+        if num_distinct <= config["Type_Detection"].getint(
+            "max_text_distinct_to_be_categorical"
+        ):
             return True
     return False
 
 
 def is_numeric(series: pd.Series, counts: dict) -> bool:
-    return pd.api.types.is_numeric_dtype(series) and \
-           counts["distinct_count_without_nan"] \
-           > config["Type_Detection"].getint("max_numeric_distinct_to_be_categorical")
+    return pd.api.types.is_numeric_dtype(series) and counts[
+        "distinct_count_without_nan"
+    ] > config["Type_Detection"].getint("max_numeric_distinct_to_be_categorical")
+
 
 # For coercion, might need more testing!
 def could_be_numeric(series: pd.Series) -> bool:
@@ -96,8 +103,7 @@ def is_url(series: pd.Series, counts: dict) -> bool:
     if counts["distinct_count_without_nan"] > 0:
         try:
             result = series[~series.isnull()].astype(str).apply(urlparse)
-            return result.apply(
-                lambda x: all([x.scheme, x.netloc, x.path])).all()
+            return result.apply(lambda x: all([x.scheme, x.netloc, x.path])).all()
         except ValueError:
             return False
     else:
@@ -138,5 +144,3 @@ def is_path(series, counts) -> bool:
 def is_date(series) -> bool:
     is_date_value = pd.api.types.is_datetime64_dtype(series)
     return is_date_value
-
-

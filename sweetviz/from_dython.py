@@ -1,7 +1,8 @@
+import math
+from collections import Counter
+
 import numpy as np
 import pandas as pd
-from collections import Counter
-import math
 import scipy.stats as ss
 
 # This file contains original and modified versions of the dython library,
@@ -40,17 +41,17 @@ import scipy.stats as ss
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-REPLACE = 'replace'
-DROP = 'drop'
-DROP_SAMPLES = 'drop_samples'
-DROP_FEATURES = 'drop_features'
-SKIP = 'skip'
+REPLACE = "replace"
+DROP = "drop"
+DROP_SAMPLES = "drop_samples"
+DROP_FEATURES = "drop_features"
+SKIP = "skip"
 DEFAULT_REPLACE_VALUE = 0.0
 
 
 def convert(data, to):
     converted = None
-    if to == 'array':
+    if to == "array":
         if isinstance(data, np.ndarray):
             converted = data
         elif isinstance(data, pd.Series):
@@ -59,24 +60,24 @@ def convert(data, to):
             converted = np.array(data)
         elif isinstance(data, pd.DataFrame):
             converted = data.as_matrix()
-    elif to == 'list':
+    elif to == "list":
         if isinstance(data, list):
             converted = data
         elif isinstance(data, pd.Series):
             converted = data.values.tolist()
         elif isinstance(data, np.ndarray):
             converted = data.tolist()
-    elif to == 'dataframe':
+    elif to == "dataframe":
         if isinstance(data, pd.DataFrame):
             converted = data
         elif isinstance(data, np.ndarray):
             converted = pd.DataFrame(data)
     else:
-        raise ValueError("Unknown data conversion: {}".format(to))
+        raise ValueError(f"Unknown data conversion: {to}")
     if converted is None:
         raise TypeError(
-            'cannot handle data conversion of type: {} to {}'.format(
-                type(data), to))
+            f"cannot handle data conversion of type: {type(data)} to {to}"
+        )
     else:
         return converted
 
@@ -98,10 +99,9 @@ def replace_nan_with_value(x, y, value):
     return x, y
 
 
-def conditional_entropy(x,
-                        y,
-                        nan_strategy=REPLACE,
-                        nan_replace_value=DEFAULT_REPLACE_VALUE):
+def conditional_entropy(
+    x, y, nan_strategy=REPLACE, nan_replace_value=DEFAULT_REPLACE_VALUE
+):
     """
     Calculates the conditional entropy of x given y: S(x|y)
 
@@ -139,10 +139,7 @@ def conditional_entropy(x,
 
 
 # IMPORTANT: look at the order of arguments y and x
-def theils_u(y,
-             x,
-             nan_strategy=REPLACE,
-             nan_replace_value=DEFAULT_REPLACE_VALUE):
+def theils_u(y, x, nan_strategy=REPLACE, nan_replace_value=DEFAULT_REPLACE_VALUE):
     """
     IMPORTANT: look at the order of arguments y and x
 
@@ -186,10 +183,12 @@ def theils_u(y,
         return (s_x - s_xy) / s_x
 
 
-def correlation_ratio(categories,
-                      measurements,
-                      nan_strategy=REPLACE,
-                      nan_replace_value=DEFAULT_REPLACE_VALUE):
+def correlation_ratio(
+    categories,
+    measurements,
+    nan_strategy=REPLACE,
+    nan_replace_value=DEFAULT_REPLACE_VALUE,
+):
     """
     Calculates the Correlation Ratio (sometimes marked by the greek letter Eta)
     for categorical-continuous association.
@@ -221,12 +220,12 @@ def correlation_ratio(categories,
     """
     if nan_strategy == REPLACE:
         categories, measurements = replace_nan_with_value(
-            categories, measurements, nan_replace_value)
+            categories, measurements, nan_replace_value
+        )
     elif nan_strategy == DROP:
-        categories, measurements = remove_incomplete_samples(
-            categories, measurements)
-    categories = convert(categories, 'array')
-    measurements = convert(measurements, 'array')
+        categories, measurements = remove_incomplete_samples(categories, measurements)
+    categories = convert(categories, "array")
+    measurements = convert(measurements, "array")
     fcat, _ = pd.factorize(categories)
     cat_num = np.max(fcat) + 1
     y_avg_array = np.zeros(cat_num)
@@ -237,8 +236,8 @@ def correlation_ratio(categories,
         y_avg_array[i] = np.average(cat_measures)
     y_total_avg = np.sum(np.multiply(y_avg_array, n_array)) / np.sum(n_array)
     numerator = np.sum(
-        np.multiply(n_array, np.power(np.subtract(y_avg_array, y_total_avg),
-                                      2)))
+        np.multiply(n_array, np.power(np.subtract(y_avg_array, y_total_avg), 2))
+    )
     denominator = np.sum(np.power(np.subtract(measurements, y_total_avg), 2))
     if numerator == 0:
         eta = 0.0
