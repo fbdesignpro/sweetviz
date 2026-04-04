@@ -56,7 +56,8 @@ class GraphNumeric(sweetviz.graph.Graph):
 
         # MAIN DATA ("Under" target)
         # ---------------------------------------------
-        np.seterr(all="raise")
+        saved_err_dict = np.geterr()
+        np.seterr(all='raise')
         # WORKAROUND histogram warnings
         cleaned_source = to_process.source[~np.isnan(to_process.source)]
         if len(cleaned_source):
@@ -273,4 +274,5 @@ class GraphNumeric(sweetviz.graph.Graph):
         plt.close("all")
         # plt.close(f)
         # print(matplotlib.rcParams)
+        np.seterr(**saved_err_dict)
         return
