@@ -5,7 +5,6 @@ import sweetviz.series_analyzer_numeric
 import sweetviz.series_analyzer_cat
 import sweetviz.series_analyzer_text
 
-from distutils.version import LooseVersion
 
 def get_counts(series: pd.Series) -> dict:
     # The value_counts() function is used to get a Series containing counts of unique values.
