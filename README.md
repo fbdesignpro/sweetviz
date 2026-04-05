@@ -18,7 +18,7 @@ Usage and parameters are described below, [you can also find an article describi
 **Sweetviz development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in the brand-new GitHub "Discussions" tab right here!](https://github.com/fbdesignpro/sweetviz/discussions).
 
 ## Examples & mentions
-[**Example HTML report** using the Titanic dataset](http://cooltiming.com/SWEETVIZ_REPORT.html)
+[**Example HTML report** using the Titanic dataset](docs/examples/SWEETVIZ_REPORT.html)
 
 [**Example Notebook w/docs** on Colab (Jupyter/other notebooks should also work)](https://colab.research.google.com/drive/1-md6YEwcVGWVnQWTBirQSYQYgdNoeSWg?usp=sharing)
 
