@@ -13,7 +13,7 @@ Sweetviz is an open-source Python library that generates beautiful, high-density
 
 The system is built around quickly **visualizing target values** and **comparing datasets**. Its goal is to help quick analysis of target characteristics, training vs testing data, and other such data characterization tasks. 
 
-Usage and parameters are described below, [you can also find an article describing its features in depth and see examples in action HERE](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34).
+Usage and parameters are described below, [you can also find an article describing its features in depth and see examples in action HERE](https://medium.com/data-science/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34).
 
 **Sweetviz development is still ongoing!** Please let me know if you run into any data, compatibility or install issues! Thank you for [reporting any BUGS in the issue tracking system here](https://github.com/fbdesignpro/sweetviz/issues), and I welcome your feedback and questions on usage/features [in the brand-new GitHub "Discussions" tab right here!](https://github.com/fbdesignpro/sweetviz/discussions).
 
@@ -22,7 +22,7 @@ Usage and parameters are described below, [you can also find an article describi
 
 [**Example Notebook w/docs** on Colab (Jupyter/other notebooks should also work)](https://colab.research.google.com/drive/1-md6YEwcVGWVnQWTBirQSYQYgdNoeSWg?usp=sharing)
 
-[**Medium Article** describing its features in depth](https://towardsdatascience.com/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
+[**Medium Article** describing its features in depth](https://medium.com/data-science/powerful-eda-exploratory-data-analysis-in-just-two-lines-of-code-using-sweetviz-6c943d32f34)
 
 KD Nugget articles:
 [![KDNuggets](https://www.kdnuggets.com/images/tkb-2102-g.png)](https://www.kdnuggets.com/2021/02/powerful-exploratory-data-analysis-sweetviz.html) [![KDNuggets](https://www.kdnuggets.com/images/tkb-2103-g.png)](https://www.kdnuggets.com/2021/03/know-your-data-much-faster-sweetviz-python-library.html)
