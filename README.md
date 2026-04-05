@@ -1,13 +1,13 @@
-![v](https://img.shields.io/badge/version-2.3.1-blue) ![v](https://img.shields.io/badge/updated-November%2029,%20%202023-green)
+![version](https://img.shields.io/badge/2.3.2-blue.svg?label=version) ![updated](https://img.shields.io/badge/April%204%2C%202026-green.svg?label=updated)
 
-### UPDATE (November 2023) -  Version 2.3.0: Verbosity parameter added, long-standing issues fixed
+### !!! April 2026 UPDATE !!! -  Version 2.3.2: Long-standing issues fixed
 
 ---
-![Sweetviz Logo](http://cooltiming.com/SV/logo.png) 
+![Sweetviz Logo](docs/images/logo.png) 
 
 _In-depth EDA **(target analysis, comparison, feature analysis, correlation)** in two lines of code!_
 
-![Features](http://cooltiming.com/SV/features.png)
+![Features](docs/images/features.png)
 
 Sweetviz is an open-source Python library that generates beautiful, high-density visualizations to kickstart EDA (Exploratory Data Analysis) with just two lines of code. Output is a fully self-contained HTML application.
 
@@ -71,7 +71,7 @@ Creating a report is a quick 2-line process:
 1. Create a `DataframeReport` object using one of: `analyze()`, `compare()` or `compare_intra()`
 2. Use a `show_xxx()` function to render the report. You can now use either **html** or **notebook** report options, as well as scaling: (more info on these options below)
 
-![Report_Show_Options](http://cooltiming.com/SV/Layout-Anim3.gif) 
+![Report_Show_Options](docs/images/Layout-Anim3.gif) 
 
 ## Step 1: Create the report
 There are 3 main functions for creating reports:
@@ -88,7 +88,7 @@ my_report = sv.analyze(my_dataframe)
 my_report.show_html() # Default arguments will generate to "SWEETVIZ_REPORT.html"
 ```
 When run, this will output a 1080p widescreen html app in your default browser:
-![Widescreen demo](http://cooltiming.com/SV/demo_wide.png)
+![Widescreen demo](docs/images/demo_wide.png)
 ##### Optional arguments
 The `analyze()` function can take multiple other arguments:
 ```
@@ -108,7 +108,7 @@ feature_config = sv.FeatureConfig(skip="PassengerId", force_text=["Age"])
 - **verbosity:** **[NEW]** Can be set to `full`, `progress_only` (to only display the progress bar but not report generation messages) and `off` (fully quiet, except for errors or warnings). Default  verbosity can also be set in the INI override, under the "General" heading (see "The Config file" section below for details).
 - **pairwise_analysis:** Correlations and other associations can take quadratic time (n^2) to complete. The default setting ("auto") will run without warning until a data set contains "association_auto_threshold" features. Past that threshold, you need to explicitly pass the parameter `pairwise_analysis="on"` (or `="off"`) since processing that many features would take a long time. This parameter also covers the generation of the association graphs (based on [Drazen Zaric's concept](https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec)):
 
-![Pairwise sample](http://cooltiming.com/SV/pairwise.png)
+![Pairwise sample](docs/images/pairwise.png)
 
 #### Comparing two dataframes (e.g. Test vs Training sets)
 To compare two data sets, simply use the `compare()` function. Its parameters are the same as `analyze()`, except with an inserted second parameter to cover the comparison dataframe. It is recommended to use the [dataframe, "name"] format of parameters to better differentiate between the base and compared dataframes. (e.g. `[my_df, "Train"]` vs `my_df`)
@@ -213,7 +213,7 @@ A major source of insight and unique feature of Sweetviz' associations graph and
  - Numerical correlation (between numerical features)
  - Uncertainty coefficient (for categorical-categorical)
  - Correlation ratio (for categorical-numerical)
-![Pairwise sample](http://cooltiming.com/SV/pairwise.png)
+![Pairwise sample](docs/images/pairwise.png)
 
  Squares represent categorical-featured-related variables and circles represent numerical-numerical correlations. Note that the trivial diagonal is left empty, for clarity.
  
@@ -223,7 +223,7 @@ For the Titanic dataset, this information is rather symmetrical but it is not al
 
 Correlations are also displayed in the detail section of each feature, with the target value highlighted when applicable. e.g.:
 
-![Associations detail](http://cooltiming.com/SV/associations_detail.PNG)
+![Associations detail](docs/images/associations_detail.PNG)
 
 Finally, it is worth noting these correlation/association methods shouldn’t be taken as gospel as they make some assumptions on the underlying distribution of data and relationships. However they can be a _very_ useful starting point.
 

@@ -1,6 +1,10 @@
 # Change log
 
 
+#### 2.3.2 - 2026-04-04
+
+- **Fixed:** multiple deprecation & compatibility fix PR's merged
+
 #### 2.3.1 - 2023-11-29
 
 - **Enhanced/Fixed:** show_notebook() now outputs a better HTML file, and has added for it (thanks @tvdboom)
