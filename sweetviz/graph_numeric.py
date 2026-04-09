@@ -256,20 +256,10 @@ class GraphNumeric(sweetviz.graph.Graph):
         # -----------------------------
         self.size_in_inches = f.get_size_inches()
         if which_graph == "mini":
-            needed_pixels_padding = np.array([4.0, 32, 15, 45])  # TOP-LEFT-BOTTOM-RIGHT
+            needed_pixels_padding = [4.0, 32, 15, 45]  # TOP-LEFT-BOTTOM-RIGHT
         else:
-            needed_pixels_padding = np.array([5.0, 32, 15, 45])  # TOP-LEFT-BOTTOM-RIGHT
-        padding_fraction = needed_pixels_padding
-        padding_fraction[0] = padding_fraction[0] / (self.size_in_inches[1] * f.dpi)
-        padding_fraction[2] = padding_fraction[2] / (self.size_in_inches[1] * f.dpi)
-        padding_fraction[3] = padding_fraction[3] / (self.size_in_inches[0] * f.dpi)
-        padding_fraction[1] = padding_fraction[1] / (self.size_in_inches[0] * f.dpi)
-        plt.subplots_adjust(
-            top=(1.0 - padding_fraction[0]),
-            left=padding_fraction[1],
-            bottom=padding_fraction[2],
-            right=(1.0 - padding_fraction[3]),
-        )
+            needed_pixels_padding = [5.0, 32, 15, 45]  # TOP-LEFT-BOTTOM-RIGHT
+        self.apply_pixel_padding(f, needed_pixels_padding)
         self.graph_base64 = self.get_encoded_base64(f)
         plt.close("all")
         # plt.close(f)
