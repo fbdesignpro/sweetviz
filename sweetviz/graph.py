@@ -30,6 +30,8 @@ class Graph:
 
     @staticmethod
     def _iter_padding_artists(axis):
+        # These are the text artists most likely to get clipped when Matplotlib
+        # or font metrics shift slightly across environments.
         return [
             *axis.get_xticklabels(),
             *axis.get_yticklabels(),
@@ -60,6 +62,8 @@ class Graph:
     @staticmethod
     def _get_extra_padding_for_text(figure, minimum_padding_pixels):
         minimum_padding_pixels = Graph._normalize_padding_values(minimum_padding_pixels)
+        # We need one explicit draw here so Matplotlib resolves the real text
+        # extents before savefig does its final render.
         figure.canvas.draw()
         renderer = figure.canvas.get_renderer()
         figure_bbox = figure.bbox
@@ -104,6 +108,9 @@ class Graph:
         max_passes=2,
     ):
         padding_pixels = [float(value) for value in minimum_padding_pixels]
+        # Start from the historical hard-coded padding so the graphs keep the
+        # same general layout, then only expand margins if rendered text would
+        # otherwise touch the image edge.
         Graph._set_subplot_padding_from_pixels(figure, padding_pixels)
 
         for _ in range(max_passes):
@@ -115,6 +122,8 @@ class Graph:
             padding_pixels = [
                 current + extra for current, extra in zip(padding_pixels, extra_padding)
             ]
+            # A second pass is usually enough once the first measured overflow
+            # has been folded back into the subplot margins.
             Graph._set_subplot_padding_from_pixels(figure, padding_pixels)
 
         return padding_pixels
@@ -138,7 +147,12 @@ class Graph:
         else:
             font_dirs = (Path(__file__).parent / "fonts",)
             font_files = fm.findSystemFonts(fontpaths=font_dirs)
-            font_list = fm.createFontList(font_files)
+            create_font_list = getattr(fm, "createFontList", None)
+            if create_font_list is None:
+                raise RuntimeError(
+                    "Matplotlib font manager is missing both addfont and createFontList"
+                )
+            font_list = create_font_list(font_files)
             fm.fontManager.ttflist.extend(font_list)
             fm.fontManager.ttflist = font_list
 
@@ -150,7 +164,7 @@ class Graph:
         # fm.FontProperties(fname=graph_font_filename)
 
         # Apply style
-        matplotlib.style.use(styles_in_final_location)
+        plt.style.use(styles_in_final_location)
 
         # NEW: support for CJK characters, apply override after setting the style
         if config["General"].getint("use_cjk_font") != 0 and can_use_cjk:
