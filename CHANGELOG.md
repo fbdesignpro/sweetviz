@@ -1,6 +1,10 @@
 # Change log
 
 
+#### 2.3.3 - 2026-04-11
+
+- **Fixed:** graphs sometimes cut-off
+
 #### 2.3.2 - 2026-04-04
 
 - **Fixed:** multiple deprecation & compatibility fix PR's merged
